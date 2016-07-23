@@ -6026,11 +6026,11 @@ Source: AVX .. aphvc.pdf</description>
 <part name="GND6" library="supply1" deviceset="GND" device=""/>
 <part name="P+10" library="supply1" deviceset="+5V" device=""/>
 <part name="U1" library="rover12" deviceset="SN74LVC2G17DBVR" device=""/>
-<part name="R1" library="resistor" deviceset="R-US_" device="R1206" value="200"/>
-<part name="R2" library="resistor" deviceset="R-US_" device="R1206" value="200"/>
-<part name="R3" library="resistor" deviceset="R-US_" device="R1206" value="4.7k"/>
-<part name="R4" library="resistor" deviceset="R-US_" device="R1206" value="4.7k"/>
-<part name="C1" library="resistor" deviceset="C-US" device="C1206" value="0.1uF"/>
+<part name="R1" library="resistor" deviceset="R-US_" device="R0603" value="200"/>
+<part name="R2" library="resistor" deviceset="R-US_" device="R0603" value="200"/>
+<part name="R3" library="resistor" deviceset="R-US_" device="R0603" value="4.7k"/>
+<part name="R4" library="resistor" deviceset="R-US_" device="R0603" value="4.7k"/>
+<part name="C1" library="resistor" deviceset="C-US" device="C0603" value="0.1uF"/>
 </parts>
 <sheets>
 <sheet>
