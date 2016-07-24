@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -195,6 +195,34 @@
 <wire x1="4.04" y1="-1.73" x2="4.04" y2="-2.73" width="0.127" layer="21"/>
 <text x="-3.96" y="5.77" size="1.27" layer="25">&gt;NAME</text>
 </package>
+<package name="MICRO-USB-B">
+<smd name="1" x="-1.3" y="0" dx="0.4" dy="1.35" layer="1"/>
+<smd name="2" x="-0.65" y="0" dx="0.4" dy="1.35" layer="1"/>
+<smd name="3" x="0" y="0" dx="0.4" dy="1.35" layer="1"/>
+<smd name="4" x="0.65" y="0" dx="0.4" dy="1.35" layer="1"/>
+<smd name="5" x="1.3" y="0" dx="0.4" dy="1.35" layer="1"/>
+<pad name="NC1" x="-2.5" y="0" drill="0.85" diameter="1.25"/>
+<pad name="NC2" x="2.5" y="0" drill="0.85" diameter="1.25"/>
+<pad name="NC3" x="-3.5" y="-2.7" drill="1.15" diameter="1.55"/>
+<pad name="NC4" x="3.5" y="-2.7" drill="1.15" diameter="1.55"/>
+<wire x1="-4.5" y1="-4" x2="-4.5" y2="1" width="0.127" layer="21"/>
+<wire x1="-4.5" y1="1" x2="4.5" y2="1" width="0.127" layer="21"/>
+<wire x1="4.5" y1="1" x2="4.5" y2="-4" width="0.127" layer="21"/>
+<text x="-4.5" y="1.5" size="1.27" layer="25">&gt;NAME</text>
+</package>
+<package name="MICROFIT-2X2-0430450411">
+<smd name="NC1" x="0" y="0" dx="3.429" dy="1.651" layer="1"/>
+<smd name="NC2" x="10.795" y="0" dx="3.429" dy="1.651" layer="1"/>
+<smd name="2" x="3.8989" y="5.4737" dx="1.27" dy="2.921" layer="1"/>
+<smd name="4" x="3.8989" y="10.0965" dx="1.27" dy="2.921" layer="1"/>
+<smd name="1" x="6.8961" y="5.4737" dx="1.27" dy="2.921" layer="1"/>
+<smd name="3" x="6.8961" y="10.0965" dx="1.27" dy="2.921" layer="1"/>
+<wire x1="0.508" y1="-4.826" x2="10.16" y2="-4.826" width="0.127" layer="21"/>
+<wire x1="10.16" y1="-4.826" x2="10.16" y2="5.08" width="0.127" layer="21"/>
+<wire x1="0.508" y1="5.08" x2="10.16" y2="5.08" width="0.127" layer="21"/>
+<wire x1="0.508" y1="-4.826" x2="0.508" y2="5.08" width="0.127" layer="21"/>
+<text x="0" y="6.35" size="1.27" layer="25">&gt;NAME</text>
+</package>
 </packages>
 <symbols>
 <symbol name="ATMEGA32U4">
@@ -273,6 +301,31 @@
 <wire x1="15.24" y1="-2.54" x2="5.08" y2="-2.54" width="0.254" layer="94"/>
 <text x="5.08" y="16.51" size="1.778" layer="95">&gt;NAME</text>
 <text x="5.08" y="-6.35" size="1.778" layer="95">6-pin ISP</text>
+</symbol>
+<symbol name="MICRO-USB-B">
+<pin name="GND" x="0" y="0" length="middle" direction="pwr" rot="R180"/>
+<pin name="ID" x="0" y="2.54" length="middle" rot="R180"/>
+<pin name="D+" x="0" y="7.62" length="middle" rot="R180"/>
+<pin name="D-" x="0" y="5.08" length="middle" rot="R180"/>
+<pin name="VBUS" x="0" y="10.16" length="middle" direction="pwr" rot="R180"/>
+<wire x1="-15.24" y1="12.7" x2="-15.24" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="-15.24" y1="-2.54" x2="-5.08" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="-2.54" x2="-5.08" y2="12.7" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="12.7" x2="-15.24" y2="12.7" width="0.254" layer="94"/>
+<text x="-15.24" y="13.97" size="1.778" layer="95">&gt;NAME</text>
+<text x="-15.24" y="-6.35" size="1.778" layer="95">MicroUSB B</text>
+</symbol>
+<symbol name="MICROFIT-2X2">
+<pin name="4" x="0" y="0" length="middle"/>
+<pin name="3" x="0" y="5.08" length="middle"/>
+<pin name="2" x="0" y="10.16" length="middle"/>
+<pin name="1" x="0" y="15.24" length="middle"/>
+<wire x1="5.08" y1="-2.54" x2="5.08" y2="17.78" width="0.254" layer="94"/>
+<wire x1="5.08" y1="17.78" x2="12.7" y2="17.78" width="0.254" layer="94"/>
+<wire x1="12.7" y1="17.78" x2="12.7" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="12.7" y1="-2.54" x2="5.08" y2="-2.54" width="0.254" layer="94"/>
+<text x="5.08" y="19.05" size="1.778" layer="95">&gt;NAME</text>
+<text x="5.08" y="-6.35" size="1.778" layer="95">MicroFit 2x2</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -364,6 +417,43 @@
 <connect gate="G$1" pin="MOSI" pad="4"/>
 <connect gate="G$1" pin="SCK" pad="3"/>
 <connect gate="G$1" pin="VCC" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="MICRO-USB-B" prefix="X">
+<gates>
+<gate name="G$1" symbol="MICRO-USB-B" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="MICRO-USB-B">
+<connects>
+<connect gate="G$1" pin="D+" pad="3"/>
+<connect gate="G$1" pin="D-" pad="2"/>
+<connect gate="G$1" pin="GND" pad="5"/>
+<connect gate="G$1" pin="ID" pad="4"/>
+<connect gate="G$1" pin="VBUS" pad="1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="MICROFIT-2X2-SMD" prefix="X">
+<gates>
+<gate name="G$1" symbol="MICROFIT-2X2" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="MICROFIT-2X2-0430450411">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+<connect gate="G$1" pin="3" pad="3"/>
+<connect gate="G$1" pin="4" pad="4"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -7672,8 +7762,8 @@ Source: www.kingbright.com</description>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
 <part name="LED1" library="led" deviceset="LED" device="CHIPLED_0603"/>
 <part name="LED2" library="led" deviceset="LED" device="CHIPLED_0603"/>
-<part name="R2" library="resistor" deviceset="R-US_" device="R0603" value="600"/>
-<part name="R3" library="resistor" deviceset="R-US_" device="R0603" value="600"/>
+<part name="R2" library="resistor" deviceset="R-US_" device="R0603" value="604"/>
+<part name="R3" library="resistor" deviceset="R-US_" device="R0603" value="604"/>
 <part name="P+2" library="supply1" deviceset="+5V" device=""/>
 <part name="P+6" library="supply1" deviceset="+5V" device=""/>
 <part name="Y1" library="rover12" deviceset="CSTCE-V13L" device=""/>
@@ -7681,6 +7771,19 @@ Source: www.kingbright.com</description>
 <part name="X1" library="rover12" deviceset="ISP-HEADER" device=""/>
 <part name="P+7" library="supply1" deviceset="+5V" device=""/>
 <part name="GND6" library="supply1" deviceset="GND" device=""/>
+<part name="X2" library="rover12" deviceset="MICRO-USB-B" device=""/>
+<part name="R4" library="resistor" deviceset="R-US_" device="R0603" value="22"/>
+<part name="R5" library="resistor" deviceset="R-US_" device="R0603" value="22"/>
+<part name="P+8" library="supply1" deviceset="VCC" device=""/>
+<part name="GND7" library="supply1" deviceset="GND" device=""/>
+<part name="X3" library="rover12" deviceset="MICROFIT-2X2-SMD" device=""/>
+<part name="X4" library="rover12" deviceset="MICROFIT-2X2-SMD" device=""/>
+<part name="X5" library="rover12" deviceset="MICROFIT-2X2-SMD" device=""/>
+<part name="X6" library="rover12" deviceset="MICROFIT-2X2-SMD" device=""/>
+<part name="P+9" library="supply1" deviceset="+5V" device=""/>
+<part name="GND8" library="supply1" deviceset="GND" device=""/>
+<part name="R6" library="resistor" deviceset="R-US_" device="R0603" value="604"/>
+<part name="LED3" library="led" deviceset="LED" device="CHIPLED_0603"/>
 </parts>
 <sheets>
 <sheet>
@@ -7713,6 +7816,19 @@ Source: www.kingbright.com</description>
 <instance part="X1" gate="G$1" x="139.7" y="187.96"/>
 <instance part="P+7" gate="1" x="137.16" y="205.74"/>
 <instance part="GND6" gate="1" x="137.16" y="182.88"/>
+<instance part="X2" gate="G$1" x="134.62" y="149.86"/>
+<instance part="R4" gate="G$1" x="147.32" y="160.02"/>
+<instance part="R5" gate="G$1" x="147.32" y="152.4"/>
+<instance part="P+8" gate="VCC" x="137.16" y="165.1"/>
+<instance part="GND7" gate="1" x="137.16" y="144.78"/>
+<instance part="X3" gate="G$1" x="30.48" y="48.26"/>
+<instance part="X4" gate="G$1" x="78.74" y="48.26"/>
+<instance part="X5" gate="G$1" x="33.02" y="12.7"/>
+<instance part="X6" gate="G$1" x="81.28" y="12.7"/>
+<instance part="P+9" gate="1" x="101.6" y="205.74"/>
+<instance part="GND8" gate="1" x="101.6" y="175.26"/>
+<instance part="R6" gate="G$1" x="101.6" y="195.58" rot="R90"/>
+<instance part="LED3" gate="G$1" x="101.6" y="185.42"/>
 </instances>
 <busses>
 </busses>
@@ -7812,6 +7928,17 @@ Source: www.kingbright.com</description>
 <wire x1="137.16" y1="187.96" x2="137.16" y2="185.42" width="0.1524" layer="91"/>
 <pinref part="GND6" gate="1" pin="GND"/>
 </segment>
+<segment>
+<pinref part="X2" gate="G$1" pin="GND"/>
+<wire x1="134.62" y1="149.86" x2="137.16" y2="149.86" width="0.1524" layer="91"/>
+<wire x1="137.16" y1="149.86" x2="137.16" y2="147.32" width="0.1524" layer="91"/>
+<pinref part="GND7" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="LED3" gate="G$1" pin="C"/>
+<pinref part="GND8" gate="1" pin="GND"/>
+<wire x1="101.6" y1="180.34" x2="101.6" y2="177.8" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="VCC" class="0">
 <segment>
@@ -7829,6 +7956,12 @@ Source: www.kingbright.com</description>
 <pinref part="P+1" gate="VCC" pin="VCC"/>
 <wire x1="165.1" y1="170.18" x2="165.1" y2="172.72" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="X2" gate="G$1" pin="VBUS"/>
+<wire x1="134.62" y1="160.02" x2="137.16" y2="160.02" width="0.1524" layer="91"/>
+<wire x1="137.16" y1="160.02" x2="137.16" y2="162.56" width="0.1524" layer="91"/>
+<pinref part="P+8" gate="VCC" pin="VCC"/>
+</segment>
 </net>
 <net name="D+" class="0">
 <segment>
@@ -7836,12 +7969,22 @@ Source: www.kingbright.com</description>
 <wire x1="198.12" y1="154.94" x2="195.58" y2="154.94" width="0.1524" layer="91"/>
 <label x="195.58" y="154.94" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="R4" gate="G$1" pin="2"/>
+<wire x1="152.4" y1="160.02" x2="154.94" y2="160.02" width="0.1524" layer="91"/>
+<label x="152.4" y="160.02" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="D-" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="D-"/>
 <wire x1="198.12" y1="152.4" x2="195.58" y2="152.4" width="0.1524" layer="91"/>
 <label x="195.58" y="152.4" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="R5" gate="G$1" pin="2"/>
+<wire x1="152.4" y1="152.4" x2="154.94" y2="152.4" width="0.1524" layer="91"/>
+<label x="152.4" y="152.4" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="+5V" class="0">
@@ -7883,6 +8026,11 @@ Source: www.kingbright.com</description>
 <wire x1="139.7" y1="200.66" x2="137.16" y2="200.66" width="0.1524" layer="91"/>
 <wire x1="137.16" y1="200.66" x2="137.16" y2="203.2" width="0.1524" layer="91"/>
 <pinref part="P+7" gate="1" pin="+5V"/>
+</segment>
+<segment>
+<pinref part="P+9" gate="1" pin="+5V"/>
+<pinref part="R6" gate="G$1" pin="2"/>
+<wire x1="101.6" y1="203.2" x2="101.6" y2="200.66" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="RESET" class="0">
@@ -8101,6 +8249,31 @@ Source: www.kingbright.com</description>
 <wire x1="195.58" y1="144.78" x2="195.58" y2="147.32" width="0.1524" layer="91"/>
 <pinref part="U1" gate="G$1" pin="XTAL1"/>
 <wire x1="195.58" y1="147.32" x2="198.12" y2="147.32" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$8" class="0">
+<segment>
+<pinref part="X2" gate="G$1" pin="D-"/>
+<wire x1="134.62" y1="154.94" x2="139.7" y2="154.94" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="154.94" x2="139.7" y2="152.4" width="0.1524" layer="91"/>
+<pinref part="R5" gate="G$1" pin="1"/>
+<wire x1="139.7" y1="152.4" x2="142.24" y2="152.4" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$9" class="0">
+<segment>
+<pinref part="X2" gate="G$1" pin="D+"/>
+<wire x1="134.62" y1="157.48" x2="139.7" y2="157.48" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="157.48" x2="139.7" y2="160.02" width="0.1524" layer="91"/>
+<pinref part="R4" gate="G$1" pin="1"/>
+<wire x1="139.7" y1="160.02" x2="142.24" y2="160.02" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$1" class="0">
+<segment>
+<pinref part="R6" gate="G$1" pin="1"/>
+<pinref part="LED3" gate="G$1" pin="A"/>
+<wire x1="101.6" y1="190.5" x2="101.6" y2="187.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
