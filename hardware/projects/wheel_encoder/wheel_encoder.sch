@@ -128,10 +128,10 @@
 <package name="MICROFIT-2X2-0430450411">
 <smd name="NC1" x="0" y="0" dx="3.429" dy="1.651" layer="1"/>
 <smd name="NC2" x="10.795" y="0" dx="3.429" dy="1.651" layer="1"/>
-<smd name="P$2" x="3.8989" y="5.4737" dx="1.27" dy="2.921" layer="1"/>
-<smd name="P$4" x="3.8989" y="10.0965" dx="1.27" dy="2.921" layer="1"/>
-<smd name="P$1" x="6.8961" y="5.4737" dx="1.27" dy="2.921" layer="1"/>
-<smd name="P$3" x="6.8961" y="10.0965" dx="1.27" dy="2.921" layer="1"/>
+<smd name="2" x="3.8989" y="5.4737" dx="1.27" dy="2.921" layer="1"/>
+<smd name="4" x="3.8989" y="10.0965" dx="1.27" dy="2.921" layer="1"/>
+<smd name="1" x="6.8961" y="5.4737" dx="1.27" dy="2.921" layer="1"/>
+<smd name="3" x="6.8961" y="10.0965" dx="1.27" dy="2.921" layer="1"/>
 <wire x1="0.508" y1="-4.826" x2="10.16" y2="-4.826" width="0.127" layer="21"/>
 <wire x1="10.16" y1="-4.826" x2="10.16" y2="5.08" width="0.127" layer="21"/>
 <wire x1="0.508" y1="5.08" x2="10.16" y2="5.08" width="0.127" layer="21"/>
@@ -139,12 +139,12 @@
 <text x="0" y="6.35" size="1.27" layer="25">&gt;NAME</text>
 </package>
 <package name="SOT-23-6">
-<smd name="P$1" x="0" y="0" dx="1.05" dy="0.6" layer="1" rot="R90"/>
-<smd name="P$2" x="0.95" y="0" dx="1.05" dy="0.6" layer="1" rot="R90"/>
-<smd name="P$3" x="1.9" y="0" dx="1.05" dy="0.6" layer="1" rot="R90"/>
-<smd name="P$6" x="0" y="2.7" dx="1.05" dy="0.6" layer="1" rot="R90"/>
-<smd name="P$5" x="0.95" y="2.7" dx="1.05" dy="0.6" layer="1" rot="R90"/>
-<smd name="P$4" x="1.9" y="2.7" dx="1.05" dy="0.6" layer="1" rot="R90"/>
+<smd name="1" x="0" y="0" dx="1.05" dy="0.6" layer="1" rot="R90"/>
+<smd name="2" x="0.95" y="0" dx="1.05" dy="0.6" layer="1" rot="R90"/>
+<smd name="3" x="1.9" y="0" dx="1.05" dy="0.6" layer="1" rot="R90"/>
+<smd name="6" x="0" y="2.7" dx="1.05" dy="0.6" layer="1" rot="R90"/>
+<smd name="5" x="0.95" y="2.7" dx="1.05" dy="0.6" layer="1" rot="R90"/>
+<smd name="4" x="1.9" y="2.7" dx="1.05" dy="0.6" layer="1" rot="R90"/>
 <wire x1="-0.55" y1="0.45" x2="-0.55" y2="2.2" width="0.127" layer="21"/>
 <wire x1="-0.55" y1="2.2" x2="2.45" y2="2.2" width="0.127" layer="21"/>
 <wire x1="2.45" y1="2.2" x2="2.45" y2="0.45" width="0.127" layer="21"/>
@@ -217,10 +217,10 @@
 <devices>
 <device name="" package="MICROFIT-2X2-0430450411">
 <connects>
-<connect gate="G$1" pin="1" pad="P$1"/>
-<connect gate="G$1" pin="2" pad="P$2"/>
-<connect gate="G$1" pin="3" pad="P$3"/>
-<connect gate="G$1" pin="4" pad="P$4"/>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+<connect gate="G$1" pin="3" pad="3"/>
+<connect gate="G$1" pin="4" pad="4"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -235,12 +235,12 @@
 <devices>
 <device name="" package="SOT-23-6">
 <connects>
-<connect gate="G$1" pin="1A" pad="P$1"/>
-<connect gate="G$1" pin="1Y" pad="P$6"/>
-<connect gate="G$1" pin="2A" pad="P$3"/>
-<connect gate="G$1" pin="2Y" pad="P$4"/>
-<connect gate="G$1" pin="GND" pad="P$2"/>
-<connect gate="G$1" pin="VCC" pad="P$5"/>
+<connect gate="G$1" pin="1A" pad="1"/>
+<connect gate="G$1" pin="1Y" pad="6"/>
+<connect gate="G$1" pin="2A" pad="3"/>
+<connect gate="G$1" pin="2Y" pad="4"/>
+<connect gate="G$1" pin="GND" pad="2"/>
+<connect gate="G$1" pin="VCC" pad="5"/>
 </connects>
 <technologies>
 <technology name=""/>
