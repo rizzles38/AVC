@@ -223,6 +223,56 @@
 <wire x1="0.508" y1="-4.826" x2="0.508" y2="5.08" width="0.127" layer="21"/>
 <text x="0" y="6.35" size="1.27" layer="25">&gt;NAME</text>
 </package>
+<package name="SPARKFUN-VENUS-GPS">
+<pad name="GND" x="0" y="0" drill="1.016" diameter="1.6764" shape="square"/>
+<pad name="VBAT" x="15.24" y="0" drill="1.016" diameter="1.6764" shape="square"/>
+<pad name="3V3" x="0" y="2.54" drill="1.016" diameter="1.6764"/>
+<pad name="TX0" x="0" y="5.08" drill="1.016" diameter="1.6764"/>
+<pad name="RX0" x="0" y="7.62" drill="1.016" diameter="1.6764"/>
+<pad name="GND@2" x="15.24" y="2.54" drill="1.016" diameter="1.6764"/>
+<pad name="NAV" x="15.24" y="5.08" drill="1.016" diameter="1.6764"/>
+<pad name="PPS" x="15.24" y="7.62" drill="1.016" diameter="1.6764"/>
+<pad name="CS" x="0" y="10.16" drill="1.016" diameter="1.6764" shape="square"/>
+<pad name="RX1" x="15.24" y="10.16" drill="1.016" diameter="1.6764" shape="square"/>
+<pad name="CLK" x="0" y="12.7" drill="1.016" diameter="1.6764"/>
+<pad name="MISO" x="0" y="15.24" drill="1.016" diameter="1.6764"/>
+<pad name="MOSI" x="0" y="17.78" drill="1.016" diameter="1.6764"/>
+<pad name="TX1" x="15.24" y="12.7" drill="1.016" diameter="1.6764"/>
+<pad name="SCL" x="15.24" y="15.24" drill="1.016" diameter="1.6764"/>
+<pad name="SDA" x="15.24" y="17.78" drill="1.016" diameter="1.6764"/>
+<wire x1="-1.27" y1="-1.27" x2="16.51" y2="-1.27" width="0.127" layer="21"/>
+<wire x1="16.51" y1="-1.27" x2="16.51" y2="27.94" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="27.94" x2="-1.27" y2="-1.27" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="27.94" x2="16.51" y2="27.94" width="0.127" layer="21"/>
+<text x="-1.27" y="-3.81" size="1.27" layer="25">&gt;NAME</text>
+</package>
+<package name="ADAFRUIT-BNO055-IMU">
+<pad name="RST" x="0" y="0" drill="1.016" diameter="1.6764"/>
+<pad name="SCL" x="0" y="2.54" drill="1.016" diameter="1.6764"/>
+<pad name="SDA" x="0" y="5.08" drill="1.016" diameter="1.6764"/>
+<pad name="GND" x="0" y="7.62" drill="1.016" diameter="1.6764"/>
+<pad name="3VO" x="0" y="10.16" drill="1.016" diameter="1.6764"/>
+<pad name="VIN" x="0" y="12.7" drill="1.016" diameter="1.6764"/>
+<pad name="ADR" x="17.78" y="2.54" drill="1.016" diameter="1.6764"/>
+<pad name="INT" x="17.78" y="5.08" drill="1.016" diameter="1.6764"/>
+<pad name="PS1" x="17.78" y="7.62" drill="1.016" diameter="1.6764"/>
+<pad name="PS0" x="17.78" y="10.16" drill="1.016" diameter="1.6764"/>
+<wire x1="-1.27" y1="19.685" x2="-1.27" y2="-6.985" width="0.127" layer="21"/>
+<wire x1="19.05" y1="19.685" x2="19.05" y2="-6.985" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="-6.985" x2="19.05" y2="-6.985" width="0.127" layer="21"/>
+<wire x1="19.05" y1="19.685" x2="-1.27" y2="19.685" width="0.127" layer="21"/>
+<text x="-1.27" y="-8.89" size="1.27" layer="25">&gt;NAME</text>
+</package>
+<package name="SOT-23">
+<smd name="GATE" x="0" y="0" dx="1" dy="1.4" layer="1"/>
+<smd name="SOURCE" x="1.9" y="0" dx="1" dy="1.4" layer="1"/>
+<smd name="DRAIN" x="0.95" y="2.2" dx="1" dy="1.4" layer="1"/>
+<wire x1="-1" y1="3.25" x2="2.9" y2="3.25" width="0.127" layer="21"/>
+<wire x1="2.9" y1="3.25" x2="2.9" y2="-1" width="0.127" layer="21"/>
+<wire x1="2.9" y1="-1" x2="-1" y2="-1" width="0.127" layer="21"/>
+<wire x1="-1" y1="-1" x2="-1" y2="3.25" width="0.127" layer="21"/>
+<text x="-1" y="4" size="1.27" layer="25">&gt;NAME</text>
+</package>
 </packages>
 <symbols>
 <symbol name="ATMEGA32U4">
@@ -326,6 +376,59 @@
 <wire x1="12.7" y1="-2.54" x2="5.08" y2="-2.54" width="0.254" layer="94"/>
 <text x="5.08" y="19.05" size="1.778" layer="95">&gt;NAME</text>
 <text x="5.08" y="-6.35" size="1.778" layer="95">MicroFit 2x2</text>
+</symbol>
+<symbol name="SPARKFUN-VENUS-GPS">
+<pin name="VBAT" x="0" y="0" length="middle" direction="pwr"/>
+<pin name="GND" x="0" y="2.54" length="middle" direction="pwr"/>
+<pin name="NAV" x="0" y="5.08" length="middle"/>
+<pin name="PPS" x="0" y="7.62" length="middle"/>
+<pin name="RX1" x="0" y="10.16" length="middle"/>
+<pin name="TX1" x="0" y="12.7" length="middle"/>
+<pin name="SCL" x="0" y="15.24" length="middle"/>
+<pin name="SDA" x="0" y="17.78" length="middle"/>
+<pin name="GND@1" x="27.94" y="0" length="middle" direction="pwr" rot="R180"/>
+<pin name="3.3V" x="27.94" y="2.54" length="middle" direction="pwr" rot="R180"/>
+<pin name="TX0" x="27.94" y="5.08" length="middle" rot="R180"/>
+<pin name="RX0" x="27.94" y="7.62" length="middle" rot="R180"/>
+<pin name="CS" x="27.94" y="10.16" length="middle" rot="R180"/>
+<pin name="CLK" x="27.94" y="12.7" length="middle" rot="R180"/>
+<pin name="MISO" x="27.94" y="15.24" length="middle" rot="R180"/>
+<pin name="MOSI" x="27.94" y="17.78" length="middle" rot="R180"/>
+<wire x1="5.08" y1="-2.54" x2="5.08" y2="20.32" width="0.254" layer="94"/>
+<wire x1="5.08" y1="20.32" x2="22.86" y2="20.32" width="0.254" layer="94"/>
+<wire x1="22.86" y1="20.32" x2="22.86" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="22.86" y1="-2.54" x2="5.08" y2="-2.54" width="0.254" layer="94"/>
+<text x="5.08" y="21.59" size="1.778" layer="95">&gt;NAME</text>
+<text x="5.08" y="-6.35" size="1.778" layer="95">SparkFun Venus GPS</text>
+</symbol>
+<symbol name="ADAFRUIT-BNO055-IMU">
+<pin name="GND" x="0" y="0" length="middle" direction="pwr"/>
+<pin name="SDA" x="0" y="2.54" length="middle"/>
+<pin name="SCL" x="0" y="5.08" length="middle"/>
+<pin name="3VO" x="0" y="7.62" length="middle" direction="pwr"/>
+<pin name="VIN" x="0" y="10.16" length="middle" direction="pwr"/>
+<pin name="PS0" x="25.4" y="0" length="middle" rot="R180"/>
+<pin name="PS1" x="25.4" y="2.54" length="middle" rot="R180"/>
+<pin name="ADR" x="25.4" y="5.08" length="middle" rot="R180"/>
+<pin name="INT" x="25.4" y="7.62" length="middle" rot="R180"/>
+<pin name="RST" x="25.4" y="10.16" length="middle" rot="R180"/>
+<wire x1="5.08" y1="-2.54" x2="5.08" y2="12.7" width="0.254" layer="94"/>
+<wire x1="5.08" y1="12.7" x2="20.32" y2="12.7" width="0.254" layer="94"/>
+<wire x1="20.32" y1="12.7" x2="20.32" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="20.32" y1="-2.54" x2="5.08" y2="-2.54" width="0.254" layer="94"/>
+<text x="5.08" y="13.97" size="1.778" layer="95">&gt;NAME</text>
+<text x="5.08" y="-6.35" size="1.778" layer="95">BNO055 IMU</text>
+</symbol>
+<symbol name="BSS138">
+<pin name="GATE" x="0" y="0" visible="pin" length="middle"/>
+<pin name="DRAIN" x="22.86" y="2.54" visible="pin" length="middle" rot="R180"/>
+<pin name="SOURCE" x="22.86" y="-2.54" visible="pin" length="middle" rot="R180"/>
+<wire x1="5.08" y1="-5.08" x2="5.08" y2="5.08" width="0.254" layer="94"/>
+<wire x1="5.08" y1="5.08" x2="17.78" y2="5.08" width="0.254" layer="94"/>
+<wire x1="17.78" y1="5.08" x2="17.78" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="17.78" y1="-5.08" x2="5.08" y2="-5.08" width="0.254" layer="94"/>
+<text x="5.08" y="6.35" size="1.778" layer="95">&gt;NAME</text>
+<text x="5.08" y="-8.89" size="1.778" layer="97">BSS138</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -454,6 +557,77 @@
 <connect gate="G$1" pin="2" pad="2"/>
 <connect gate="G$1" pin="3" pad="3"/>
 <connect gate="G$1" pin="4" pad="4"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="SPARKFUN-VENUS-GPS" prefix="U">
+<gates>
+<gate name="G$1" symbol="SPARKFUN-VENUS-GPS" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SPARKFUN-VENUS-GPS">
+<connects>
+<connect gate="G$1" pin="3.3V" pad="3V3"/>
+<connect gate="G$1" pin="CLK" pad="CLK"/>
+<connect gate="G$1" pin="CS" pad="CS"/>
+<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="GND@1" pad="GND@2"/>
+<connect gate="G$1" pin="MISO" pad="MISO"/>
+<connect gate="G$1" pin="MOSI" pad="MOSI"/>
+<connect gate="G$1" pin="NAV" pad="NAV"/>
+<connect gate="G$1" pin="PPS" pad="PPS"/>
+<connect gate="G$1" pin="RX0" pad="RX0"/>
+<connect gate="G$1" pin="RX1" pad="RX1"/>
+<connect gate="G$1" pin="SCL" pad="SCL"/>
+<connect gate="G$1" pin="SDA" pad="SDA"/>
+<connect gate="G$1" pin="TX0" pad="TX0"/>
+<connect gate="G$1" pin="TX1" pad="TX1"/>
+<connect gate="G$1" pin="VBAT" pad="VBAT"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="ADAFRUIT-BNO055-IMU" prefix="U">
+<gates>
+<gate name="G$1" symbol="ADAFRUIT-BNO055-IMU" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="ADAFRUIT-BNO055-IMU">
+<connects>
+<connect gate="G$1" pin="3VO" pad="3VO"/>
+<connect gate="G$1" pin="ADR" pad="ADR"/>
+<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="INT" pad="INT"/>
+<connect gate="G$1" pin="PS0" pad="PS0"/>
+<connect gate="G$1" pin="PS1" pad="PS1"/>
+<connect gate="G$1" pin="RST" pad="RST"/>
+<connect gate="G$1" pin="SCL" pad="SCL"/>
+<connect gate="G$1" pin="SDA" pad="SDA"/>
+<connect gate="G$1" pin="VIN" pad="VIN"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="BSS138" prefix="U">
+<gates>
+<gate name="G$1" symbol="BSS138" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SOT-23">
+<connects>
+<connect gate="G$1" pin="DRAIN" pad="DRAIN"/>
+<connect gate="G$1" pin="GATE" pad="GATE"/>
+<connect gate="G$1" pin="SOURCE" pad="SOURCE"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -7801,6 +7975,23 @@ Source: www.kingbright.com</description>
 <part name="LED3" library="led" deviceset="LED" device="CHIPLED_0603"/>
 <part name="X3" library="rover12" deviceset="MICROFIT-2X2-SMD" device=""/>
 <part name="+3V1" library="supply1" deviceset="+3V3" device=""/>
+<part name="U2" library="rover12" deviceset="SPARKFUN-VENUS-GPS" device=""/>
+<part name="U3" library="rover12" deviceset="ADAFRUIT-BNO055-IMU" device=""/>
+<part name="+3V3" library="supply1" deviceset="+3V3" device=""/>
+<part name="GND9" library="supply1" deviceset="GND" device=""/>
+<part name="GND10" library="supply1" deviceset="GND" device=""/>
+<part name="+3V4" library="supply1" deviceset="+3V3" device=""/>
+<part name="GND11" library="supply1" deviceset="GND" device=""/>
+<part name="U4" library="rover12" deviceset="BSS138" device=""/>
+<part name="U5" library="rover12" deviceset="BSS138" device=""/>
+<part name="R7" library="resistor" deviceset="R-US_" device="R0603" value="10k"/>
+<part name="R8" library="resistor" deviceset="R-US_" device="R0603" value="10k"/>
+<part name="P+10" library="supply1" deviceset="+5V" device=""/>
+<part name="+3V2" library="supply1" deviceset="+3V3" device=""/>
+<part name="+3V5" library="supply1" deviceset="+3V3" device=""/>
+<part name="R9" library="resistor" deviceset="R-US_" device="R0603" value="10k"/>
+<part name="R10" library="resistor" deviceset="R-US_" device="R0603" value="10k"/>
+<part name="P+11" library="supply1" deviceset="+5V" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -7845,6 +8036,23 @@ Source: www.kingbright.com</description>
 <instance part="LED3" gate="G$1" x="233.68" y="86.36"/>
 <instance part="X3" gate="G$1" x="251.46" y="83.82"/>
 <instance part="+3V1" gate="G$1" x="243.84" y="99.06"/>
+<instance part="U2" gate="G$1" x="17.78" y="177.8"/>
+<instance part="U3" gate="G$1" x="81.28" y="182.88"/>
+<instance part="+3V3" gate="G$1" x="78.74" y="198.12"/>
+<instance part="GND9" gate="1" x="78.74" y="177.8"/>
+<instance part="GND10" gate="1" x="50.8" y="172.72"/>
+<instance part="+3V4" gate="G$1" x="63.5" y="185.42"/>
+<instance part="GND11" gate="1" x="12.7" y="172.72"/>
+<instance part="U4" gate="G$1" x="22.86" y="144.78"/>
+<instance part="U5" gate="G$1" x="22.86" y="104.14"/>
+<instance part="R7" gate="G$1" x="20.32" y="137.16" rot="MR270"/>
+<instance part="R8" gate="G$1" x="48.26" y="154.94" rot="MR270"/>
+<instance part="P+10" gate="1" x="48.26" y="165.1"/>
+<instance part="+3V2" gate="G$1" x="20.32" y="149.86"/>
+<instance part="+3V5" gate="G$1" x="20.32" y="109.22"/>
+<instance part="R9" gate="G$1" x="20.32" y="96.52" rot="MR270"/>
+<instance part="R10" gate="G$1" x="48.26" y="114.3" rot="MR270"/>
+<instance part="P+11" gate="1" x="48.26" y="124.46"/>
 </instances>
 <busses>
 </busses>
@@ -7965,6 +8173,24 @@ Source: www.kingbright.com</description>
 <wire x1="248.92" y1="88.9" x2="248.92" y2="83.82" width="0.1524" layer="91"/>
 <junction x="248.92" y="83.82"/>
 </segment>
+<segment>
+<pinref part="U3" gate="G$1" pin="GND"/>
+<wire x1="81.28" y1="182.88" x2="78.74" y2="182.88" width="0.1524" layer="91"/>
+<pinref part="GND9" gate="1" pin="GND"/>
+<wire x1="78.74" y1="182.88" x2="78.74" y2="180.34" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U2" gate="G$1" pin="GND@1"/>
+<pinref part="GND10" gate="1" pin="GND"/>
+<wire x1="45.72" y1="177.8" x2="50.8" y2="177.8" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="177.8" x2="50.8" y2="175.26" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="GND11" gate="1" pin="GND"/>
+<wire x1="12.7" y1="175.26" x2="12.7" y2="180.34" width="0.1524" layer="91"/>
+<pinref part="U2" gate="G$1" pin="GND"/>
+<wire x1="12.7" y1="180.34" x2="17.78" y2="180.34" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="VCC" class="0">
 <segment>
@@ -8064,6 +8290,16 @@ Source: www.kingbright.com</description>
 <pinref part="R6" gate="G$1" pin="2"/>
 <wire x1="233.68" y1="104.14" x2="233.68" y2="101.6" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="R8" gate="G$1" pin="1"/>
+<pinref part="P+10" gate="1" pin="+5V"/>
+<wire x1="48.26" y1="160.02" x2="48.26" y2="162.56" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="R10" gate="G$1" pin="1"/>
+<pinref part="P+11" gate="1" pin="+5V"/>
+<wire x1="48.26" y1="119.38" x2="48.26" y2="121.92" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="RESET" class="0">
 <segment>
@@ -8106,12 +8342,29 @@ Source: www.kingbright.com</description>
 <wire x1="238.76" y1="167.64" x2="243.84" y2="167.64" width="0.1524" layer="91"/>
 <label x="241.3" y="167.64" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="U5" gate="G$1" pin="DRAIN"/>
+<pinref part="R10" gate="G$1" pin="2"/>
+<wire x1="45.72" y1="106.68" x2="48.26" y2="106.68" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="106.68" x2="48.26" y2="109.22" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="106.68" x2="53.34" y2="106.68" width="0.1524" layer="91"/>
+<junction x="48.26" y="106.68"/>
+<label x="50.8" y="106.68" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="D1" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="PD3(TX)"/>
 <wire x1="238.76" y1="165.1" x2="243.84" y2="165.1" width="0.1524" layer="91"/>
 <label x="241.3" y="165.1" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U4" gate="G$1" pin="DRAIN"/>
+<wire x1="45.72" y1="147.32" x2="48.26" y2="147.32" width="0.1524" layer="91"/>
+<pinref part="R8" gate="G$1" pin="2"/>
+<wire x1="53.34" y1="147.32" x2="48.26" y2="147.32" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="147.32" x2="48.26" y2="149.86" width="0.1524" layer="91"/>
+<label x="50.8" y="147.32" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="D2" class="0">
@@ -8121,6 +8374,11 @@ Source: www.kingbright.com</description>
 <label x="241.3" y="162.56" size="1.778" layer="95"/>
 <label x="241.3" y="162.56" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="U3" gate="G$1" pin="SDA"/>
+<wire x1="81.28" y1="185.42" x2="73.66" y2="185.42" width="0.1524" layer="91"/>
+<label x="73.66" y="185.42" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="D3" class="0">
 <segment>
@@ -8128,12 +8386,22 @@ Source: www.kingbright.com</description>
 <wire x1="238.76" y1="160.02" x2="243.84" y2="160.02" width="0.1524" layer="91"/>
 <label x="241.3" y="160.02" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="U3" gate="G$1" pin="SCL"/>
+<wire x1="81.28" y1="187.96" x2="73.66" y2="187.96" width="0.1524" layer="91"/>
+<label x="73.66" y="187.96" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="D4" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="PD4(ADC8)"/>
 <wire x1="238.76" y1="157.48" x2="243.84" y2="157.48" width="0.1524" layer="91"/>
 <label x="241.3" y="157.48" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U3" gate="G$1" pin="RST"/>
+<wire x1="106.68" y1="193.04" x2="114.3" y2="193.04" width="0.1524" layer="91"/>
+<label x="111.76" y="193.04" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="D5" class="0">
@@ -8314,6 +8582,70 @@ Source: www.kingbright.com</description>
 <pinref part="+3V1" gate="G$1" pin="+3V3"/>
 <wire x1="251.46" y1="93.98" x2="243.84" y2="93.98" width="0.1524" layer="91"/>
 <wire x1="243.84" y1="93.98" x2="243.84" y2="96.52" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="+3V3" gate="G$1" pin="+3V3"/>
+<wire x1="78.74" y1="195.58" x2="78.74" y2="193.04" width="0.1524" layer="91"/>
+<pinref part="U3" gate="G$1" pin="VIN"/>
+<wire x1="78.74" y1="193.04" x2="81.28" y2="193.04" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U2" gate="G$1" pin="3.3V"/>
+<wire x1="45.72" y1="180.34" x2="63.5" y2="180.34" width="0.1524" layer="91"/>
+<pinref part="+3V4" gate="G$1" pin="+3V3"/>
+<wire x1="63.5" y1="180.34" x2="63.5" y2="182.88" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U4" gate="G$1" pin="GATE"/>
+<pinref part="R7" gate="G$1" pin="1"/>
+<wire x1="22.86" y1="144.78" x2="20.32" y2="144.78" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="144.78" x2="20.32" y2="142.24" width="0.1524" layer="91"/>
+<pinref part="+3V2" gate="G$1" pin="+3V3"/>
+<wire x1="20.32" y1="144.78" x2="20.32" y2="147.32" width="0.1524" layer="91"/>
+<junction x="20.32" y="144.78"/>
+</segment>
+<segment>
+<pinref part="+3V5" gate="G$1" pin="+3V3"/>
+<pinref part="R9" gate="G$1" pin="1"/>
+<wire x1="20.32" y1="106.68" x2="20.32" y2="104.14" width="0.1524" layer="91"/>
+<pinref part="U5" gate="G$1" pin="GATE"/>
+<wire x1="20.32" y1="104.14" x2="20.32" y2="101.6" width="0.1524" layer="91"/>
+<wire x1="22.86" y1="104.14" x2="20.32" y2="104.14" width="0.1524" layer="91"/>
+<junction x="20.32" y="104.14"/>
+</segment>
+</net>
+<net name="GPSTX" class="0">
+<segment>
+<pinref part="U2" gate="G$1" pin="TX0"/>
+<label x="48.26" y="182.88" size="1.778" layer="95"/>
+<wire x1="45.72" y1="182.88" x2="55.88" y2="182.88" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U5" gate="G$1" pin="SOURCE"/>
+<wire x1="45.72" y1="101.6" x2="45.72" y2="88.9" width="0.1524" layer="91"/>
+<pinref part="R9" gate="G$1" pin="2"/>
+<wire x1="45.72" y1="88.9" x2="20.32" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="88.9" x2="20.32" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="88.9" x2="10.16" y2="88.9" width="0.1524" layer="91"/>
+<junction x="20.32" y="88.9"/>
+<label x="10.16" y="88.9" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="GPSRX" class="0">
+<segment>
+<pinref part="U2" gate="G$1" pin="RX0"/>
+<label x="48.26" y="185.42" size="1.778" layer="95"/>
+<wire x1="45.72" y1="185.42" x2="55.88" y2="185.42" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U4" gate="G$1" pin="SOURCE"/>
+<wire x1="45.72" y1="142.24" x2="45.72" y2="129.54" width="0.1524" layer="91"/>
+<pinref part="R7" gate="G$1" pin="2"/>
+<wire x1="45.72" y1="129.54" x2="20.32" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="129.54" x2="20.32" y2="132.08" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="129.54" x2="10.16" y2="129.54" width="0.1524" layer="91"/>
+<junction x="20.32" y="129.54"/>
+<label x="10.16" y="129.54" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
