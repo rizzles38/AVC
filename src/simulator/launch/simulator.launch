@@ -1,0 +1,7 @@
+<launch>
+  <include file="$(find rover12_description)/launch/rover12.launch"/>
+
+  <node name="simulator" pkg="simulator" type="simulator_node">
+    <rosparam file="$(find simulator)/config/simulator.yaml"/>
+  </node>
+</launch>
