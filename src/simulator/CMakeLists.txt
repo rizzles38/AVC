@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rover12_description
   rover12_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -102,7 +103,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES simulator
-  CATKIN_DEPENDS roscpp rover12_description rover12_msgs
+  CATKIN_DEPENDS roscpp rover12_description rover12_msgs tf
 #  DEPENDS system_lib
 )
 
@@ -120,6 +121,9 @@ include_directories(
 
 add_library(simulator
   src/Simulator.cpp
+)
+target_link_libraries(simulator
+  ${catkin_LIBRARIES}
 )
 
 add_executable(simulator_node

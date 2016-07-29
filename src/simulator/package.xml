@@ -18,8 +18,10 @@
   <build_depend>roscpp</build_depend>
   <build_depend>rover12_description</build_depend>
   <build_depend>rover12_msgs</build_depend>
+  <build_depend>tf</build_depend>
 
   <run_depend>roscpp</run_depend>
   <run_depend>rover12_description</run_depend>
   <run_depend>rover12_msgs</run_depend>
+  <run_depend>tf</run_depend>
 </package>

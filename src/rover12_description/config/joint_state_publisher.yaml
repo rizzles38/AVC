@@ -1,4 +1,4 @@
-rate: 10.0
+rate: 100.0
 source_list:
   - "/joints/fl_steer"
   - "/joints/fr_steer"

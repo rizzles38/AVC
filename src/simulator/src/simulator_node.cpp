@@ -8,7 +8,12 @@ int main(int argc, char* argv[]) {
   ros::NodeHandle node;
   Simulator simulator(node);
 
-  ros::spin();
+  ros::Rate rate(30.0);
+  while(ros::ok()) {
+    simulator.tick();
+    ros::spinOnce();
+    rate.sleep();
+  }
 
   return 0;
 }
