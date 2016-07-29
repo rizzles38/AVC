@@ -8,4 +8,7 @@
         type="state_publisher">
     <rosparam file="$(find rover12_description)/config/robot_state_publisher.yaml"/>
   </node>
+  <node name="broadcaster" pkg="rover12_description" type="broadcaster_node">
+    <rosparam file="$(find rover12_description)/config/broadcaster.yaml"/>
+  </node>
 </launch>

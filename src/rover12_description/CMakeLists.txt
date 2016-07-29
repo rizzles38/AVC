@@ -5,7 +5,11 @@ project(rover12_description)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  xacro
+  joint_state_publisher
+  robot_state_publisher
+  roscpp
+  rover12_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -100,7 +104,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES rover12_description
-#  CATKIN_DEPENDS xacro
+  CATKIN_DEPENDS joint_state_publisher robot_state_publisher roscpp rover12_msgs tf
 #  DEPENDS system_lib
 )
 
@@ -112,7 +116,23 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
+)
+
+add_library(broadcaster
+  src/Broadcaster.cpp
+)
+target_link_libraries(broadcaster
+  ${catkin_LIBRARIES}
+)
+
+add_executable(broadcaster_node
+  src/broadcaster_node.cpp
+)
+target_link_libraries(broadcaster_node
+  broadcaster
+  ${catkin_LIBRARIES}
 )
 
 ## Declare a C++ library
