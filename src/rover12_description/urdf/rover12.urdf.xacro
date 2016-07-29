@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rover12">
+  <xacro:property name="PI" value="3.1415926535897931"/>
+
+  <xacro:property name="r_track" value="0.2667"/>
+  <xacro:property name="f_track" value="0.257175"/>
+  <xacro:property name="wheelbase" value="0.32385"/>
+
+  <xacro:property name="wheel_width" value="0.0508"/>
+  <xacro:property name="wheel_radius" value="0.0492125"/>
+
+  <xacro:property name="laser_xyz" value="0.4 0 0.08"/>
+  <xacro:property name="laser_rpy" value="0 0 ${PI/4}"/>
+
+  <material name="axle">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+
+  <xacro:macro name="axle" params="name track wheelbase">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <cylinder length="${track}" radius="0.00635"/>
+        </geometry>
+        <material name="axle"/>
+        <origin rpy="${PI /2 } 0 0"/>
+      </visual>
+    </link>
+
+    <joint name="base_link_to_${name}" type="fixed">
+      <parent link="base_link"/>
+      <child link="${name}"/>
+      <origin xyz="${wheelbase} 0 0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="wheel" params="name reflect">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <mesh filename="package://rover12_description/meshes/wheel.dae" scale="0.5 ${reflect * 0.8} 0.5"/>
+        </geometry>
+      </visual>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="fixed_wheel" params="name axle track reflect">
+    <xacro:wheel name="${name}_wheel" reflect="${reflect}"/>
+
+    <joint name="${axle}_to_${name}_wheel" type="continuous">
+      <parent link="${axle}"/>
+      <child link="${name}_wheel"/>
+      <axis xyz="0 1 0"/>
+      <origin xyz="0 ${reflect * track / 2} 0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="steerable_wheel" params="name axle track reflect">
+    <link name="${name}_kingpin"/>
+
+    <joint name="${axle}_to_${name}_kingpin" type="continuous">
+      <parent link="${axle}"/>
+      <child link="${name}_kingpin"/>
+      <axis xyz="0 0 1"/>
+      <origin xyz="0 ${reflect * track / 2} 0"/>
+    </joint>
+
+    <xacro:fixed_wheel name="${name}" axle="${name}_kingpin" track="0" reflect="${reflect}"/>
+  </xacro:macro>
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder length="${r_track}" radius="0.00635"/>
+      </geometry>
+      <material name="axle"/>
+      <origin rpy="${PI / 2} 0 0"/>
+    </visual>
+  </link>
+
+  <xacro:fixed_wheel name="rl" axle="base_link" track="${r_track}" reflect="1"/>
+  <xacro:fixed_wheel name="rr" axle="base_link" track="${r_track}" reflect="-1"/>
+
+  <xacro:axle name="f_axle" track="${f_track}" wheelbase="${wheelbase}"/>
+
+  <xacro:steerable_wheel name="fl" axle="f_axle" track="${f_track}" reflect="1"/>
+  <xacro:steerable_wheel name="fr" axle="f_axle" track="${f_track}" reflect="-1"/>
+
+  <link name="laser"/>
+
+  <joint name="base_link_to_laser" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser"/>
+    <origin xyz="${laser_xyz}" rpy="${laser_rpy}"/>
+  </joint>
+
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="package://rover12_description/meshes/body.dae" scale="-0.48 0.5 0.5"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="base_link_to_body" type="fixed">
+    <parent link="base_link"/>
+    <child link="body"/>
+    <origin xyz="0.175 0 0.067"/>
+  </joint>
+</robot>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+  <name>rover12_description</name>
+  <version>0.0.1</version>
+  <description>This package contains the description (mechanical, kinematic,
+    visual, etc.) of the Rover 12 autonomous R/C car.</description>
+
+  <maintainer email="bob@bobsomers.com">Bob Somers</maintainer>
+
+  <license>MIT</license>
+
+  <url type="website">http://www.pikusomers.com/tag/avc-2016/</url>
+
+  <author email="bob@bobsomers.com">Bob Somers</author>
+  <author email="mpikusov@gmail.com">Maria Pikusova</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>xacro</run_depend>
+</package>

@@ -1,0 +1,8 @@
+rate: 10.0
+source_list:
+  - "/joints/fl_steer"
+  - "/joints/fr_steer"
+  - "/joints/fl_wheel"
+  - "/joints/fr_wheel"
+  - "/joints/rl_wheel"
+  - "/joints/rr_wheel"

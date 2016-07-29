@@ -1,0 +1,11 @@
+<launch>
+  <include file="$(find rover12_description)/launch/rover12_urdf.launch"/>
+  <arg name="gui" default="False" />
+  <param name="use_gui" value="$(arg gui)"/>
+  <node name="joint_state_publisher" pkg="joint_state_publisher"
+        type="joint_state_publisher"/>
+  <node name="robot_state_publisher" pkg="robot_state_publisher"
+        type="state_publisher"/>
+  <node name="rviz" pkg="rviz" type="rviz" required="true"
+        args="-d $(find rover12_description)/launch/display.rviz" />
+</launch>
