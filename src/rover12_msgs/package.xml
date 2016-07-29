@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package>
+  <name>rover12_msgs</name>
+  <version>0.0.1</version>
+  <description>Contains custom messages used by the Rover 12 robot.</description>
+
+  <maintainer email="bob@bobsomers.com">Bob Somers</maintainer>
+
+  <license>MIT</license>
+
+  <url type="website">http://www.pikusomers.com/tag/avc-2016/</url>
+
+  <author email="bob@bobsomers.com">Bob Somers</author>
+  <author email="mpikusov@gmail.com">Maria Pikusova</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>ackermann_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <run_depend>ackermann_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
+  <run_depend>nav_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>std_msgs</run_depend>
+</package>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package>
+  <name>simulator</name>
+  <version>0.0.1</version>
+  <description>Simulator for the Rover 12 robot.</description>
+
+  <maintainer email="bob@bobsomers.com">Bob Somers</maintainer>
+
+  <license>MIT</license>
+
+  <url type="website">http://www.pikusomers.com/tag/avc-2016/</url>
+
+  <author email="bob@bobsomers.com">Bob Somers</author>
+  <author email="mpikusov@gmail.com">Maria Pikusova</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>rover12_description</build_depend>
+  <build_depend>rover12_msgs</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>rover12_description</run_depend>
+  <run_depend>rover12_msgs</run_depend>
+</package>
