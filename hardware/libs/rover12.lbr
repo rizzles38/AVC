@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -263,6 +263,9 @@
 <wire x1="-1" y1="-1" x2="-1" y2="3.25" width="0.127" layer="21"/>
 <text x="-1" y="4" size="1.27" layer="25">&gt;NAME</text>
 </package>
+<package name="100MIL-PAD">
+<pad name="P" x="0" y="0" drill="1.016" diameter="1.6764" shape="square"/>
+</package>
 </packages>
 <symbols>
 <symbol name="HLC1395">
@@ -468,6 +471,10 @@
 <wire x1="17.78" y1="-5.08" x2="5.08" y2="-5.08" width="0.254" layer="94"/>
 <text x="5.08" y="6.35" size="1.778" layer="95">&gt;NAME</text>
 <text x="5.08" y="-8.89" size="1.778" layer="97">BSS138</text>
+</symbol>
+<symbol name="100MIL-PAD">
+<pin name="P" x="0" y="0" length="middle"/>
+<circle x="7.62" y="0" radius="2.54" width="0.254" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -734,6 +741,21 @@
 <connect gate="G$1" pin="DRAIN" pad="DRAIN"/>
 <connect gate="G$1" pin="GATE" pad="GATE"/>
 <connect gate="G$1" pin="SOURCE" pad="SOURCE"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="100MIL-PAD" prefix="P">
+<gates>
+<gate name="G$1" symbol="100MIL-PAD" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="100MIL-PAD">
+<connects>
+<connect gate="G$1" pin="P" pad="P"/>
 </connects>
 <technologies>
 <technology name=""/>

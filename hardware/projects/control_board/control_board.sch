@@ -247,6 +247,9 @@
 <circle x="0.2" y="1.8" radius="0.15" width="0.3" layer="21"/>
 <text x="-1" y="1" size="1.27" layer="25" rot="R90">&gt;NAME</text>
 </package>
+<package name="100MIL-PAD">
+<pad name="P" x="0" y="0" drill="1.016" diameter="1.6764" shape="square"/>
+</package>
 </packages>
 <symbols>
 <symbol name="ATMEGA32U4">
@@ -374,6 +377,10 @@
 <wire x1="22.86" y1="-2.54" x2="5.08" y2="-2.54" width="0.254" layer="94"/>
 <text x="5.08" y="21.59" size="1.778" layer="95">&gt;NAME</text>
 <text x="5.08" y="-6.35" size="1.778" layer="95">MAX4701</text>
+</symbol>
+<symbol name="100MIL-PAD">
+<pin name="P" x="0" y="0" length="middle"/>
+<circle x="7.62" y="0" radius="2.54" width="0.254" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -532,6 +539,21 @@
 <connect gate="G$1" pin="NO3" pad="9"/>
 <connect gate="G$1" pin="NO4" pad="13"/>
 <connect gate="G$1" pin="V+" pad="16"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="100MIL-PAD" prefix="P">
+<gates>
+<gate name="G$1" symbol="100MIL-PAD" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="100MIL-PAD">
+<connects>
+<connect gate="G$1" pin="P" pad="P"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -10003,6 +10025,7 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <part name="D1" library="diode" deviceset="DIODE-" device="SOD123" value="1N4148"/>
 <part name="R23" library="resistor" deviceset="R-US_" device="R0603" value="1.6k"/>
 <part name="R24" library="resistor" deviceset="R-US_" device="R0603" value="3.3k"/>
+<part name="P1" library="rover12" deviceset="100MIL-PAD" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -10018,6 +10041,7 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <text x="50.8" y="73.66" size="1.778" layer="97">Servo Control Output</text>
 <text x="104.14" y="50.8" size="1.778" layer="97">Control Source Switching</text>
 <text x="101.6" y="106.68" size="1.778" layer="97">5V to 3.3V Logic Conversion</text>
+<text x="205.74" y="53.34" size="1.778" layer="97">Analog Reference Breakout</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
@@ -10118,6 +10142,7 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <instance part="D1" gate="G$1" x="144.78" y="45.72" rot="R270"/>
 <instance part="R23" gate="G$1" x="137.16" y="93.98" rot="R90"/>
 <instance part="R24" gate="G$1" x="137.16" y="78.74" rot="R90"/>
+<instance part="P1" gate="G$1" x="218.44" y="48.26"/>
 </instances>
 <busses>
 </busses>
@@ -10515,6 +10540,11 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <wire x1="198.12" y1="172.72" x2="177.8" y2="172.72" width="0.1524" layer="91"/>
 <wire x1="177.8" y1="172.72" x2="177.8" y2="170.18" width="0.1524" layer="91"/>
 <label x="180.34" y="172.72" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="P1" gate="G$1" pin="P"/>
+<wire x1="218.44" y1="48.26" x2="210.82" y2="48.26" width="0.1524" layer="91"/>
+<label x="210.82" y="48.26" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$2" class="0">
