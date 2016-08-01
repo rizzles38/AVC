@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -8181,13 +8181,16 @@ Source: www.kingbright.com</description>
 <part name="GND21" library="supply1" deviceset="GND" device=""/>
 <part name="R39" library="resistor" deviceset="R-US_" device="R0603" value="22k"/>
 <part name="R40" library="resistor" deviceset="R-US_" device="R0603" value="10k"/>
+<part name="P4" library="rover12" deviceset="100MIL-PAD" device=""/>
+<part name="P5" library="rover12" deviceset="100MIL-PAD" device=""/>
+<part name="P6" library="rover12" deviceset="100MIL-PAD" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
 <text x="142.24" y="147.32" size="1.778" layer="97">Board Power</text>
 <text x="71.12" y="175.26" size="1.778" layer="97">Debug LEDs</text>
-<text x="88.9" y="48.26" size="1.778" layer="97">3.3V Digital IOs</text>
+<text x="88.9" y="45.72" size="1.778" layer="97">3.3V Digital IOs</text>
 <text x="17.78" y="55.88" size="1.778" layer="97">5V Digital IOs</text>
 <text x="17.78" y="81.28" size="1.778" layer="97">Analog Inputs</text>
 <text x="78.74" y="104.14" size="1.778" layer="97">LiPo Cell 1 Monitor</text>
@@ -8196,7 +8199,6 @@ Source: www.kingbright.com</description>
 <text x="76.2" y="101.6" size="1.778" layer="97">Input = 1/2, Gain = 2.2</text>
 <text x="147.32" y="101.6" size="1.778" layer="97">Input = 1/2, Gain = 2.2</text>
 <text x="218.44" y="101.6" size="1.778" layer="97">Input = 1/3, Gain = 3.2</text>
-<text x="66.04" y="2.54" size="1.778" layer="97">these 3.3v digital IOs aren't broken out to pads</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
@@ -8324,6 +8326,9 @@ Source: www.kingbright.com</description>
 <instance part="GND21" gate="1" x="198.12" y="78.74" rot="R270"/>
 <instance part="R39" gate="G$1" x="254" y="86.36" rot="MR270"/>
 <instance part="R40" gate="G$1" x="254" y="71.12" rot="MR270"/>
+<instance part="P4" gate="G$1" x="17.78" y="7.62" rot="R180"/>
+<instance part="P5" gate="G$1" x="71.12" y="7.62" rot="R180"/>
+<instance part="P6" gate="G$1" x="121.92" y="7.62" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -9204,9 +9209,9 @@ Source: www.kingbright.com</description>
 <pinref part="R14" gate="G$1" pin="2"/>
 <wire x1="45.72" y1="7.62" x2="20.32" y2="7.62" width="0.1524" layer="91"/>
 <wire x1="20.32" y1="7.62" x2="20.32" y2="10.16" width="0.1524" layer="91"/>
+<pinref part="P4" gate="G$1" pin="P"/>
+<wire x1="17.78" y1="7.62" x2="20.32" y2="7.62" width="0.1524" layer="91"/>
 <junction x="20.32" y="7.62"/>
-<label x="10.16" y="7.62" size="1.778" layer="95"/>
-<wire x1="20.32" y1="7.62" x2="10.16" y2="7.62" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="3V3D9" class="0">
@@ -9216,9 +9221,9 @@ Source: www.kingbright.com</description>
 <pinref part="R16" gate="G$1" pin="2"/>
 <wire x1="99.06" y1="7.62" x2="73.66" y2="7.62" width="0.1524" layer="91"/>
 <wire x1="73.66" y1="7.62" x2="73.66" y2="10.16" width="0.1524" layer="91"/>
+<pinref part="P5" gate="G$1" pin="P"/>
+<wire x1="71.12" y1="7.62" x2="73.66" y2="7.62" width="0.1524" layer="91"/>
 <junction x="73.66" y="7.62"/>
-<label x="63.5" y="7.62" size="1.778" layer="95"/>
-<wire x1="73.66" y1="7.62" x2="63.5" y2="7.62" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="3V3D10" class="0">
@@ -9228,9 +9233,9 @@ Source: www.kingbright.com</description>
 <pinref part="R18" gate="G$1" pin="2"/>
 <wire x1="149.86" y1="7.62" x2="124.46" y2="7.62" width="0.1524" layer="91"/>
 <wire x1="124.46" y1="7.62" x2="124.46" y2="10.16" width="0.1524" layer="91"/>
+<pinref part="P6" gate="G$1" pin="P"/>
+<wire x1="121.92" y1="7.62" x2="124.46" y2="7.62" width="0.1524" layer="91"/>
 <junction x="124.46" y="7.62"/>
-<label x="114.3" y="7.62" size="1.778" layer="95"/>
-<wire x1="124.46" y1="7.62" x2="114.3" y2="7.62" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="CELL1" class="0">

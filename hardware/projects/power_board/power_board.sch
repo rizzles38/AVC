@@ -9818,8 +9818,6 @@ Source: AVX .. aphvc.pdf</description>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
 <part name="R2" library="resistor" deviceset="R-US_" device="R0603" value="268/0.5%"/>
 <part name="GND7" library="supply1" deviceset="GND" device=""/>
-<part name="R3" library="resistor" deviceset="R-US_" device="R0603" value="100k"/>
-<part name="GND6" library="supply1" deviceset="GND" device=""/>
 <part name="R4" library="resistor" deviceset="R-US_" device="R0603" value="12k"/>
 <part name="R5" library="resistor" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
@@ -9904,7 +9902,6 @@ Source: AVX .. aphvc.pdf</description>
 <text x="50.8" y="88.9" size="1.778" layer="97">Support Power +3.3V (6A max)</text>
 <text x="48.26" y="40.64" size="1.778" layer="97">Support Power Connectors +5V/+3.3V (6A max total on each rail)</text>
 <text x="114.3" y="152.4" size="1.778" layer="97">2.93V Thresh</text>
-<text x="139.7" y="154.94" size="1.778" layer="97">double check this</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
@@ -9933,8 +9930,6 @@ Source: AVX .. aphvc.pdf</description>
 <instance part="GND5" gate="1" x="177.8" y="172.72"/>
 <instance part="R2" gate="G$1" x="157.48" y="175.26"/>
 <instance part="GND7" gate="1" x="149.86" y="170.18"/>
-<instance part="R3" gate="G$1" x="134.62" y="154.94" rot="R90"/>
-<instance part="GND6" gate="1" x="134.62" y="144.78"/>
 <instance part="R4" gate="G$1" x="106.68" y="172.72" rot="R90"/>
 <instance part="R5" gate="G$1" x="106.68" y="157.48" rot="R90"/>
 <instance part="GND8" gate="1" x="109.22" y="144.78"/>
@@ -10060,11 +10055,6 @@ Source: AVX .. aphvc.pdf</description>
 <wire x1="149.86" y1="175.26" x2="149.86" y2="177.8" width="0.1524" layer="91"/>
 <wire x1="152.4" y1="175.26" x2="149.86" y2="175.26" width="0.1524" layer="91"/>
 <junction x="149.86" y="175.26"/>
-</segment>
-<segment>
-<pinref part="GND6" gate="1" pin="GND"/>
-<pinref part="R3" gate="G$1" pin="1"/>
-<wire x1="134.62" y1="147.32" x2="134.62" y2="149.86" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="R5" gate="G$1" pin="1"/>
@@ -10364,12 +10354,9 @@ Source: AVX .. aphvc.pdf</description>
 <net name="N$5" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="EN"/>
-<pinref part="R3" gate="G$1" pin="2"/>
 <wire x1="134.62" y1="185.42" x2="134.62" y2="162.56" width="0.1524" layer="91"/>
 <pinref part="U1" gate="G$1" pin="!RESET!"/>
-<wire x1="134.62" y1="162.56" x2="134.62" y2="160.02" width="0.1524" layer="91"/>
 <wire x1="132.08" y1="162.56" x2="134.62" y2="162.56" width="0.1524" layer="91"/>
-<junction x="134.62" y="162.56"/>
 </segment>
 </net>
 <net name="N$8" class="0">
