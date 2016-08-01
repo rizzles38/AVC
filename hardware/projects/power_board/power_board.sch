@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -9904,6 +9904,7 @@ Source: AVX .. aphvc.pdf</description>
 <text x="50.8" y="88.9" size="1.778" layer="97">Support Power +3.3V (6A max)</text>
 <text x="48.26" y="40.64" size="1.778" layer="97">Support Power Connectors +5V/+3.3V (6A max total on each rail)</text>
 <text x="114.3" y="152.4" size="1.778" layer="97">2.93V Thresh</text>
+<text x="139.7" y="154.94" size="1.778" layer="97">double check this</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
