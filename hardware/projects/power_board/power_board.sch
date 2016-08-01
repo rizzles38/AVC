@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -9820,8 +9820,8 @@ Source: AVX .. aphvc.pdf</description>
 <part name="GND7" library="supply1" deviceset="GND" device=""/>
 <part name="R3" library="resistor" deviceset="R-US_" device="R0603" value="100k"/>
 <part name="GND6" library="supply1" deviceset="GND" device=""/>
-<part name="R4" library="resistor" deviceset="R-US_" device="R0603"/>
-<part name="R5" library="resistor" deviceset="R-US_" device="R0603"/>
+<part name="R4" library="resistor" deviceset="R-US_" device="R0603" value="12k"/>
+<part name="R5" library="resistor" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
 <part name="X5" library="rover12" deviceset="MICROFIT-2X2-SMD" device=""/>
 <part name="X6" library="rover12" deviceset="MICROFIT-2X2-SMD" device=""/>
@@ -9888,20 +9888,22 @@ Source: AVX .. aphvc.pdf</description>
 <part name="GND27" library="supply1" deviceset="GND" device=""/>
 <part name="GND28" library="supply1" deviceset="GND" device=""/>
 <part name="GND29" library="supply1" deviceset="GND" device=""/>
+<part name="R14" library="resistor" deviceset="R-US_" device="R0603" value="220"/>
+<part name="P+7" library="supply1" deviceset="VCC" device=""/>
+<part name="GND30" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
 <text x="35.56" y="195.58" size="1.778" layer="97">Main Power Relay</text>
 <text x="109.22" y="198.12" size="1.778" layer="97">Relay Coil Power w/ Kill Switch and Low Voltage Cutoff</text>
-<text x="106.68" y="187.96" size="1.778" layer="97">TODO fuse this
-and kill switch it</text>
-<text x="205.74" y="203.2" size="1.778" layer="97">Kill Switch Connection</text>
+<text x="213.36" y="198.12" size="1.778" layer="97">Kill Switch Connection</text>
 <text x="187.96" y="144.78" size="1.778" layer="97">USB Power +5V (3A max)</text>
 <text x="177.8" y="93.98" size="1.778" layer="97">Compute Power +5V (6A max)</text>
 <text x="50.8" y="134.62" size="1.778" layer="97">Support Power +5V (6A max)</text>
 <text x="50.8" y="88.9" size="1.778" layer="97">Support Power +3.3V (6A max)</text>
 <text x="48.26" y="40.64" size="1.778" layer="97">Support Power Connectors +5V/+3.3V (6A max total on each rail)</text>
+<text x="114.3" y="152.4" size="1.778" layer="97">2.93V Thresh</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
@@ -10000,6 +10002,9 @@ and kill switch it</text>
 <instance part="GND27" gate="1" x="116.84" y="10.16"/>
 <instance part="GND28" gate="1" x="78.74" y="10.16"/>
 <instance part="GND29" gate="1" x="40.64" y="10.16"/>
+<instance part="R14" gate="G$1" x="223.52" y="175.26"/>
+<instance part="P+7" gate="VCC" x="215.9" y="185.42"/>
+<instance part="GND30" gate="1" x="215.9" y="170.18"/>
 </instances>
 <busses>
 </busses>
@@ -10237,6 +10242,12 @@ and kill switch it</text>
 <wire x1="119.38" y1="15.24" x2="116.84" y2="15.24" width="0.1524" layer="91"/>
 <junction x="116.84" y="15.24"/>
 </segment>
+<segment>
+<pinref part="R14" gate="G$1" pin="1"/>
+<wire x1="218.44" y1="175.26" x2="215.9" y2="175.26" width="0.1524" layer="91"/>
+<wire x1="215.9" y1="175.26" x2="215.9" y2="172.72" width="0.1524" layer="91"/>
+<pinref part="GND30" gate="1" pin="GND"/>
+</segment>
 </net>
 <net name="VBAT" class="0">
 <segment>
@@ -10250,6 +10261,11 @@ and kill switch it</text>
 <wire x1="106.68" y1="177.8" x2="106.68" y2="180.34" width="0.1524" layer="91"/>
 <wire x1="106.68" y1="180.34" x2="99.06" y2="180.34" width="0.1524" layer="91"/>
 <label x="99.06" y="180.34" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="X4" gate="G$1" pin="1"/>
+<wire x1="231.14" y1="190.5" x2="223.52" y2="190.5" width="0.1524" layer="91"/>
+<label x="223.52" y="190.5" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="VDD" class="0">
@@ -10330,20 +10346,18 @@ and kill switch it</text>
 <wire x1="170.18" y1="187.96" x2="170.18" y2="190.5" width="0.1524" layer="91"/>
 <junction x="170.18" y="190.5"/>
 </segment>
+<segment>
+<pinref part="X4" gate="G$1" pin="3"/>
+<wire x1="231.14" y1="180.34" x2="215.9" y2="180.34" width="0.1524" layer="91"/>
+<wire x1="215.9" y1="180.34" x2="215.9" y2="182.88" width="0.1524" layer="91"/>
+<pinref part="P+7" gate="VCC" pin="VCC"/>
+</segment>
 </net>
 <net name="N$2" class="0">
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
 <pinref part="LED1" gate="G$1" pin="A"/>
 <wire x1="71.12" y1="160.02" x2="73.66" y2="160.02" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$3" class="0">
-<segment>
-<pinref part="C1" gate="G$1" pin="1"/>
-<wire x1="127" y1="187.96" x2="127" y2="190.5" width="0.1524" layer="91"/>
-<pinref part="U2" gate="G$1" pin="VIN"/>
-<wire x1="127" y1="190.5" x2="134.62" y2="190.5" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$5" class="0">
@@ -10560,15 +10574,32 @@ and kill switch it</text>
 <wire x1="109.22" y1="25.4" x2="109.22" y2="33.02" width="0.1524" layer="91"/>
 </segment>
 </net>
+<net name="VKILL" class="0">
+<segment>
+<pinref part="X4" gate="G$1" pin="2"/>
+<wire x1="231.14" y1="185.42" x2="223.52" y2="185.42" width="0.1524" layer="91"/>
+<label x="223.52" y="185.42" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="C1" gate="G$1" pin="1"/>
+<wire x1="127" y1="187.96" x2="127" y2="190.5" width="0.1524" layer="91"/>
+<pinref part="U2" gate="G$1" pin="VIN"/>
+<wire x1="127" y1="190.5" x2="134.62" y2="190.5" width="0.1524" layer="91"/>
+<wire x1="127" y1="190.5" x2="119.38" y2="190.5" width="0.1524" layer="91"/>
+<junction x="127" y="190.5"/>
+<label x="119.38" y="190.5" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="N$19" class="0">
+<segment>
+<pinref part="X4" gate="G$1" pin="4"/>
+<pinref part="R14" gate="G$1" pin="2"/>
+<wire x1="231.14" y1="175.26" x2="228.6" y2="175.26" width="0.1524" layer="91"/>
+</segment>
+</net>
 </nets>
 </sheet>
 </sheets>
 </schematic>
 </drawing>
-<compatibility>
-<note version="6.3" minversion="6.2.2" severity="warning">
-Since Version 6.2.2 text objects can contain more than one line,
-which will not be processed correctly with this version.
-</note>
-</compatibility>
 </eagle>
