@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -6168,15 +6168,6 @@ resistor unpopulated.</text>
 </net>
 <net name="SENSE1" class="0">
 <segment>
-<pinref part="R3" gate="G$1" pin="1"/>
-<pinref part="IR1" gate="G$1" pin="COL"/>
-<wire x1="83.82" y1="137.16" x2="83.82" y2="144.78" width="0.1524" layer="91"/>
-<wire x1="68.58" y1="137.16" x2="83.82" y2="137.16" width="0.1524" layer="91"/>
-<junction x="83.82" y="137.16"/>
-<pinref part="R6" gate="G$1" pin="1"/>
-<wire x1="83.82" y1="137.16" x2="91.44" y2="137.16" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="U1" gate="G$1" pin="1A"/>
 <label x="157.48" y="142.24" size="1.778" layer="95"/>
 <wire x1="167.64" y1="142.24" x2="157.48" y2="142.24" width="0.1524" layer="91"/>
@@ -6253,6 +6244,17 @@ resistor unpopulated.</text>
 <pinref part="R8" gate="G$1" pin="1"/>
 <wire x1="91.44" y1="88.9" x2="83.82" y2="88.9" width="0.1524" layer="91"/>
 <junction x="83.82" y="88.9"/>
+</segment>
+</net>
+<net name="N$6" class="0">
+<segment>
+<pinref part="IR1" gate="G$1" pin="COL"/>
+<pinref part="R6" gate="G$1" pin="1"/>
+<wire x1="68.58" y1="137.16" x2="83.82" y2="137.16" width="0.1524" layer="91"/>
+<pinref part="R3" gate="G$1" pin="1"/>
+<wire x1="83.82" y1="137.16" x2="91.44" y2="137.16" width="0.1524" layer="91"/>
+<wire x1="83.82" y1="144.78" x2="83.82" y2="137.16" width="0.1524" layer="91"/>
+<junction x="83.82" y="137.16"/>
 </segment>
 </net>
 </nets>
