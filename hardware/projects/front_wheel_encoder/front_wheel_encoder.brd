@@ -69,12 +69,12 @@
 <wire x1="20.54" y1="2" x2="19.54" y2="1" width="0.254" layer="20" curve="90"/>
 <wire x1="19.54" y1="1" x2="18.54" y2="0" width="0.254" layer="20" curve="-90"/>
 <wire x1="18.54" y1="0" x2="7" y2="0" width="0.254" layer="20"/>
-<text x="14.732" y="1.778" size="1.27" layer="21">Front
+<text x="14.732" y="2.286" size="1.27" layer="21" font="vector" ratio="14">Front
 Right</text>
-<text x="18.796" y="1.778" size="1.27" layer="22" rot="MR0">Front
+<text x="19.558" y="2.286" size="1.27" layer="22" font="vector" ratio="14" rot="MR0">Front
 Left</text>
-<text x="10.922" y="14.478" size="1.27" layer="21">PikuSomers 2016</text>
-<text x="24.892" y="14.478" size="1.27" layer="22" rot="MR0">PikuSomers 2016</text>
+<text x="7.874" y="14.732" size="1.27" layer="21" font="vector" ratio="14">PikuSomers 2016</text>
+<text x="24.384" y="14.732" size="1.27" layer="22" font="vector" ratio="14" rot="MR0">PikuSomers 2016</text>
 </plain>
 <libraries>
 <library name="resistor">
@@ -1408,50 +1408,50 @@ Please make sure your boards conform to these design rules.</description>
 </autorouter>
 <elements>
 <element name="C1" library="resistor" package="C0603" value="0.1uF" x="21.924" y="7.861" smashed="yes" rot="R180">
-<attribute name="NAME" x="23.415" y="7.252" size="1.27" layer="25"/>
+<attribute name="NAME" x="23.542" y="7.252" size="1.27" layer="25" font="vector" ratio="14"/>
 <attribute name="VALUE" x="22.559" y="9.766" size="1.27" layer="27" rot="R180"/>
 </element>
 <element name="IR1" library="rover12" package="HLC1395" value="HLC1395" x="26.59" y="4.204" smashed="yes"/>
 <element name="IR2" library="rover12" package="HLC1395" value="HLC1395" x="34.464" y="4.204" smashed="yes"/>
 <element name="R1" library="resistor" package="R0603" value="200" x="26.59" y="8.268" smashed="yes" rot="R90">
-<attribute name="NAME" x="25.455" y="9.903" size="1.27" layer="25"/>
+<attribute name="NAME" x="25.582" y="9.903" size="1.27" layer="25" font="vector" ratio="14"/>
 <attribute name="VALUE" x="28.495" y="7.633" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="R2" library="resistor" package="R0603" value="200" x="34.464" y="8.268" smashed="yes" rot="R90">
-<attribute name="NAME" x="33.329" y="9.903" size="1.27" layer="25"/>
+<attribute name="NAME" x="33.456" y="9.903" size="1.27" layer="25" font="vector" ratio="14"/>
 <attribute name="VALUE" x="36.369" y="7.633" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="R3" library="resistor" package="R0603" value="4.7k" x="30.4" y="8.268" smashed="yes" rot="R90">
-<attribute name="NAME" x="29.265" y="9.903" size="1.27" layer="25"/>
+<attribute name="NAME" x="29.392" y="9.903" size="1.27" layer="25" font="vector" ratio="14"/>
 <attribute name="VALUE" x="32.305" y="7.633" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="R4" library="resistor" package="R0603" value="4.7k" x="38.274" y="8.268" smashed="yes" rot="R90">
-<attribute name="NAME" x="37.139" y="9.903" size="1.27" layer="25"/>
+<attribute name="NAME" x="37.266" y="9.903" size="1.27" layer="25" font="vector" ratio="14"/>
 <attribute name="VALUE" x="40.179" y="7.633" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="U1" library="rover12" package="SOT-23-6" value="SN74LVC2G17DBVR" x="23.762" y="13.542" smashed="yes" rot="R180">
-<attribute name="NAME" x="18.984225" y="11.84549375" size="1.27" layer="25"/>
+<attribute name="NAME" x="18.984225" y="11.59149375" size="1.27" layer="25" font="vector" ratio="14"/>
 </element>
 <element name="X1" library="rover12" package="MICROFIT-2X2-0430450411" value="MICROFIT-2X2-SMD" x="5.766" y="12.714" smashed="yes" rot="R290">
-<attribute name="NAME" x="7.161046875" y="13.869825" size="1.27" layer="25"/>
+<attribute name="NAME" x="11.225046875" y="2.185825" size="1.27" layer="25" font="vector" ratio="14"/>
 </element>
 <element name="X2" library="rover12" package="MICROFIT-2X2-0430450411" value="MICROFIT-2X2-SMD" x="9.4577" y="2.57205" smashed="yes" rot="MR70">
-<attribute name="NAME" x="9.271" y="13.843" size="1.27" layer="26" rot="MR0"/>
+<attribute name="NAME" x="13.335" y="2.159" size="1.27" layer="26" font="vector" ratio="14" rot="MR0"/>
 </element>
 <element name="R5" library="resistor" package="R0603" value="0" x="26.59" y="12.586" smashed="yes">
-<attribute name="NAME" x="25.447" y="13.729" size="1.27" layer="25"/>
+<attribute name="NAME" x="25.447" y="13.729" size="1.27" layer="25" font="vector" ratio="14"/>
 <attribute name="VALUE" x="25.955" y="10.681" size="1.27" layer="27"/>
 </element>
 <element name="R6" library="resistor" package="R0603" value="0" x="30.306" y="12.56" smashed="yes" rot="R180">
-<attribute name="NAME" x="29.257" y="13.729" size="1.27" layer="25"/>
+<attribute name="NAME" x="29.257" y="13.729" size="1.27" layer="25" font="vector" ratio="14"/>
 <attribute name="VALUE" x="30.941" y="14.465" size="1.27" layer="27" rot="R180"/>
 </element>
 <element name="R7" library="resistor" package="R0603" value="0" x="34.464" y="12.586" smashed="yes">
-<attribute name="NAME" x="33.321" y="13.729" size="1.27" layer="25"/>
+<attribute name="NAME" x="33.321" y="13.729" size="1.27" layer="25" font="vector" ratio="14"/>
 <attribute name="VALUE" x="33.829" y="10.681" size="1.27" layer="27"/>
 </element>
 <element name="R8" library="resistor" package="R0603" value="0" x="38.274" y="12.586" smashed="yes" rot="R180">
-<attribute name="NAME" x="37.131" y="13.729" size="1.27" layer="25"/>
+<attribute name="NAME" x="37.131" y="13.729" size="1.27" layer="25" font="vector" ratio="14"/>
 <attribute name="VALUE" x="38.909" y="14.491" size="1.27" layer="27" rot="R180"/>
 </element>
 </elements>
