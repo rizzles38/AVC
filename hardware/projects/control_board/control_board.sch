@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -10026,6 +10026,8 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <part name="R23" library="resistor" deviceset="R-US_" device="R0603" value="1.6k"/>
 <part name="R24" library="resistor" deviceset="R-US_" device="R0603" value="3.3k"/>
 <part name="P1" library="rover12" deviceset="100MIL-PAD" device=""/>
+<part name="C4" library="resistor" deviceset="C-US" device="C0603" value="0.1uF"/>
+<part name="GND22" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -10132,17 +10134,19 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <instance part="GND19" gate="1" x="58.42" y="7.62"/>
 <instance part="VDD4" gate="G$1" x="58.42" y="68.58"/>
 <instance part="U2" gate="G$1" x="114.3" y="22.86"/>
-<instance part="P+15" gate="1" x="144.78" y="53.34"/>
+<instance part="P+15" gate="1" x="154.94" y="53.34"/>
 <instance part="GND20" gate="1" x="111.76" y="17.78"/>
 <instance part="R19" gate="G$1" x="96.52" y="93.98" rot="R90"/>
 <instance part="R20" gate="G$1" x="96.52" y="78.74" rot="R90"/>
 <instance part="R21" gate="G$1" x="116.84" y="93.98" rot="R90"/>
 <instance part="R22" gate="G$1" x="116.84" y="78.74" rot="R90"/>
 <instance part="GND21" gate="1" x="116.84" y="66.04"/>
-<instance part="D1" gate="G$1" x="144.78" y="45.72" rot="R270"/>
+<instance part="D1" gate="G$1" x="154.94" y="45.72" rot="R270"/>
 <instance part="R23" gate="G$1" x="137.16" y="93.98" rot="R90"/>
 <instance part="R24" gate="G$1" x="137.16" y="78.74" rot="R90"/>
 <instance part="P1" gate="G$1" x="218.44" y="48.26"/>
+<instance part="C4" gate="G$1" x="154.94" y="35.56"/>
+<instance part="GND22" gate="1" x="154.94" y="25.4"/>
 </instances>
 <busses>
 </busses>
@@ -10383,6 +10387,11 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <pinref part="GND21" gate="1" pin="GND"/>
 <wire x1="116.84" y1="71.12" x2="116.84" y2="68.58" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="GND22" gate="1" pin="GND"/>
+<pinref part="C4" gate="G$1" pin="2"/>
+<wire x1="154.94" y1="27.94" x2="154.94" y2="30.48" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="VCC" class="0">
 <segment>
@@ -10514,7 +10523,7 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <segment>
 <pinref part="D1" gate="G$1" pin="A"/>
 <pinref part="P+15" gate="1" pin="+5V"/>
-<wire x1="144.78" y1="48.26" x2="144.78" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="48.26" x2="154.94" y2="50.8" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="RESET" class="0">
@@ -11020,9 +11029,12 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <net name="N$22" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="V+"/>
-<wire x1="142.24" y1="40.64" x2="144.78" y2="40.64" width="0.1524" layer="91"/>
 <pinref part="D1" gate="G$1" pin="C"/>
-<wire x1="144.78" y1="40.64" x2="144.78" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="142.24" y1="40.64" x2="154.94" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="40.64" x2="154.94" y2="43.18" width="0.1524" layer="91"/>
+<pinref part="C4" gate="G$1" pin="1"/>
+<wire x1="154.94" y1="38.1" x2="154.94" y2="40.64" width="0.1524" layer="91"/>
+<junction x="154.94" y="40.64"/>
 </segment>
 </net>
 <net name="THROT3V3" class="0">
