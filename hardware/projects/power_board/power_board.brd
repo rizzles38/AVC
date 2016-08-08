@@ -82,11 +82,10 @@ PWR</text>
 <text x="64.008" y="0.762" size="1.016" layer="21" font="vector" ratio="14">5V
    PWR</text>
 <text x="8.128" y="26.924" size="2.54" layer="21" font="vector" ratio="14" rot="R90">ESC</text>
-<text x="26.924" y="53.086" size="2.54" layer="21" font="vector" ratio="14" rot="R90">BAT</text>
-<text x="44.45" y="54.356" size="2.54" layer="21" font="vector" ratio="14" rot="R90">IN</text>
+<text x="25.654" y="60.452" size="2.54" layer="21" font="vector" ratio="14">LIPO IN</text>
 <wire x1="0" y1="2" x2="0" y2="63" width="0.254" layer="20"/>
-<text x="48.768" y="59.182" size="2.032" layer="21" font="vector" ratio="14">Rover 12 Power Board</text>
-<text x="48.26" y="31.242" size="2.032" layer="21" font="vector" ratio="14">PikuSomers 2016</text>
+<text x="46.482" y="58.166" size="2.54" layer="21" font="vector" ratio="14">Rover 12 Power Board</text>
+<text x="45.72" y="30.988" size="2.54" layer="21" font="vector" ratio="14">PikuSomers 2016</text>
 <text x="8.128" y="48.514" size="2.54" layer="21" font="vector" ratio="14" rot="R90">OUT</text>
 </plain>
 <libraries>
@@ -1643,7 +1642,7 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="NAME" x="55.388" y="50.228" size="1.27" layer="25" font="vector" ratio="14"/>
 </element>
 <element name="U2" library="rover12" package="MURATA-OKR" value="MURATA-OKR" x="64.516" y="41.402" smashed="yes" rot="R90">
-<attribute name="NAME" x="60.071" y="38.862" size="1.27" layer="25" font="vector" ratio="14" rot="R90"/>
+<attribute name="NAME" x="58.166" y="38.227" size="1.27" layer="25" font="vector" ratio="14"/>
 </element>
 <element name="U3" library="rover12" package="MURATA-OKR" value="MURATA-OKR" x="11.034" y="12.714" smashed="yes" rot="R270">
 <attribute name="NAME" x="7.352" y="1.001" size="1.27" layer="25" font="vector" ratio="14"/>
@@ -1818,7 +1817,7 @@ Please make sure your boards conform to these design rules.</description>
 <via x="15.748" y="44.196" extent="1-16" drill="1.3"/>
 <via x="29.21" y="44.196" extent="1-16" drill="1.3"/>
 <via x="13.462" y="53.34" extent="1-16" drill="1.3"/>
-<via x="88.9" y="59.944" extent="1-16" drill="1.3"/>
+<via x="91.948" y="56.642" extent="1-16" drill="1.3"/>
 <via x="11.938" y="60.706" extent="1-16" drill="1.3"/>
 <via x="44.196" y="60.96" extent="1-16" drill="1.3"/>
 <via x="90.932" y="31.496" extent="1-16" drill="1.3"/>
@@ -1833,6 +1832,8 @@ Please make sure your boards conform to these design rules.</description>
 <via x="71.628" y="9.652" extent="1-16" drill="1"/>
 <via x="54.864" y="21.336" extent="1-16" drill="1.3"/>
 <via x="83.82" y="10.16" extent="1-16" drill="1"/>
+<via x="77.47" y="46.736" extent="1-16" drill="1.3"/>
+<via x="53.848" y="38.608" extent="1-16" drill="1.3"/>
 </signal>
 <signal name="VBAT">
 <contactref element="X1" pad="V+"/>
