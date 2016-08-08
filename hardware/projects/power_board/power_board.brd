@@ -1649,7 +1649,7 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="NAME" x="7.352" y="1.001" size="1.27" layer="25" font="vector" ratio="14"/>
 </element>
 <element name="U4" library="rover12" package="MURATA-OKR" value="MURATA-OKR" x="39.37" y="21.336" smashed="yes">
-<attribute name="NAME" x="36.322" y="15.875" size="1.27" layer="25" font="vector" ratio="14"/>
+<attribute name="NAME" x="36.322" y="25.527" size="1.27" layer="25" font="vector" ratio="14"/>
 </element>
 <element name="U5" library="rover12" package="MURATA-OKR" value="MURATA-OKR" x="61.214" y="21.336" smashed="yes">
 <attribute name="NAME" x="58.166" y="25.527" size="1.27" layer="25" font="vector" ratio="14"/>
