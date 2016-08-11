@@ -68,7 +68,7 @@
 <wire x1="0" y1="48" x2="0" y2="2" width="0.254" layer="20"/>
 <hole x="3.5" y="3.5" drill="3.2639"/>
 <circle x="3.5" y="3.5" radius="2.6797" width="0.254" layer="21"/>
-<hole x="3.5" y="46.5" drill="3.2"/>
+<hole x="3.5" y="46.5" drill="3.2639"/>
 <hole x="96.5" y="46.5" drill="3.2639"/>
 <hole x="96.5" y="3.5" drill="3.2639"/>
 <circle x="3.5" y="46.5" radius="2.6797" width="0.254" layer="21"/>
