@@ -4,6 +4,9 @@
 
 #include <ackermann_msgs/AckermannDriveStamped.h>
 #include <nav_msgs/Odometry.h>
+#include <simulator/World.h>
+
+namespace simulator {
 
 class Simulator {
 public:
@@ -19,4 +22,7 @@ private:
   ros::Subscriber control_sub_;
   ackermann_msgs::AckermannDriveStamped control_;
   nav_msgs::Odometry odometry_;
+  World world_;
 };
+
+} // namespace simulator

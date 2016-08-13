@@ -1,7 +1,8 @@
 <launch>
   <include file="$(find rover12_description)/launch/rover12.launch"/>
 
-  <node name="simulator" pkg="simulator" type="simulator_node">
+  <node name="simulator" pkg="simulator" type="simulator_node" output="screen">
     <rosparam file="$(find simulator)/config/simulator.yaml"/>
+    <param name="world_file" value="$(find simulator)/worlds/avc_2016.yaml"/>
   </node>
 </launch>

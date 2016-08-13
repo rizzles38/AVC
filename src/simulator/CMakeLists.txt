@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+find_package(yaml-cpp REQUIRED)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -104,7 +105,7 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES simulator
   CATKIN_DEPENDS roscpp rover12_description rover12_msgs tf
-#  DEPENDS system_lib
+  DEPENDS yaml-cpp
 )
 
 ###########
@@ -121,9 +122,11 @@ include_directories(
 
 add_library(simulator
   src/Simulator.cpp
+  src/World.cpp
 )
 target_link_libraries(simulator
   ${catkin_LIBRARIES}
+  yaml-cpp
 )
 
 add_executable(simulator_node

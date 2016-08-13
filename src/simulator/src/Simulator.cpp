@@ -5,8 +5,11 @@
 
 #include <tf/transform_datatypes.h>
 
+namespace simulator {
+
 Simulator::Simulator(ros::NodeHandle& node)
-  : node_(node) {
+  : node_(node),
+    world_(node) {
   odometry_pub_ = node_.advertise<nav_msgs::Odometry>("odometry", 0);
   control_sub_ = node_.subscribe("control", 0, &Simulator::controlCallback, this);
 }
@@ -30,3 +33,5 @@ void Simulator::tick() {
 
   odometry_pub_.publish(odometry_);
 }
+
+} // namespace simulator
