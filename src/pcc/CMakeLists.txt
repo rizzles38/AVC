@@ -5,12 +5,15 @@ project(pcc)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  common_msgs
+  cmake_modules
+  geometry_msgs
+  nav_msgs
   std_msgs
 )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+find_package(Eigen3 REQUIRED)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -99,20 +102,24 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES pcc
-#  CATKIN_DEPENDS common_msgs gtest std_msgs
-#  DEPENDS system_lib
+  INCLUDE_DIRS include
+  LIBRARIES pcc
+  CATKIN_DEPENDS geometry_msgs nav_msgs std_msgs
+  DEPENDS Eigen
 )
 
 ###########
 ## Build ##
 ###########
 
+add_definitions(-std=c++11)
+
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  include
+  ${EIGEN3_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -120,6 +127,13 @@ include_directories(
 # add_library(pcc
 #   src/${PROJECT_NAME}/pcc.cpp
 # )
+
+add_library(pcc
+  src/CurveBuilder.cpp
+)
+target_link_libraries(pcc
+  ${catkin_LIBRARIES}
+)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -182,6 +196,14 @@ include_directories(
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
+
+catkin_add_gtest(CurveBuilder-test
+  test/CurveBuilder_test.cpp
+)
+target_link_libraries(CurveBuilder-test
+  pcc
+  ${catkin_LIBRARIES}
+)
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
