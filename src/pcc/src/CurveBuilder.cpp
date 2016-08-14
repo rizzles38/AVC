@@ -7,7 +7,7 @@ void CurveBuilder::append(ControlPoint control_point) {
 }
 
 void CurveBuilder::insert(CurveBuilder::ConstIterator where, ControlPoint control_point) {
-  // TODO
+  control_points_.insert(where, control_point);
 }
 
 CurveBuilder::ConstIterator CurveBuilder::select(const Position& position) {

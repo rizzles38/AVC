@@ -14,8 +14,8 @@ public:
   // Appends the given control point to the end of the curve.
   void append(ControlPoint control_point);
 
-  // Inserts the given control point at the given place in the list of control
-  // points.
+  // Inserts the given control point before the given location in the list of
+  // control points.
   void insert(ConstIterator where, ControlPoint control_point);
 
   int size() const { return control_points_.size(); }

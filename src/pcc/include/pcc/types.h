@@ -36,13 +36,19 @@ private:
 
 // Represents all the refined curve data for a single point in the PCC.
 struct CurvePoint {
-  CurvePoint(Position position, Direction tangent, Direction normal, Curvature curvature)
-    : position(position), tangent(tangent), normal(normal), curvature(curvature) {}
+  CurvePoint(Position position, Direction tangent, Direction normal,
+             Curvature curvature, bool is_control_point)
+    : position(position),
+      tangent(tangent),
+      normal(normal),
+      curvature(curvature),
+      is_control_point(is_control_point) {}
 
   Position position;
   Direction tangent;
   Direction normal;
   Curvature curvature;
+  bool is_control_point;
 };
 
 // A refined PCC curve made up of line segments. Each curve point has position,
@@ -90,8 +96,14 @@ public:
     return curvatures_;
   }
 
+  bool isControlPoint(int index) const {
+    assert(0 <= index && index < size());
+    return is_control_points_[index];
+  }
+
   CurvePoint operator[](int index) const {
-    return CurvePoint(position(index), tangent(index), normal(index), curvature(index));
+    return CurvePoint(position(index), tangent(index), normal(index),
+                      curvature(index), isControlPoint(index));
   }
 
 private:
@@ -101,6 +113,7 @@ private:
   std::vector<Direction> tangents_;
   std::vector<Direction> normals_;
   std::vector<Curvature> curvatures_;
+  std::vector<bool> is_control_points_;
 
   friend class CurveBuilder;
 };

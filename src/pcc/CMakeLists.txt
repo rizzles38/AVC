@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   nav_msgs
   std_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -104,7 +105,7 @@ find_package(Eigen3 REQUIRED)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES pcc
-  CATKIN_DEPENDS geometry_msgs nav_msgs std_msgs
+  CATKIN_DEPENDS geometry_msgs nav_msgs std_msgs tf
   DEPENDS Eigen
 )
 
@@ -130,6 +131,8 @@ include_directories(
 
 add_library(pcc
   src/CurveBuilder.cpp
+  src/convert.cpp
+  src/types.cpp
 )
 target_link_libraries(pcc
   ${catkin_LIBRARIES}
