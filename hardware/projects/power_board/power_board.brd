@@ -84,9 +84,10 @@ PWR</text>
 <text x="8.128" y="26.924" size="2.54" layer="21" font="vector" ratio="14" rot="R90">ESC</text>
 <text x="25.654" y="60.452" size="2.54" layer="21" font="vector" ratio="14">LIPO IN</text>
 <wire x1="0" y1="2" x2="0" y2="63" width="0.254" layer="20"/>
-<text x="46.482" y="58.166" size="2.54" layer="21" font="vector" ratio="14">Rover 12 Power Board</text>
+<text x="46.482" y="59.436" size="2.54" layer="21" font="vector" ratio="14">Rover 12 Power Board</text>
 <text x="45.72" y="30.988" size="2.54" layer="21" font="vector" ratio="14">PikuSomers 2016</text>
 <text x="8.128" y="48.514" size="2.54" layer="21" font="vector" ratio="14" rot="R90">OUT</text>
+<text x="64.77" y="56.642" size="1.524" layer="21" font="vector" ratio="14">Rev 2: 2016-08-17</text>
 </plain>
 <libraries>
 <library name="resistor">
@@ -1639,7 +1640,7 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="NAME" x="28.294" y="30.369" size="1.27" layer="25" font="vector" ratio="14"/>
 </element>
 <element name="U1" library="rover12" package="SOT-23" value="MAX809" x="54.102" y="50.038" smashed="yes" rot="R90">
-<attribute name="NAME" x="55.388" y="50.228" size="1.27" layer="25" font="vector" ratio="14"/>
+<attribute name="NAME" x="52.086" y="53.276" size="1.27" layer="25" font="vector" ratio="14"/>
 </element>
 <element name="U2" library="rover12" package="MURATA-OKR" value="MURATA-OKR" x="64.516" y="41.402" smashed="yes" rot="R90">
 <attribute name="NAME" x="58.166" y="38.227" size="1.27" layer="25" font="vector" ratio="14"/>
@@ -1673,6 +1674,9 @@ Please make sure your boards conform to these design rules.</description>
 </element>
 <element name="X8" library="rover12" package="MICROFIT-2X2-0430450411" value="MICROFIT-2X2-SMD" x="94.996" y="8.636" smashed="yes" rot="R90">
 <attribute name="NAME" x="96.774" y="7.62" size="1.27" layer="25" font="vector" ratio="14"/>
+</element>
+<element name="R3" library="resistor" package="R0603" value="4.7k?" x="58.166" y="51.054" smashed="yes" rot="R270">
+<attribute name="NAME" x="57.277" y="52.705" size="1.27" layer="25" font="vector" ratio="14"/>
 </element>
 </elements>
 <signals>
@@ -1962,17 +1966,10 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="74.256" y1="49.53" x2="76.72" y2="49.53" width="0.508" layer="1"/>
 </signal>
 <signal name="N$5">
-<contactref element="U2" pad="1"/>
 <contactref element="U1" pad="2"/>
-<wire x1="54.102" y1="51.938" x2="59.06" y2="51.938" width="0.508" layer="1"/>
-<wire x1="59.06" y1="51.938" x2="60.198" y2="50.8" width="0.508" layer="1"/>
-<wire x1="60.198" y1="50.8" x2="60.198" y2="48.26" width="0.508" layer="1"/>
-<via x="60.198" y="48.26" extent="1-16" drill="0.6"/>
-<wire x1="60.198" y1="48.26" x2="60.198" y2="44.704" width="0.508" layer="16"/>
-<via x="60.198" y="44.704" extent="1-16" drill="0.6"/>
-<wire x1="60.198" y1="44.704" x2="60.198" y2="42.672" width="0.508" layer="1"/>
-<wire x1="60.198" y1="42.672" x2="61.468" y2="41.402" width="0.508" layer="1"/>
-<wire x1="61.468" y1="41.402" x2="64.516" y2="41.402" width="0.508" layer="1"/>
+<contactref element="R3" pad="1"/>
+<wire x1="54.102" y1="51.938" x2="58.166" y2="51.938" width="0.508" layer="1"/>
+<wire x1="58.166" y1="51.938" x2="58.166" y2="51.904" width="0.508" layer="1"/>
 </signal>
 <signal name="N$8">
 <contactref element="R4" pad="1"/>
@@ -2189,6 +2186,18 @@ Please make sure your boards conform to these design rules.</description>
 <signal name="N$25">
 </signal>
 <signal name="N$28">
+</signal>
+<signal name="N$15">
+<contactref element="R3" pad="2"/>
+<contactref element="U2" pad="1"/>
+<wire x1="58.166" y1="50.204" x2="58.166" y2="49.53" width="0.508" layer="1"/>
+<wire x1="58.166" y1="49.53" x2="59.436" y2="48.26" width="0.508" layer="1"/>
+<via x="59.436" y="48.26" extent="1-16" drill="0.6"/>
+<wire x1="59.436" y1="48.26" x2="59.436" y2="44.45" width="0.508" layer="16"/>
+<via x="59.436" y="44.45" extent="1-16" drill="0.6"/>
+<wire x1="59.436" y1="44.45" x2="59.436" y2="42.164" width="0.508" layer="1"/>
+<wire x1="59.436" y1="42.164" x2="60.198" y2="41.402" width="0.508" layer="1"/>
+<wire x1="60.198" y1="41.402" x2="64.516" y2="41.402" width="0.508" layer="1"/>
 </signal>
 </signals>
 </board>

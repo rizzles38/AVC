@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -9889,6 +9889,7 @@ Source: AVX .. aphvc.pdf</description>
 <part name="R14" library="resistor" deviceset="R-US_" device="R0603" value="220"/>
 <part name="P+7" library="supply1" deviceset="VCC" device=""/>
 <part name="GND30" library="supply1" deviceset="GND" device=""/>
+<part name="R3" library="resistor" deviceset="R-US_" device="R0603" value="4.7k?"/>
 </parts>
 <sheets>
 <sheet>
@@ -10001,6 +10002,7 @@ Source: AVX .. aphvc.pdf</description>
 <instance part="R14" gate="G$1" x="223.52" y="175.26"/>
 <instance part="P+7" gate="VCC" x="215.9" y="185.42"/>
 <instance part="GND30" gate="1" x="215.9" y="170.18"/>
+<instance part="R3" gate="G$1" x="134.62" y="170.18" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -10353,10 +10355,10 @@ Source: AVX .. aphvc.pdf</description>
 </net>
 <net name="N$5" class="0">
 <segment>
-<pinref part="U2" gate="G$1" pin="EN"/>
-<wire x1="134.62" y1="185.42" x2="134.62" y2="162.56" width="0.1524" layer="91"/>
 <pinref part="U1" gate="G$1" pin="!RESET!"/>
 <wire x1="132.08" y1="162.56" x2="134.62" y2="162.56" width="0.1524" layer="91"/>
+<pinref part="R3" gate="G$1" pin="1"/>
+<wire x1="134.62" y1="165.1" x2="134.62" y2="162.56" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$8" class="0">
@@ -10581,6 +10583,13 @@ Source: AVX .. aphvc.pdf</description>
 <pinref part="X4" gate="G$1" pin="4"/>
 <pinref part="R14" gate="G$1" pin="2"/>
 <wire x1="231.14" y1="175.26" x2="228.6" y2="175.26" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$15" class="0">
+<segment>
+<pinref part="R3" gate="G$1" pin="2"/>
+<pinref part="U2" gate="G$1" pin="EN"/>
+<wire x1="134.62" y1="175.26" x2="134.62" y2="185.42" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
