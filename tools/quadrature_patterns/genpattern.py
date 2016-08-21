@@ -5,13 +5,13 @@ from PIL import Image, ImageDraw
 
 # Configure your quadrature pattern here.
 dpi = 300
-wheel_width_inches = 2
-wheel_diameter_inches = 4
-stripes_per_track = 30
+wheel_width_inches = 0.91
+wheel_diameter_inches = 2.73
+stripes_per_track = 20
 stripe_color = (0, 0, 0)
 
 # Calcuate the size of the image given our physical dimensions and our DPI.
-width_px = wheel_width_inches * dpi
+width_px = math.ceil(wheel_width_inches * dpi)
 height_px = math.ceil(wheel_diameter_inches * math.pi * dpi)
 stripe_width_px = width_px / 2
 stripe_height_px = height_px / (2 * stripes_per_track)
