@@ -1557,7 +1557,10 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="18.542" y1="7.112" x2="17.526" y2="7.112" width="0.508" layer="16"/>
 <wire x1="17.526" y1="7.112" x2="16.51" y2="7.112" width="0.508" layer="16"/>
 <wire x1="16.51" y1="7.112" x2="16.002" y2="7.62" width="0.508" layer="16"/>
-<wire x1="13.004690625" y1="10.162378125" x2="13.2682" y2="8.1059" width="0" layer="19" extent="1-16"/>
+<wire x1="13.2682" y1="8.1059" x2="15.5161" y2="8.1059" width="0.508" layer="1"/>
+<wire x1="15.5161" y1="8.1059" x2="16.383" y2="7.239" width="0.508" layer="1"/>
+<wire x1="16.383" y1="7.239" x2="17.399" y2="7.239" width="0.508" layer="1"/>
+<wire x1="17.399" y1="7.239" x2="17.526" y2="7.112" width="0.508" layer="1"/>
 </signal>
 <signal name="SENSE1">
 <contactref element="U1" pad="1"/>
