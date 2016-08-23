@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <name>rover12_drivers</name>
+  <version>0.0.1</version>
+  <description>Contains driver nodes for the control board and sensor board
+    on the Rover 12 robot.</description>
+
+  <maintainer email="mpikusov@gmail.com">Maria Pikusova</maintainer>
+  <maintainer email="bob@bobsomers.com">Bob Somers</maintainer>
+
+  <license>MIT</license>
+
+  <url type="website">http://www.pikusomers.com/tag/avc-2016/</url>
+
+  <author email="mpikusov@gmail.com">Maria Pikusova</author>
+  <author email="bob@bobsomers.com">Bob Somers</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+</package>
