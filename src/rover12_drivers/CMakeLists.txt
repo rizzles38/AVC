@@ -114,6 +114,7 @@ add_definitions(-std=c++11)
 
 add_executable(control_board_node
   src/control_board_node.cpp
+  src/serial_msg.cpp
 )
 target_link_libraries(control_board_node
   ${catkin_LIBRARIES}

@@ -1,9 +1,25 @@
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 #include <type_traits>
 
 namespace rover12_drivers {
+
+// Computes a 32-bit checksum over the data and returns it.
+uint32_t crc32(const uint8_t* data, size_t len);
+
+// Applies consistent overhead byte stuffing (COBS) in place to the given data.
+// This expects that the data you want to stuff starts at the second byte and
+// the first byte is available for overhead. It does not add a trailing byte.
+// The length should be the length of the data, not including the overhead byte.
+void cobs(uint8_t* data, size_t len);
+
+// Decodes a buffer encoded with consistent overhead byte stuffing (COBS) in
+// place. The data pointer should point to the beginning of the stuffed data
+// (first byte in the overhead byte). The length should be the length of the
+// data, not including the overhead byte. The trailing byte is ignored.
+void uncobs(uint8_t* data, size_t len);
 
 enum class MsgType : int8_t {
   UNKNOWN = 0,
@@ -23,22 +39,43 @@ template <typename PayloadType>
 class SerialMsg {
 public:
   explicit SerialMsg()
-    : type(static_cast<MsgType>(PayloadType::Type)),
-      checksum(0),
-      overhead(0),
+    : type_(static_cast<MsgType>(PayloadType::Type)),
+      checksum_(0),
+      overhead_(0),
       data(PayloadType()),
-      trailer(0) {}
+      trailer_(0) {}
+
+  // Encodes the message for sending, computing the CRC32 checksum and stuffing
+  // the data with consistent overhead byte stuffing. Once encoded, you can
+  // send the data starting at the first byte of this object and sending
+  // sizeof(SerialMsg<PayloadType>) bytes.
+  void encode() {
+    checksum_ = crc32(reinterpret_cast<uint8_t*>(&data), sizeof(PayloadType));
+    cobs(&overhead_, sizeof(PayloadType));
+  }
+
+  // Returns true if the message was successfully decoded. To be successfully
+  // decoded, the message type must match and the checksum must validate. Once
+  // decoded, the payload data can be accessed directly via the public .data
+  // member.
+  bool decode() {
+    if (type_ != static_cast<MsgType>(PayloadType::Type)) {
+      return false;
+    }
+    uncobs(&overhead_, sizeof(PayloadType));
+    return checksum_ == crc32(reinterpret_cast<uint8_t*>(&data), sizeof(PayloadType));
+  }
 
 private:
-  const MsgType type;
-  uint32_t checksum;
-  uint8_t overhead;
+  const MsgType type_;
+  uint32_t checksum_;
+  uint8_t overhead_;
 
 public:
   PayloadType data;
 
 private:
-  const uint8_t trailer;
+  const uint8_t trailer_;
 } __attribute__((packed));
 
 // Sent from the computer to the control board or sensor board. Requests an
