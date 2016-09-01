@@ -96,7 +96,7 @@ find_package(catkin REQUIRED)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+  INCLUDE_DIRS include
 #  LIBRARIES rover12_drivers
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
@@ -108,7 +108,23 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
+include_directories(include)
+
+add_definitions(-std=c++11)
+
+add_executable(control_board_node
+  src/control_board_node.cpp
+)
+target_link_libraries(control_board_node
+  ${catkin_LIBRARIES}
+)
+
+add_executable(sensor_board_node
+  src/sensor_board_node.cpp
+)
+target_link_libraries(sensor_board_node
+  ${catkin_LIBRARIES}
+)
 
 ## Declare a C++ library
 # add_library(rover12_drivers
