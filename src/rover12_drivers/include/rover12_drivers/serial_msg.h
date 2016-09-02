@@ -13,12 +13,14 @@ uint32_t crc32(const uint8_t* data, size_t len);
 // This expects that the data you want to stuff starts at the second byte and
 // the first byte is available for overhead. It does not add a trailing byte.
 // The length should be the length of the data, not including the overhead byte.
+// Only supports data up to 254 bytes in length.
 void cobs(uint8_t* data, size_t len);
 
 // Decodes a buffer encoded with consistent overhead byte stuffing (COBS) in
 // place. The data pointer should point to the beginning of the stuffed data
 // (first byte in the overhead byte). The length should be the length of the
 // data, not including the overhead byte. The trailing byte is ignored.
+// Only supports data up to 254 bytes in length.
 void uncobs(uint8_t* data, size_t len);
 
 enum class MsgType : int8_t {
@@ -40,8 +42,8 @@ class SerialMsg {
 public:
   explicit SerialMsg()
     : type_(static_cast<MsgType>(PayloadType::Type)),
-      checksum_(0),
-      overhead_(0),
+      checksum_(0xdeadbeef),
+      overhead_(0xff),
       data(PayloadType()),
       trailer_(0) {}
 
@@ -66,6 +68,11 @@ public:
     return checksum_ == crc32(reinterpret_cast<uint8_t*>(&data), sizeof(PayloadType));
   }
 
+  // Returns the checksum value if you care about it for some reason.
+  uint32_t checksum() const {
+    return checksum_;
+  }
+
 private:
   const MsgType type_;
   uint32_t checksum_;
@@ -84,7 +91,10 @@ private:
 struct IdRequest {
   SET_MSG_TYPE(ID_REQUEST);
 
-  IdRequest() {}
+  IdRequest()
+    : ignored(42) {}
+
+  int8_t ignored;
 } __attribute__((packed));
 
 using IdRequestMsg = SerialMsg<IdRequest>;
