@@ -5,6 +5,8 @@
 #include <epoxy/gl.h>
 #include <GLFW/glfw3.h>
 
+#include "window.h"
+
 static const char* vert_shader_src =
   "#version 330\n"
   "\n"
@@ -24,17 +26,7 @@ static const char* frag_shader_src =
   "}\n";
 
 int main(int argc, char* argv[]) {
-  glfwInit();
-
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-  glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-  GLFWwindow* window = glfwCreateWindow(800, 600, "Trajectory Editor", nullptr, nullptr);
-  glfwMakeContextCurrent(window);
+  Window window;
 
   GLuint vao;
   glGenVertexArrays(1, &vao);
