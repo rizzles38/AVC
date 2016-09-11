@@ -1,3 +1,5 @@
+#include <arpa/inet.h>
+
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -11,6 +13,23 @@
 #include <rover12_drivers/messenger.h>
 #include <sensor_msgs/Imu.h>
 
+namespace {
+
+double extractInt32ToDouble(const uint8_t* buf, double scale) {
+  uint32_t tmp = *reinterpret_cast<const uint32_t*>(buf);
+  uint32_t swapped = ntohl(tmp);
+  int32_t value = *reinterpret_cast<int32_t*>(&swapped);
+  return value * scale;
+}
+
+double extractUInt32ToDouble(const uint8_t* buf, double scale) {
+  uint32_t tmp = *reinterpret_cast<const uint32_t*>(buf);
+  uint32_t swapped = ntohl(tmp);
+  return swapped * scale;
+}
+
+} // namespace
+
 class SensorPublisher {
 public:
   SensorPublisher() {
@@ -19,7 +38,15 @@ public:
   }
 
   void gpsCallback(const rover12_comm::GpsMsg& msg) {
+    uint8_t quality = msg.data.bytes[1];
+    uint8_t num_sats = msg.data.bytes[2];
 
+    double lat = extractInt32ToDouble(&msg.data.bytes[9], 1.0e-7);
+    double lng = extractInt32ToDouble(&msg.data.bytes[13], 1.0e-7);
+    double alt = extractUInt32ToDouble(&msg.data.bytes[17], 0.01);
+
+    ROS_INFO_STREAM("GPS: Q=" << (int)quality << " S=" << (int)num_sats << " LAT=" <<
+       std::setprecision(9) << lat << " LNG=" << std::setprecision(9) << lng << " ALT=" << alt << "\n");
   }
 
   void imuCallback(const rover12_comm::ImuMsg& msg) {
