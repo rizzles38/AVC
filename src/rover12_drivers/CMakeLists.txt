@@ -5,8 +5,12 @@ project(rover12_drivers)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  geometry_msgs
+  message_generation
+  message_runtime
   roscpp
   rover12_comm
+  sensor_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -43,11 +47,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  ImuCalibration.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -64,10 +67,11 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  geometry_msgs
+  sensor_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -101,7 +105,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES rover12_drivers
-#  CATKIN_DEPENDS other_catkin_pkg
+  CATKIN_DEPENDS geometry_msgs sensor_msgs
 #  DEPENDS system_lib
 )
 
@@ -125,6 +129,10 @@ add_library(rover12_drivers
 target_link_libraries(rover12_drivers
   ${catkin_LIBRARIES}
 )
+add_dependencies(rover12_drivers
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
 
 add_executable(control_board_node
   src/control_board_node.cpp
@@ -133,6 +141,10 @@ target_link_libraries(control_board_node
   rover12_drivers
   ${catkin_LIBRARIES}
 )
+add_dependencies(control_board_node
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
 
 add_executable(sensor_board_node
   src/sensor_board_node.cpp
@@ -140,6 +152,10 @@ add_executable(sensor_board_node
 target_link_libraries(sensor_board_node
   rover12_drivers
   ${catkin_LIBRARIES}
+)
+add_dependencies(sensor_board_node
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
 )
 
 ## Declare a C++ library

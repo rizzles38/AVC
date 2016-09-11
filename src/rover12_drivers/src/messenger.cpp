@@ -78,6 +78,15 @@ void Messenger::dispatchMessage() {
       }
     } break;
 
+    case rover12_comm::MsgType::IMU_CAL: {
+      rover12_comm::ImuCalMsg* ptr = reinterpret_cast<rover12_comm::ImuCalMsg*>(buffer_);
+      if (ptr->decode()) {
+        imu_cal_callback_(*ptr);
+      } else {
+        ROS_WARN_STREAM("Bad IMU calibration message, skipping...");
+      }
+    } break;
+
     default:
       ROS_WARN_STREAM("Unknown message from serial port! [type = 0x" << std::hex << (int)type << "]");
   }
