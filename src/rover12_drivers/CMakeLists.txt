@@ -5,6 +5,7 @@ project(rover12_drivers)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  roscpp
   rover12_comm
 )
 
@@ -99,7 +100,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES rover12_drivers
+  LIBRARIES rover12_drivers
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
@@ -117,10 +118,19 @@ include_directories(
 
 add_definitions(-std=c++11)
 
+add_library(rover12_drivers
+  src/serial_port.cpp
+  src/messenger.cpp
+)
+target_link_libraries(rover12_drivers
+  ${catkin_LIBRARIES}
+)
+
 add_executable(control_board_node
   src/control_board_node.cpp
 )
 target_link_libraries(control_board_node
+  rover12_drivers
   ${catkin_LIBRARIES}
 )
 
@@ -128,6 +138,7 @@ add_executable(sensor_board_node
   src/sensor_board_node.cpp
 )
 target_link_libraries(sensor_board_node
+  rover12_drivers
   ${catkin_LIBRARIES}
 )
 

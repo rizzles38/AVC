@@ -42,8 +42,8 @@ class SerialMsg {
 public:
   explicit SerialMsg()
     : type_(static_cast<MsgType>(PayloadType::Type)),
-      checksum_(0xdeadbeef),
       overhead_(0xff),
+      checksum_(0xdeadbeef),
       data(PayloadType()),
       trailer_(0) {}
 
@@ -52,8 +52,8 @@ public:
   // send the data starting at the first byte of this object and sending
   // sizeof(SerialMsg<PayloadType>) bytes.
   void encode() {
-    checksum_ = crc32(reinterpret_cast<uint8_t*>(&data), sizeof(PayloadType));
-    cobs(&overhead_, sizeof(PayloadType));
+    checksum_ = crc32(reinterpret_cast<uint8_t*>(&data), sizeof(data));
+    cobs(&overhead_, sizeof(checksum_) + sizeof(data));
   }
 
   // Returns true if the message was successfully decoded. To be successfully
@@ -64,8 +64,8 @@ public:
     if (type_ != static_cast<MsgType>(PayloadType::Type)) {
       return false;
     }
-    uncobs(&overhead_, sizeof(PayloadType));
-    return checksum_ == crc32(reinterpret_cast<uint8_t*>(&data), sizeof(PayloadType));
+    uncobs(&overhead_, sizeof(checksum_) + sizeof(data));
+    return checksum_ == crc32(reinterpret_cast<uint8_t*>(&data), sizeof(data));
   }
 
   // Returns the checksum value if you care about it for some reason.
@@ -75,8 +75,8 @@ public:
 
 private:
   const MsgType type_;
-  uint32_t checksum_;
   uint8_t overhead_;
+  uint32_t checksum_;
 
 public:
   PayloadType data;
