@@ -32,6 +32,7 @@ enum class MsgType : MSG_TYPE_UNDERLYING_TYPE {
   ESTOP = 4,
   GPS = 5,
   IMU = 6,
+  IMU_CAL = 7,
 };
 
 #define SET_MSG_TYPE(msg_type) \
@@ -171,11 +172,7 @@ struct Imu {
       lin_accel_z(0.0f),
       ang_vel_x(0.0f),
       ang_vel_y(0.0f),
-      ang_vel_z(0.0f),
-      cal_system(0),
-      cal_gyro(0),
-      cal_accel(0),
-      cal_mag(0) {}
+      ang_vel_z(0.0f) {}
 
   float orient_x;
   float orient_y;
@@ -187,13 +184,27 @@ struct Imu {
   float ang_vel_x;
   float ang_vel_y;
   float ang_vel_z;
-  uint8_t cal_system;
-  uint8_t cal_gyro;
-  uint8_t cal_accel;
-  uint8_t cal_mag;
 } __attribute__((packed));
 
 using ImuMsg = SerialMsg<Imu>;
+
+struct ImuCal {
+  SET_MSG_TYPE(IMU_CAL);
+
+  ImuCal()
+    : system(0),
+      gyro(0),
+      accel(0),
+      mag(0) {}
+
+  uint8_t system;
+  uint8_t gyro;
+  uint8_t accel;
+  uint8_t mag;
+
+} __attribute__((packed));
+
+using ImuCalMsg = SerialMsg<ImuCal>;
 
 #undef SET_MSG_TYPE
 
