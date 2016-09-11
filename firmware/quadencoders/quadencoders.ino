@@ -123,7 +123,7 @@ void handleRRB() {
     }
   }
   else { // B changed from high to low
-    if(digitalRead(RL_A) == LOW) { // A is low
+    if(digitalRead(RR_A) == LOW) { // A is low
       //CCW
       countRearRight--;
     }
