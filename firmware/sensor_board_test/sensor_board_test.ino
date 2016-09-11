@@ -233,7 +233,8 @@ class Inertial {
 public:
   Inertial(int interval)
     : next_time_(0),
-      interval_(interval) {}
+      interval_(interval),
+      cal_counter_(0) {}
 
   void process() {
     unsigned long now = millis();
@@ -266,31 +267,43 @@ public:
       imu_msg.data.ang_vel_y = ang_vel.y();
       imu_msg.data.ang_vel_z = ang_vel.z();
 
-      // Get system calibration status.
-      uint8_t sys_cal = 0;
-      uint8_t gyro_cal = 0;
-      uint8_t accel_cal = 0;
-      uint8_t mag_cal = 0;
-      bno.getCalibration(&sys_cal, &gyro_cal, &accel_cal, &mag_cal);
-      imu_msg.data.cal_system = sys_cal;
-      imu_msg.data.cal_gyro = gyro_cal;
-      imu_msg.data.cal_accel = accel_cal;
-      imu_msg.data.cal_mag = mag_cal;
-
       // Encode the message and send it out over the USB serial link.
       imu_msg.encode();
       Serial.write(reinterpret_cast<uint8_t*>(&imu_msg), sizeof(imu_msg));
+
+      // Send a calibration status message every 5 IMU messages.
+      ++cal_counter_;
+      if (cal_counter_ >= 5) {
+        cal_counter_ = 0;
+        rover12_comm::ImuCalMsg cal_msg;
+
+        // Get system calibration status.
+        uint8_t sys_cal = 0;
+        uint8_t gyro_cal = 0;
+        uint8_t accel_cal = 0;
+        uint8_t mag_cal = 0;
+        bno.getCalibration(&sys_cal, &gyro_cal, &accel_cal, &mag_cal);
+        cal_msg.data.system = sys_cal;
+        cal_msg.data.gyro = gyro_cal;
+        cal_msg.data.accel = accel_cal;
+        cal_msg.data.mag = mag_cal;
+
+        // Encode the message and send it over the USB serial link.
+        cal_msg.encode();
+        Serial.write(reinterpret_cast<uint8_t*>(&cal_msg), sizeof(cal_msg));
+      }
     }
   }
 
 private:
   unsigned long next_time_;
   const int interval_;
+  int cal_counter_;
 };
 
 // Global variables.
 Venus gps;
-Inertial inertial(20); // 50 Hz, TODO: change to 10 ms for 100 Hz
+Inertial inertial(20); // 50 Hz data, 10 Hz calibration
 
 void setup() {
   // Initalize LEDs.
