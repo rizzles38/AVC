@@ -151,7 +151,7 @@ struct Gps {
   SET_MSG_TYPE(GPS);
 
   Gps()
-    : bytes({0}) {}
+    : bytes{0} {}
 
   uint8_t bytes[59];
 } __attribute__((packed));

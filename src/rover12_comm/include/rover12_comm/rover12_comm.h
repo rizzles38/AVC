@@ -1,10 +1,9 @@
 #pragma once
 
-#include <cstddef>
-#include <cstdint>
-#include <type_traits>
+#include <stddef.h>
+#include <stdint.h>
 
-namespace rover12_drivers {
+namespace rover12_comm {
 
 // Computes a 32-bit checksum over the data and returns it.
 uint32_t crc32(const uint8_t* data, size_t len);
@@ -23,7 +22,9 @@ void cobs(uint8_t* data, size_t len);
 // Only supports data up to 254 bytes in length.
 void uncobs(uint8_t* data, size_t len);
 
-enum class MsgType : int8_t {
+#define MSG_TYPE_UNDERLYING_TYPE int8_t
+
+enum class MsgType : MSG_TYPE_UNDERLYING_TYPE {
   UNKNOWN = 0,
   ID_REQUEST = 1,
   ID_RESPONSE = 2,
@@ -31,11 +32,10 @@ enum class MsgType : int8_t {
   ESTOP = 4,
   GPS = 5,
   IMU = 6,
-  BATTERY = 7,
 };
 
 #define SET_MSG_TYPE(msg_type) \
-  enum { Type = static_cast<typename std::underlying_type<MsgType>::type>(MsgType::msg_type) };
+  enum { Type = static_cast<MSG_TYPE_UNDERLYING_TYPE>(MsgType::msg_type) };
 
 template <typename PayloadType>
 class SerialMsg {
@@ -147,8 +147,46 @@ struct Estop {
 
 using EstopMsg = SerialMsg<Estop>;
 
-// TODO: GpsMsg, ImuMsg, BatteryMsg
+struct Gps {
+  SET_MSG_TYPE(GPS);
+
+  Gps()
+    : bytes{0} {}
+
+  uint8_t bytes[59];
+} __attribute__((packed));
+
+using GpsMsg = SerialMsg<Gps>;
+
+struct Imu {
+  SET_MSG_TYPE(IMU);
+
+  Imu()
+    : abs_orient_x(0.0f),
+      abs_orient_y(0.0f),
+      abs_orient_z(0.0f),
+      raw_accel_x(0.0f),
+      raw_accel_y(0.0f),
+      raw_accel_z(0.0f),
+      cal_system(0),
+      cal_gyro(0),
+      cal_accel(0),
+      cal_mag(0) {}
+
+  float abs_orient_x;
+  float abs_orient_y;
+  float abs_orient_z;
+  float raw_accel_x;
+  float raw_accel_y;
+  float raw_accel_z;
+  uint8_t cal_system;
+  uint8_t cal_gyro;
+  uint8_t cal_accel;
+  uint8_t cal_mag;
+} __attribute__((packed));
+
+using ImuMsg = SerialMsg<Imu>;
 
 #undef SET_MSG_TYPE
 
-} // namespace rover12_drivers
+} // namespace rover12_comm

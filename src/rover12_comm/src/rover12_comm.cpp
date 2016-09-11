@@ -1,13 +1,20 @@
-#include <cassert>
+#ifdef THIS_IS_NOT_THE_FIRMWARE
+#include <rover12_comm/rover12_comm.h>
+#else
+#include "rover12_comm.h"
+#include <avr/pgmspace.h>
+#endif
 
-#include <rover12_drivers/serial_msg.h>
-
-namespace rover12_drivers {
+namespace rover12_comm {
 
 namespace {
 
 uint32_t crc32step(uint32_t crc, uint8_t data) {
+#ifdef THIS_IS_NOT_THE_FIRMWARE
   static const uint32_t table[16] = {
+#else
+  static PROGMEM const uint32_t table[16] = {
+#endif
     0x00000000, 0x1db71064, 0x3b6e20c8, 0x26d930ac,
     0x76dc4190, 0x6b6b51f4, 0x4db26158, 0x5005713c,
     0xedb88320, 0xf00f9344, 0xd6d6a3e8, 0xcb61b38c,
@@ -15,9 +22,17 @@ uint32_t crc32step(uint32_t crc, uint8_t data) {
   };
 
   uint8_t table_idx = crc ^ (data >> (0 * 4));
+#ifdef THIS_IS_NOT_THE_FIRMWARE
   crc = table[table_idx & 0x0f] ^ (crc >> 4);
+#else
+  crc = pgm_read_dword_near(table + (table_idx & 0x0f)) ^ (crc >> 4);
+#endif
   table_idx = crc ^ (data >> (1 * 4));
+#ifdef THIS_IS_NOT_THE_FIRMWARE
   crc = table[table_idx & 0x0f] ^ (crc >> 4);
+#else
+  crc = pgm_read_dword_near(table + (table_idx & 0x0f)) ^ (crc >> 4);
+#endif
   return crc;
 }
 
@@ -32,8 +47,6 @@ uint32_t crc32(const uint8_t* data, size_t len) {
 }
 
 void cobs(uint8_t* data, size_t len) {
-  assert(len < 254);
-
   size_t current_idx = 1;
   const size_t end_idx = len + 1;
   size_t code_idx = 0;
@@ -53,8 +66,6 @@ void cobs(uint8_t* data, size_t len) {
 }
 
 void uncobs(uint8_t* data, size_t len) {
-  assert(len < 254);
-
   size_t current_idx = 0;
   const size_t end_idx = len + 1;
   while (current_idx < end_idx) {
@@ -65,4 +76,4 @@ void uncobs(uint8_t* data, size_t len) {
   }
 }
 
-} // namespace rover12_drivers
+} // namespace rover12_comm

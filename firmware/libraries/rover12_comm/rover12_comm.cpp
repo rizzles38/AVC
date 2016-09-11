@@ -1,13 +1,20 @@
+#ifdef THIS_IS_NOT_THE_FIRMWARE
+#include <rover12_comm/rover12_comm.h>
+#else
 #include "rover12_comm.h"
-
 #include <avr/pgmspace.h>
+#endif
 
 namespace rover12_comm {
 
 namespace {
 
 uint32_t crc32step(uint32_t crc, uint8_t data) {
+#ifdef THIS_IS_NOT_THE_FIRMWARE
+  static const uint32_t table[16] = {
+#else
   static PROGMEM const uint32_t table[16] = {
+#endif
     0x00000000, 0x1db71064, 0x3b6e20c8, 0x26d930ac,
     0x76dc4190, 0x6b6b51f4, 0x4db26158, 0x5005713c,
     0xedb88320, 0xf00f9344, 0xd6d6a3e8, 0xcb61b38c,
@@ -15,9 +22,17 @@ uint32_t crc32step(uint32_t crc, uint8_t data) {
   };
 
   uint8_t table_idx = crc ^ (data >> (0 * 4));
+#ifdef THIS_IS_NOT_THE_FIRMWARE
+  crc = table[table_idx & 0x0f] ^ (crc >> 4);
+#else
   crc = pgm_read_dword_near(table + (table_idx & 0x0f)) ^ (crc >> 4);
+#endif
   table_idx = crc ^ (data >> (1 * 4));
+#ifdef THIS_IS_NOT_THE_FIRMWARE
+  crc = table[table_idx & 0x0f] ^ (crc >> 4);
+#else
   crc = pgm_read_dword_near(table + (table_idx & 0x0f)) ^ (crc >> 4);
+#endif
   return crc;
 }
 
