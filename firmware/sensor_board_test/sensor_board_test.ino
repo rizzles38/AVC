@@ -247,18 +247,24 @@ public:
       
       rover12_comm::ImuMsg imu_msg;
 
-      // Get absolute orientation euler angles.
-      sensors_event_t event;
-      bno.getEvent(&event);
-      imu_msg.data.abs_orient_x = event.orientation.x;
-      imu_msg.data.abs_orient_y = event.orientation.y;
-      imu_msg.data.abs_orient_z = event.orientation.z;
+      // Get absolute orientation quaternion.
+      imu::Quaternion orient = bno.getQuat();
+      imu_msg.data.orient_x = orient.x();
+      imu_msg.data.orient_y = orient.y();
+      imu_msg.data.orient_z = orient.z();
+      imu_msg.data.orient_w = orient.w();
 
-      // Get raw acceleration values.
-      imu::Vector<3> accel = bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
-      imu_msg.data.raw_accel_x = accel.x();
-      imu_msg.data.raw_accel_y = accel.y();
-      imu_msg.data.raw_accel_z = accel.z();
+      // Get linear acceleration vector.
+      imu::Vector<3> lin_accel = bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
+      imu_msg.data.lin_accel_x = lin_accel.x();
+      imu_msg.data.lin_accel_y = lin_accel.y();
+      imu_msg.data.lin_accel_z = lin_accel.z();
+
+      // Get angular velocity vector.
+      imu::Vector<3> ang_vel = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+      imu_msg.data.ang_vel_x = ang_vel.x();
+      imu_msg.data.ang_vel_y = ang_vel.y();
+      imu_msg.data.ang_vel_z = ang_vel.z();
 
       // Get system calibration status.
       uint8_t sys_cal = 0;
@@ -284,7 +290,7 @@ private:
 
 // Global variables.
 Venus gps;
-Inertial inertial(50); // 20 Hz, TODO: change to 10 ms for 100 Hz
+Inertial inertial(20); // 50 Hz, TODO: change to 10 ms for 100 Hz
 
 void setup() {
   // Initalize LEDs.
