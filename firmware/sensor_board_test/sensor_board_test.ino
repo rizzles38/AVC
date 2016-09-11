@@ -1,6 +1,12 @@
 #include <stdint.h>
+#include <string.h>
 
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BNO055.h>
+#include <utility/imumaths.h>
 #include <FastGPIO.h>
+#include <rover12_comm.h>
 
 #define BLUE_LED 5
 #define ORANGE_LED 6
@@ -135,10 +141,12 @@ private:
   // Returns true if the checksum passes.
   void navValidate(uint8_t b) {
     if (checksum(nav_payload_, sizeof(nav_payload_)) == b) {
-      // Checksum passes, forward the data packet out the USB serial link.
-      Serial.print("WOO! ");
-      Serial.print(b, HEX);
-      Serial.print("\n");
+      // Checksum passes, pack the payload into a GpsMsg, encode it,
+      // and forward the data packet out the USB serial link.
+      rover12_comm::GpsMsg gps_msg;
+      memcpy(gps_msg.data.bytes, nav_payload_, sizeof(nav_payload_));
+      gps_msg.encode();
+      Serial.write(reinterpret_cast<uint8_t*>(&gps_msg), sizeof(gps_msg));
     }
   }
 
@@ -218,40 +226,93 @@ private:
   ParseState parse_state_;
 };
 
+// Bosch BNO055 driver.
+Adafruit_BNO055 bno = Adafruit_BNO055(55);
+
+class Inertial {
+public:
+  Inertial(int interval)
+    : next_time_(0),
+      interval_(interval) {}
+
+  void process() {
+    unsigned long now = millis();
+    
+    if (next_time_ == 0) {
+      next_time_ = now + interval_;
+      return;
+    } else if (now >= next_time_) {
+      // Set the next sample time.
+      next_time_ = now + interval_;
+      
+      rover12_comm::ImuMsg imu_msg;
+
+      // Get absolute orientation euler angles.
+      sensors_event_t event;
+      bno.getEvent(&event);
+      imu_msg.data.abs_orient_x = event.orientation.x;
+      imu_msg.data.abs_orient_y = event.orientation.y;
+      imu_msg.data.abs_orient_z = event.orientation.z;
+
+      // Get raw acceleration values.
+      imu::Vector<3> accel = bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
+      imu_msg.data.raw_accel_x = accel.x();
+      imu_msg.data.raw_accel_y = accel.y();
+      imu_msg.data.raw_accel_z = accel.z();
+
+      // Get system calibration status.
+      uint8_t sys_cal = 0;
+      uint8_t gyro_cal = 0;
+      uint8_t accel_cal = 0;
+      uint8_t mag_cal = 0;
+      bno.getCalibration(&sys_cal, &gyro_cal, &accel_cal, &mag_cal);
+      imu_msg.data.cal_system = sys_cal;
+      imu_msg.data.cal_gyro = gyro_cal;
+      imu_msg.data.cal_accel = accel_cal;
+      imu_msg.data.cal_mag = mag_cal;
+
+      // Encode the message and send it out over the USB serial link.
+      imu_msg.encode();
+      Serial.write(reinterpret_cast<uint8_t*>(&imu_msg), sizeof(imu_msg));
+    }
+  }
+
+private:
+  unsigned long next_time_;
+  const int interval_;
+};
+
+// Global variables.
+Venus gps;
+Inertial inertial(50); // 20 Hz, TODO: change to 10 ms for 100 Hz
+
 void setup() {
+  // Initalize LEDs.
   blueLED(LOW);
   orangeLED(LOW);
   redLED(LOW);
-  
-  if (!Venus::config()) {
+
+  // Initialize GPS.
+  bool gps_ok = Venus::config();
+
+  // Initialize IMU.
+  bool imu_ok = bno.begin();
+
+  if (!gps_ok || !imu_ok) {
     redLED(HIGH);
-  } else {
-    blueLED(HIGH);
+    while (true);
   }
+
+  delay(1000);
+  bno.setExtCrystalUse(true);
+
+  blueLED(HIGH);
 
   while (!Serial); // Wait for USB serial connection to open.
   Serial.begin(COMP_BAUD_RATE);
 }
 
-Venus venus;
-static int counter = 0;
-
 void loop() {
-  venus.process();
-/*
-  if (Serial1.available() > 0) {
-    Serial.write(Serial1.read());
-  }
-*/
-/*
-  if (Serial1.available() > 0) {
-    Serial.print(Serial1.read(), HEX);
-    Serial.print(" ");
-    ++counter;
-    if (counter >= 20) {
-      counter = 0;
-      Serial.print("\n");
-    }
-  }
-*/
+  gps.process();
+  inertial.process();
 }
