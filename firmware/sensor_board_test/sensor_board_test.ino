@@ -76,6 +76,19 @@ public:
     if (!nav_mode_result) return false;
     delay(100);
 
+    // Disable position pinning.
+    const uint8_t pinning_cmd[] = {0x39, 0};
+    bool pinning_result = command(pinning_cmd, sizeof(pinning_cmd), true);
+    if (!pinning_result) return false;
+    delay(100);
+
+    // Zero out pinning parameters because a firmware bug requires them to be cleared
+    // for pinning to be truly disabled.
+    const uint8_t pinning_params_cmd[] = {0x3b, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    bool pinning_params_result = command(pinning_params_cmd, sizeof(pinning_params_cmd), true);
+    if (!pinning_params_result) return false;
+    delay(100);
+
     // Set message mode to binary.
     const uint8_t message_mode_cmd[] = {0x09, 2};
     bool message_mode_result = command(message_mode_cmd, sizeof(message_mode_cmd), true);
