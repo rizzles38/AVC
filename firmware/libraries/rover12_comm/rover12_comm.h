@@ -162,31 +162,31 @@ struct Imu {
   SET_MSG_TYPE(IMU);
 
   Imu()
-    : orient_x(0.0),
-      orient_y(0.0),
-      orient_z(0.0),
-      orient_w(1.0),
-      lin_accel_x(0.0),
-      lin_accel_y(0.0),
-      lin_accel_z(0.0),
-      ang_vel_x(0.0),
-      ang_vel_y(0.0),
-      ang_vel_z(0.0),
+    : orient_x(0.0f),
+      orient_y(0.0f),
+      orient_z(0.0f),
+      orient_w(1.0f),
+      lin_accel_x(0.0f),
+      lin_accel_y(0.0f),
+      lin_accel_z(0.0f),
+      ang_vel_x(0.0f),
+      ang_vel_y(0.0f),
+      ang_vel_z(0.0f),
       cal_system(0),
       cal_gyro(0),
       cal_accel(0),
       cal_mag(0) {}
 
-  double orient_x;
-  double orient_y;
-  double orient_z;
-  double orient_w;
-  double lin_accel_x;
-  double lin_accel_y;
-  double lin_accel_z;
-  double ang_vel_x;
-  double ang_vel_y;
-  double ang_vel_z;
+  float orient_x;
+  float orient_y;
+  float orient_z;
+  float orient_w;
+  float lin_accel_x;
+  float lin_accel_y;
+  float lin_accel_z;
+  float ang_vel_x;
+  float ang_vel_y;
+  float ang_vel_z;
   uint8_t cal_system;
   uint8_t cal_gyro;
   uint8_t cal_accel;

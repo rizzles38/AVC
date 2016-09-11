@@ -12,9 +12,10 @@ void gpsCallback(const rover12_comm::GpsMsg& msg) {
 }
 
 void imuCallback(const rover12_comm::ImuMsg& msg) {
-  std::cout << "IMU:\n" <<
-    msg.data.abs_orient_x << "\t" << msg.data.abs_orient_y << "\t" << msg.data.abs_orient_z << "\n" <<
-    msg.data.raw_accel_x << "\t" << msg.data.raw_accel_y << "\t" << msg.data.raw_accel_z << "\n" <<
+  std::cout <<
+    msg.data.orient_x << "\t" << msg.data.orient_y << "\t" << msg.data.orient_z << "\t" << msg.data.orient_w << "\n" <<
+    msg.data.lin_accel_x << "\t" << msg.data.lin_accel_y << "\t" << msg.data.lin_accel_z << "\n" <<
+    msg.data.ang_vel_x << "\t" << msg.data.ang_vel_y << "\t" << msg.data.ang_vel_z << "\n" <<
     (int)msg.data.cal_system << "\t" << (int)msg.data.cal_gyro << "\t" << (int)msg.data.cal_accel << "\t" << (int)msg.data.cal_mag << "\n";
 }
 

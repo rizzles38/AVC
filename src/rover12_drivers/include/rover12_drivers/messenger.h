@@ -33,7 +33,7 @@ public:
   void spin();
 
 private:
-  void dispatchMessage(int len);
+  void dispatchMessage();
 
   std::unique_ptr<SerialPort> sp_;
   uint8_t buffer_[256];
