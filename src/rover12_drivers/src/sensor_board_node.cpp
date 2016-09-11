@@ -8,11 +8,14 @@
 #include <rover12_drivers/messenger.h>
 
 void gpsCallback(const rover12_comm::GpsMsg& msg) {
-  std::cout << "Got GPS message!\n";
+  //std::cout << "Got GPS message!\n";
 }
 
 void imuCallback(const rover12_comm::ImuMsg& msg) {
-  std::cout << "Got IMU message!\n";
+  std::cout << "IMU:\n" <<
+    msg.data.abs_orient_x << "\t" << msg.data.abs_orient_y << "\t" << msg.data.abs_orient_z << "\n" <<
+    msg.data.raw_accel_x << "\t" << msg.data.raw_accel_y << "\t" << msg.data.raw_accel_z << "\n" <<
+    (int)msg.data.cal_system << "\t" << (int)msg.data.cal_gyro << "\t" << (int)msg.data.cal_accel << "\t" << (int)msg.data.cal_mag << "\n";
 }
 
 int main(int argc, char* argv[]) {
