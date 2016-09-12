@@ -51,6 +51,7 @@ add_message_files(
   FILES
   GpsStatus.msg
   ImuStatus.msg
+  EncoderStatus.msg
 )
 
 ## Generate services in the 'srv' folder

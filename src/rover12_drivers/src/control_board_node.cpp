@@ -1,26 +1,146 @@
+#include <cmath>
 #include <cstdlib>
 #include <string>
 
 #include <ros/ros.h>
 
+#include <geometry_msgs/Vector3.h>
+#include <geometry_msgs/Twist.h>
+#include <geometry_msgs/TwistWithCovariance.h>
+#include <geometry_msgs/TwistWithCovarianceStamped.h>
 #include <rover12_comm/rover12_comm.h>
+#include <rover12_drivers/EncoderStatus.h>
 #include <rover12_drivers/messenger.h>
 
 class EncoderPublisher {
 public:
   explicit EncoderPublisher(ros::NodeHandle& nh)
-    : nh_(nh) {
-    // TODO: publishers advertise
+    : nh_(nh),
+      ticks_initialized_(false) {
+    odom_pub_ = nh_.advertise<geometry_msgs::TwistWithCovarianceStamped>("/sensors/wheels", 0);
+    encoder_pub_ = nh_.advertise<rover12_drivers::EncoderStatus>("/sensors/wheels_status", 0);
+
+    geometry_msgs::TwistWithCovariance twist_cov_msg;
+
+    // TODO: Come up with reasonable covariance.
+    twist_cov_msg.covariance[0] = 0.0;
+    twist_cov_msg.covariance[1] = 0.0;
+    twist_cov_msg.covariance[2] = 0.0;
+    twist_cov_msg.covariance[3] = 0.0;
+    twist_cov_msg.covariance[4] = 0.0;
+    twist_cov_msg.covariance[5] = 0.0;
+    twist_cov_msg.covariance[6] = 0.0;
+    twist_cov_msg.covariance[7] = 0.0;
+    twist_cov_msg.covariance[8] = 0.0;
+    twist_cov_msg.covariance[9] = 0.0;
+    twist_cov_msg.covariance[10] = 0.0;
+    twist_cov_msg.covariance[11] = 0.0;
+    twist_cov_msg.covariance[12] = 0.0;
+    twist_cov_msg.covariance[13] = 0.0;
+    twist_cov_msg.covariance[14] = 0.0;
+    twist_cov_msg.covariance[15] = 0.0;
+    twist_cov_msg.covariance[16] = 0.0;
+    twist_cov_msg.covariance[17] = 0.0;
+    twist_cov_msg.covariance[18] = 0.0;
+    twist_cov_msg.covariance[19] = 0.0;
+    twist_cov_msg.covariance[20] = 0.0;
+    twist_cov_msg.covariance[21] = 0.0;
+    twist_cov_msg.covariance[22] = 0.0;
+    twist_cov_msg.covariance[23] = 0.0;
+    twist_cov_msg.covariance[24] = 0.0;
+    twist_cov_msg.covariance[25] = 0.0;
+    twist_cov_msg.covariance[26] = 0.0;
+    twist_cov_msg.covariance[27] = 0.0;
+    twist_cov_msg.covariance[28] = 0.0;
+    twist_cov_msg.covariance[29] = 0.0;
+    twist_cov_msg.covariance[30] = 0.0;
+    twist_cov_msg.covariance[31] = 0.0;
+    twist_cov_msg.covariance[32] = 0.0;
+    twist_cov_msg.covariance[33] = 0.0;
+    twist_cov_msg.covariance[34] = 0.0;
+    twist_cov_msg.covariance[35] = 0.0;
+
+    geometry_msgs::Twist twist_msg;
+
+    geometry_msgs::Vector3 linear_msg;
+    linear_msg.x = 0.0;
+    linear_msg.y = 0.0;
+    linear_msg.z = 0.0;
+
+    geometry_msgs::Vector3 angular_msg;
+    angular_msg.x = 0.0;
+    angular_msg.y = 0.0;
+    angular_msg.z = 0.0;
+
+    twist_msg.linear = linear_msg;
+    twist_msg.angular = angular_msg;
+
+    twist_cov_msg.twist = twist_msg;
+
+    speed_msg_.twist = twist_cov_msg;
   }
 
   void wheelEncCallback(const rover12_comm::WheelEncMsg& msg) {
-    ROS_INFO_STREAM("RL=" << msg.data.count_rear_left << " RR=" << msg.data.count_rear_right);
-    // TODO: ROS odometry message
+    // Don't publish on first message, just initialize our ticks.
+    if (!ticks_initialized_) {
+      prev_ticks_ = msg.data;
+      ticks_initialized_ = true;
+      return;
+    }
+
+    // Compute instananeous velocity on each wheel based on previous tick
+    // count.
+    const int32_t rl_tick_delta = msg.data.count_rear_left - prev_ticks_.count_rear_left;
+    const int32_t rr_tick_delta = msg.data.count_rear_right - prev_ticks_.count_rear_right;
+
+    // TODO: Make these params (everything in meters).
+    const double wheel_diameter = 0.102;
+    const int num_stripes = 20.0;
+    const double wheel_circumference = wheel_diameter * M_PI;
+    const double meters_per_tick = wheel_circumference / (4.0 * num_stripes);
+
+    // Translate tick counts to distances traveled.
+    const double rl_distance = rl_tick_delta * meters_per_tick;
+    const double rr_distance = rr_tick_delta * meters_per_tick;
+
+    // Assume 50 Hz, this is bad. Maybe time it on the Arduino and include the
+    // measurement in the packet? TODO
+    const double time_delta = 0.020; // 50 Hz
+    const double rl_speed = rl_distance / time_delta;
+    const double rr_speed = rr_distance / time_delta;
+
+    // Averaging wheel speeds gives a pretty good estimate of true speed.
+    const double avg_speed = (rl_speed + rr_speed) / 2.0;
+
+    // Timestamp and identify reference frame.
+    speed_msg_.header.stamp = ros::Time::now();
+    speed_msg_.header.frame_id = "base_link";
+
+    // Update instaneous forward speed.
+    speed_msg_.twist.twist.linear.x = avg_speed;
+
+    // Publish!
+    odom_pub_.publish(speed_msg_);
+
+    // Publish raw encoder ticks.
+    rover12_drivers::EncoderStatus encoder_msg;
+    encoder_msg.header.stamp = ros::Time::now();
+    encoder_msg.header.frame_id = "base_link";
+    encoder_msg.count_rear_left = msg.data.count_rear_left;
+    encoder_msg.count_rear_right = msg.data.count_rear_right;
+    encoder_pub_.publish(encoder_msg);
+
+    // Save current tick counts.
+    prev_ticks_ = msg.data;
   }
 
 private:
   ros::NodeHandle& nh_;
-  // TODO: ros::Publisher
+  ros::Publisher odom_pub_;
+  ros::Publisher encoder_pub_;
+  rover12_comm::WheelEnc prev_ticks_;
+  geometry_msgs::TwistWithCovarianceStamped speed_msg_;
+  bool ticks_initialized_;
 };
 
 int main(int argc, char* argv[]) {
