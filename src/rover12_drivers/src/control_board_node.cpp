@@ -167,6 +167,9 @@ int main(int argc, char* argv[]) {
     encoder_publisher.wheelEncCallback(msg);
   });
 
+  // TODO: Sleep here for a quick moment to avoid trying to connect to the same
+  // serial port at the same time as the sensor board?
+
   // Connect to the control board.
   messenger.connect(rover12_drivers::Messenger::Board::CONTROL);
 
