@@ -33,6 +33,7 @@ enum class MsgType : MSG_TYPE_UNDERLYING_TYPE {
   GPS = 5,
   IMU = 6,
   IMU_CAL = 7,
+  WHEEL_ENC = 8,
 };
 
 #define SET_MSG_TYPE(msg_type) \
@@ -205,6 +206,19 @@ struct ImuCal {
 } __attribute__((packed));
 
 using ImuCalMsg = SerialMsg<ImuCal>;
+
+struct WheelEnc {
+  SET_MSG_TYPE(WHEEL_ENC);
+
+  WheelEnc()
+    : count_rear_left(0),
+      count_rear_right(0) {}
+
+  int32_t count_rear_left;
+  int32_t count_rear_right;
+} __attribute__((packed));
+
+using WheelEncMsg = SerialMsg<WheelEnc>;
 
 #undef SET_MSG_TYPE
 

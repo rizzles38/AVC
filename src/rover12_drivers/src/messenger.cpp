@@ -61,8 +61,8 @@ void Messenger::dispatchMessage() {
   int8_t type = static_cast<int8_t>(buffer_[0]);
   switch (static_cast<rover12_comm::MsgType>(type)) {
     case rover12_comm::MsgType::GPS: {
-      rover12_comm::GpsMsg* ptr = reinterpret_cast<rover12_comm::GpsMsg*>(buffer_);
-      if (ptr->decode()) {
+      auto ptr = reinterpret_cast<rover12_comm::GpsMsg*>(buffer_);
+      if (gps_callback_ && ptr->decode()) {
         gps_callback_(*ptr);
       } else {
         ROS_WARN_STREAM("Bad GPS message, skipping...");
@@ -70,8 +70,8 @@ void Messenger::dispatchMessage() {
     } break;
 
     case rover12_comm::MsgType::IMU: {
-      rover12_comm::ImuMsg* ptr = reinterpret_cast<rover12_comm::ImuMsg*>(buffer_);
-      if (ptr->decode()) {
+      auto ptr = reinterpret_cast<rover12_comm::ImuMsg*>(buffer_);
+      if (imu_callback_ && ptr->decode()) {
         imu_callback_(*ptr);
       } else {
         ROS_WARN_STREAM("Bad IMU message, skipping...");
@@ -79,11 +79,20 @@ void Messenger::dispatchMessage() {
     } break;
 
     case rover12_comm::MsgType::IMU_CAL: {
-      rover12_comm::ImuCalMsg* ptr = reinterpret_cast<rover12_comm::ImuCalMsg*>(buffer_);
-      if (ptr->decode()) {
+      auto ptr = reinterpret_cast<rover12_comm::ImuCalMsg*>(buffer_);
+      if (imu_cal_callback_ && ptr->decode()) {
         imu_cal_callback_(*ptr);
       } else {
         ROS_WARN_STREAM("Bad IMU calibration message, skipping...");
+      }
+    } break;
+
+    case rover12_comm::MsgType::WHEEL_ENC: {
+      auto ptr = reinterpret_cast<rover12_comm::WheelEncMsg*>(buffer_);
+      if (wheel_enc_callback_ && ptr->decode()) {
+        wheel_enc_callback_(*ptr);
+      } else {
+        ROS_WARN_STREAM("Bad wheel encoder message, skipping...");
       }
     } break;
 
