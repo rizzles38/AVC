@@ -1,3 +1,5 @@
+#include <arpa/inet.h>
+
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -7,19 +9,101 @@
 #include <geometry_msgs/Quaternion.h>
 #include <geometry_msgs/Vector3.h>
 #include <rover12_comm/rover12_comm.h>
-#include <rover12_drivers/ImuCalibration.h>
+#include <rover12_drivers/GpsStatus.h>
+#include <rover12_drivers/ImuStatus.h>
 #include <rover12_drivers/messenger.h>
 #include <sensor_msgs/Imu.h>
+#include <sensor_msgs/NavSatStatus.h>
+#include <sensor_msgs/NavSatFix.h>
+
+namespace {
+
+double extractInt32ToDouble(const uint8_t* buf, double scale) {
+  uint32_t tmp = *reinterpret_cast<const uint32_t*>(buf);
+  uint32_t swapped = ntohl(tmp);
+  int32_t value = *reinterpret_cast<int32_t*>(&swapped);
+  return value * scale;
+}
+
+double extractUInt32ToDouble(const uint8_t* buf, double scale) {
+  uint32_t tmp = *reinterpret_cast<const uint32_t*>(buf);
+  uint32_t swapped = ntohl(tmp);
+  return swapped * scale;
+}
+
+} // namespace
 
 class SensorPublisher {
 public:
   SensorPublisher() {
+    gps_pub_ = nh_.advertise<sensor_msgs::NavSatFix>("/sensors/gps", 0);
+    gps_status_pub_ = nh_.advertise<rover12_drivers::GpsStatus>("/sensors/gps_status", 0);
     imu_pub_ = nh_.advertise<sensor_msgs::Imu>("/sensors/imu", 0);
-    imu_cal_pub_ = nh_.advertise<rover12_drivers::ImuCalibration>("/sensors/imu_calibration", 0);
+    imu_cal_pub_ = nh_.advertise<rover12_drivers::ImuStatus>("/sensors/imu_status", 0);
   }
 
   void gpsCallback(const rover12_comm::GpsMsg& msg) {
+    uint8_t quality = msg.data.bytes[1];
+    uint8_t num_sats = msg.data.bytes[2];
 
+    // TODO: This probably isn't correct. 2D, 3D, 3D + DGPS does not directly
+    // map to FIX, SBAS_FIX, GBAS_FIX.
+    sensor_msgs::NavSatStatus status_msg;
+    status_msg.status = sensor_msgs::NavSatStatus::STATUS_NO_FIX;
+    if (quality == 1) {
+      status_msg.status = sensor_msgs::NavSatStatus::STATUS_FIX;
+    } else if (quality == 2) {
+      status_msg.status = sensor_msgs::NavSatStatus::STATUS_SBAS_FIX;
+    } else if (quality == 3) {
+      status_msg.status = sensor_msgs::NavSatStatus::STATUS_GBAS_FIX;
+    }
+
+    // Venus only does GPS I think.
+    status_msg.service = sensor_msgs::NavSatStatus::SERVICE_GPS;
+
+    double lat = extractInt32ToDouble(&msg.data.bytes[9], 1.0e-7);
+    double lng = extractInt32ToDouble(&msg.data.bytes[13], 1.0e-7);
+    double alt = extractUInt32ToDouble(&msg.data.bytes[17], 0.01);
+
+    sensor_msgs::NavSatFix fix_msg;
+
+    // Timestamp and identify reference frame.
+    fix_msg.header.stamp = ros::Time::now();
+    fix_msg.header.frame_id = "gps";
+
+    // Fix status.
+    fix_msg.status = status_msg;
+
+    // Position.
+    fix_msg.latitude = lat;
+    fix_msg.longitude = lng;
+    fix_msg.altitude = alt;
+
+    // TODO: Come up with reasonable position covariance. Maybe try to compute
+    // based on DOP data in the GPS message?
+    fix_msg.position_covariance[0] = 0.0;
+    fix_msg.position_covariance[1] = 0.0;
+    fix_msg.position_covariance[2] = 0.0;
+    fix_msg.position_covariance[3] = 0.0;
+    fix_msg.position_covariance[4] = 0.0;
+    fix_msg.position_covariance[5] = 0.0;
+    fix_msg.position_covariance[6] = 0.0;
+    fix_msg.position_covariance[7] = 0.0;
+    fix_msg.position_covariance[8] = 0.0;
+
+    // TODO: Change this to an appropriate type.
+    fix_msg.position_covariance_type = sensor_msgs::NavSatFix::COVARIANCE_TYPE_UNKNOWN;
+
+    // Publish!
+    gps_pub_.publish(fix_msg);
+
+    // Publish extra status information.
+    rover12_drivers::GpsStatus extra_status;
+    extra_status.header.stamp = ros::Time::now();
+    extra_status.header.frame_id = "gps";
+    extra_status.quality = quality;
+    extra_status.num_sats = num_sats;
+    gps_status_pub_.publish(extra_status);
   }
 
   void imuCallback(const rover12_comm::ImuMsg& msg) {
@@ -89,7 +173,7 @@ public:
   }
 
   void imuCalCallback(const rover12_comm::ImuCalMsg& msg) {
-    rover12_drivers::ImuCalibration ros_msg;
+    rover12_drivers::ImuStatus ros_msg;
 
     // Timestamp and identify reference frame.
     ros_msg.header.stamp = ros::Time::now();
@@ -107,6 +191,8 @@ public:
 
 private:
   ros::NodeHandle nh_;
+  ros::Publisher gps_pub_;
+  ros::Publisher gps_status_pub_;
   ros::Publisher imu_pub_;
   ros::Publisher imu_cal_pub_;
 };

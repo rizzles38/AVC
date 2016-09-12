@@ -21,7 +21,7 @@
 Servo steering_servo;
 Servo throttle_servo;
 int throtNeutral = 1500;
-int throtMax = 1650;
+int throtMax = 1600;
 int steerNeutral = 1500;
 int steerMax = 2000;
 int steerAngle;
