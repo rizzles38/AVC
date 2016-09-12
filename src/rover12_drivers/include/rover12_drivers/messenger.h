@@ -16,6 +16,7 @@ public:
   using GpsCallback = std::function<void(const rover12_comm::GpsMsg&)>;
   using ImuCallback = std::function<void(const rover12_comm::ImuMsg&)>;
   using ImuCalCallback = std::function<void(const rover12_comm::ImuCalMsg&)>;
+  using WheelEncCallback = std::function<void(const rover12_comm::WheelEncMsg&)>;
 
   enum class Board {
     CONTROL,
@@ -29,6 +30,7 @@ public:
   void setGpsCallback(GpsCallback callback) { gps_callback_ = callback; }
   void setImuCallback(ImuCallback callback) { imu_callback_ = callback; }
   void setImuCalCallback(ImuCalCallback callback) { imu_cal_callback_ = callback; }
+  void setWheelEncCallback(WheelEncCallback callback) { wheel_enc_callback_ = callback; }
 
   void connect(Board board);
 
@@ -43,6 +45,7 @@ private:
   GpsCallback gps_callback_;
   ImuCallback imu_callback_;
   ImuCalCallback imu_cal_callback_;
+  WheelEncCallback wheel_enc_callback_;
   std::vector<std::string> device_list_;
 };
 

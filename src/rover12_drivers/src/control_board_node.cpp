@@ -1,60 +1,60 @@
 #include <cstdlib>
-#include <iostream>
+#include <string>
+
+#include <ros/ros.h>
 
 #include <rover12_comm/rover12_comm.h>
+#include <rover12_drivers/messenger.h>
 
-template <typename T>
-void hexPrint(const rover12_comm::SerialMsg<T>* msg) {
-  uint8_t* bytes = (uint8_t*)msg;
-  std::cout << "type = 0x" << std::hex << (uint32_t)bytes[0] << "\n";
-  std::cout << "checksum = 0x" << std::hex << *(uint32_t*)&bytes[1] << "\n";
-  std::cout << "overhead = 0x" << std::hex << (uint32_t)*(uint8_t*)&bytes[5] << "\n";
-  for (size_t i = 0; i < sizeof(T); ++i) {
-    std::cout << "payload[" << i << "] = 0x" << std::hex << (uint32_t)*(uint8_t*)&bytes[6 + i] << "\n";
+class EncoderPublisher {
+public:
+  explicit EncoderPublisher(ros::NodeHandle& nh)
+    : nh_(nh) {
+    // TODO: publishers advertise
   }
-  std::cout << "trailer = 0x" << std::hex << (uint32_t)*(uint8_t*)&bytes[6 + sizeof(T)] << "\n";
-}
+
+  void wheelEncCallback(const rover12_comm::WheelEncMsg& msg) {
+    ROS_INFO_STREAM("RL=" << msg.data.count_rear_left << " RR=" << msg.data.count_rear_right);
+    // TODO: ROS odometry message
+  }
+
+private:
+  ros::NodeHandle& nh_;
+  // TODO: ros::Publisher
+};
 
 int main(int argc, char* argv[]) {
-  rover12_comm::ControlMsg control_msg;
+  if (argc < 2) {
+    ROS_ERROR_STREAM("Usage: " << argv[0] << " [serial devices]");
+    return EXIT_FAILURE;
+  }
 
-  std::cout << "sizeof(ControlMsg) = " << sizeof(rover12_comm::ControlMsg) << "\n\n";
+  // Initialize ROS.
+  ros::init(argc, argv, "control_board_node");
+  ros::NodeHandle nh;
 
-  control_msg.data.steering_angle = 15.0;
-  control_msg.data.velocity = 5.0;
-  std::cout << "[I] steering_angle = " << control_msg.data.steering_angle << "\n";
-  std::cout << "[I] velocity = " << control_msg.data.velocity << "\n";
-  hexPrint(&control_msg);
-  std::cout << "\n";
+  // Create encoder publisher.
+  EncoderPublisher encoder_publisher(nh);
 
-  control_msg.encode();
-  std::cout << "[E] steering_angle = " << control_msg.data.steering_angle << "\n";
-  std::cout << "[E] velocity = " << control_msg.data.velocity << "\n";
-  std::cout << "checksum = 0x" << std::hex << control_msg.checksum() << "\n";
-  hexPrint(&control_msg);
-  std::cout << "\n";
+  // Add each serial device to the messenger.
+  rover12_drivers::Messenger messenger;
+  for (int i = 1; i < argc; ++i) {
+    messenger.addDevice(argv[i]);
+  }
 
-  bool valid = control_msg.decode();
-  std::cout << "[D] steering_angle = " << control_msg.data.steering_angle << "\n";
-  std::cout << "[D] velocity = " << control_msg.data.velocity << "\n";
-  std::cout << "valid = " << std::boolalpha << valid << "\n";
-  hexPrint(&control_msg);
-  std::cout << "\n";
+  // Set callbacks on message type.
+  messenger.setWheelEncCallback([&encoder_publisher](const rover12_comm::WheelEncMsg& msg) {
+    encoder_publisher.wheelEncCallback(msg);
+  });
 
-  rover12_comm::IdRequestMsg id_request_msg;
+  // Connect to the control board.
+  messenger.connect(rover12_drivers::Messenger::Board::CONTROL);
 
-  std::cout << "sizeof(IdRequestMsg) = " << sizeof(rover12_comm::IdRequestMsg) << "\n\n";
-  hexPrint(&id_request_msg);
-  std::cout << "\n";
-
-  id_request_msg.encode();
-  std::cout << "checksum = 0x" << std::hex << id_request_msg.checksum() << "\n";
-  hexPrint(&id_request_msg);
-  std::cout << "\n";
-
-  bool id_req_valid = id_request_msg.decode();
-  std::cout << "valid = " << std::boolalpha << id_req_valid << "\n";
-  hexPrint(&id_request_msg);
+  // Spin on the messenger and ROS.
+  while (ros::ok()) {
+    messenger.spin();
+    ros::spinOnce();
+  }
 
   return EXIT_SUCCESS;
 };

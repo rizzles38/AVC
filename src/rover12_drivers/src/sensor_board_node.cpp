@@ -1,7 +1,6 @@
 #include <arpa/inet.h>
 
 #include <cstdlib>
-#include <iostream>
 #include <string>
 
 #include <ros/ros.h>
@@ -35,7 +34,8 @@ double extractUInt32ToDouble(const uint8_t* buf, double scale) {
 
 class SensorPublisher {
 public:
-  SensorPublisher() {
+  explicit SensorPublisher(ros::NodeHandle& nh)
+    : nh_(nh) {
     gps_pub_ = nh_.advertise<sensor_msgs::NavSatFix>("/sensors/gps", 0);
     gps_status_pub_ = nh_.advertise<rover12_drivers::GpsStatus>("/sensors/gps_status", 0);
     imu_pub_ = nh_.advertise<sensor_msgs::Imu>("/sensors/imu", 0);
@@ -190,7 +190,7 @@ public:
   }
 
 private:
-  ros::NodeHandle nh_;
+  ros::NodeHandle& nh_;
   ros::Publisher gps_pub_;
   ros::Publisher gps_status_pub_;
   ros::Publisher imu_pub_;
@@ -205,9 +205,10 @@ int main(int argc, char* argv[]) {
 
   // Initialize ROS.
   ros::init(argc, argv, "sensor_board_node");
+  ros::NodeHandle nh;
 
   // Create sensor publisher.
-  SensorPublisher sensor_publisher;
+  SensorPublisher sensor_publisher(nh);
 
   // Add each serial device to the messenger.
   rover12_drivers::Messenger messenger;
