@@ -244,7 +244,7 @@ Adafruit_BNO055 bno = Adafruit_BNO055(55);
 
 class Inertial {
 public:
-  Inertial(int interval)
+  explicit Inertial(int interval)
     : next_time_(0),
       interval_(interval),
       cal_counter_(0) {}
