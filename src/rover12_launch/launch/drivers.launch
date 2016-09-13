@@ -1,0 +1,6 @@
+<launch>
+  <node name="control_board" pkg="rover12_drivers" type="control_board_node"
+        args="/dev/ttyACM0" respawn="true"/>
+  <node name="sensor_board" pkg="rover12_drivers" type="sensor_board_node"
+        args="/dev/ttyACM1" respawn="true"/>
+</launch>

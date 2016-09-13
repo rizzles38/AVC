@@ -121,16 +121,19 @@ public:
     quat.w = msg.data.orient_w;
     ros_msg.orientation = quat;
 
-    // TODO: Come up with reasonable orientation covariance.
-    ros_msg.orientation_covariance[0] = 0.0;
+    // Absolute orientation covaraince.
+    const double roll_cov = -1.0;
+    const double pitch_cov = -1.0;
+    const double yaw_cov = 0.001;
+    ros_msg.orientation_covariance[0] = roll_cov;
     ros_msg.orientation_covariance[1] = 0.0;
     ros_msg.orientation_covariance[2] = 0.0;
     ros_msg.orientation_covariance[3] = 0.0;
-    ros_msg.orientation_covariance[4] = 0.0;
+    ros_msg.orientation_covariance[4] = pitch_cov;
     ros_msg.orientation_covariance[5] = 0.0;
     ros_msg.orientation_covariance[6] = 0.0;
     ros_msg.orientation_covariance[7] = 0.0;
-    ros_msg.orientation_covariance[8] = 0.0;
+    ros_msg.orientation_covariance[8] = yaw_cov;
 
     // Set angular velocity.
     geometry_msgs::Vector3 ang_vel;
@@ -139,16 +142,19 @@ public:
     ang_vel.z = msg.data.ang_vel_z;
     ros_msg.angular_velocity = ang_vel;
 
-    // TODO: Come up with reasonable angular velocity covariance.
-    ros_msg.angular_velocity_covariance[0] = 0.0;
+    // Angular velocity covariance.
+    const double xv_cov = -1.0;
+    const double yv_cov = -1.0;
+    const double zv_cov = -1.0;
+    ros_msg.angular_velocity_covariance[0] = xv_cov;
     ros_msg.angular_velocity_covariance[1] = 0.0;
     ros_msg.angular_velocity_covariance[2] = 0.0;
     ros_msg.angular_velocity_covariance[3] = 0.0;
-    ros_msg.angular_velocity_covariance[4] = 0.0;
+    ros_msg.angular_velocity_covariance[4] = yv_cov;
     ros_msg.angular_velocity_covariance[5] = 0.0;
     ros_msg.angular_velocity_covariance[6] = 0.0;
     ros_msg.angular_velocity_covariance[7] = 0.0;
-    ros_msg.angular_velocity_covariance[8] = 0.0;
+    ros_msg.angular_velocity_covariance[8] = zv_cov;
 
     // Set linear acceleration.
     geometry_msgs::Vector3 lin_accel;
@@ -157,16 +163,19 @@ public:
     lin_accel.z = msg.data.lin_accel_z;
     ros_msg.linear_acceleration = lin_accel;
 
-    // TODO: Come up with reasonable linear acceleration covariance.
-    ros_msg.linear_acceleration_covariance[0] = 0.0;
+    // Linear accelration covariance.
+    const double xa_cov = -1.0;
+    const double ya_cov = -1.0;
+    const double za_cov = -1.0;
+    ros_msg.linear_acceleration_covariance[0] = xa_cov;
     ros_msg.linear_acceleration_covariance[1] = 0.0;
     ros_msg.linear_acceleration_covariance[2] = 0.0;
     ros_msg.linear_acceleration_covariance[3] = 0.0;
-    ros_msg.linear_acceleration_covariance[4] = 0.0;
+    ros_msg.linear_acceleration_covariance[4] = ya_cov;
     ros_msg.linear_acceleration_covariance[5] = 0.0;
     ros_msg.linear_acceleration_covariance[6] = 0.0;
     ros_msg.linear_acceleration_covariance[7] = 0.0;
-    ros_msg.linear_acceleration_covariance[8] = 0.0;
+    ros_msg.linear_acceleration_covariance[8] = za_cov;
 
     // Publish!
     imu_pub_.publish(ros_msg);

@@ -1,0 +1,10 @@
+<launch>
+  <node name="localizer" pkg="robot_localization" type="ukf_localization_node"
+        clear_params="true">
+    <rosparam command="load" file="$(find rover12_launch)/params/ukf_localizer.yaml"/>
+  </node>
+
+  <!-- TODO
+  <node name="navsat_transform" pkg="robot_localization" type="navsat_transform_node" />
+  -->
+</launch>

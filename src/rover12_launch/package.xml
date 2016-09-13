@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package>
+  <name>rover12_launch</name>
+  <version>0.0.1</version>
+  <description>Useful launch files for Rover 12 robot.</description>
+
+  <maintainer email="mpikusov@gmail.com">Maria Pikusova</maintainer>
+  <maintainer email="bob@bobsomers.com">Bob Somers</maintainer>
+
+  <license>MIT</license>
+
+  <url type="website">http://www.pikusomers.com/tag/avc-2016/</url>
+
+  <author email="mpikusov@gmail.com">Maria Pikusova</author>
+  <author email="bob@bobsomers.com">Bob Somers</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>robot_localization</build_depend>
+  <build_depend>rover12_description</build_depend>
+  <build_depend>rover12_drivers</build_depend>
+
+  <run_depend>robot_localization</run_depend>
+  <run_depend>rover12_description</run_depend>
+  <run_depend>rover12_drivers</run_depend>
+</package>

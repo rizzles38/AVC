@@ -22,43 +22,50 @@ public:
 
     geometry_msgs::TwistWithCovariance twist_cov_msg;
 
-    // TODO: Come up with reasonable covariance.
-    twist_cov_msg.covariance[0] = 0.0;
+    // Covariance is 6x6: x, y, z, rx, ry, rz
+    // Diagonal: 0.001, 0.001, -1, -1, -1, -1
+    const double x_cov = 0.001;
+    const double y_cov = 0.001;
+    const double z_cov = -1.0;
+    const double rx_cov = -1.0;
+    const double ry_cov = -1.0;
+    const double rz_cov = -1.0;
+    twist_cov_msg.covariance[0] = x_cov;
     twist_cov_msg.covariance[1] = 0.0;
     twist_cov_msg.covariance[2] = 0.0;
     twist_cov_msg.covariance[3] = 0.0;
     twist_cov_msg.covariance[4] = 0.0;
     twist_cov_msg.covariance[5] = 0.0;
     twist_cov_msg.covariance[6] = 0.0;
-    twist_cov_msg.covariance[7] = 0.0;
+    twist_cov_msg.covariance[7] = y_cov;
     twist_cov_msg.covariance[8] = 0.0;
     twist_cov_msg.covariance[9] = 0.0;
     twist_cov_msg.covariance[10] = 0.0;
     twist_cov_msg.covariance[11] = 0.0;
     twist_cov_msg.covariance[12] = 0.0;
     twist_cov_msg.covariance[13] = 0.0;
-    twist_cov_msg.covariance[14] = 0.0;
+    twist_cov_msg.covariance[14] = z_cov;
     twist_cov_msg.covariance[15] = 0.0;
     twist_cov_msg.covariance[16] = 0.0;
     twist_cov_msg.covariance[17] = 0.0;
     twist_cov_msg.covariance[18] = 0.0;
     twist_cov_msg.covariance[19] = 0.0;
     twist_cov_msg.covariance[20] = 0.0;
-    twist_cov_msg.covariance[21] = 0.0;
+    twist_cov_msg.covariance[21] = rx_cov;
     twist_cov_msg.covariance[22] = 0.0;
     twist_cov_msg.covariance[23] = 0.0;
     twist_cov_msg.covariance[24] = 0.0;
     twist_cov_msg.covariance[25] = 0.0;
     twist_cov_msg.covariance[26] = 0.0;
     twist_cov_msg.covariance[27] = 0.0;
-    twist_cov_msg.covariance[28] = 0.0;
+    twist_cov_msg.covariance[28] = ry_cov;
     twist_cov_msg.covariance[29] = 0.0;
     twist_cov_msg.covariance[30] = 0.0;
     twist_cov_msg.covariance[31] = 0.0;
     twist_cov_msg.covariance[32] = 0.0;
     twist_cov_msg.covariance[33] = 0.0;
     twist_cov_msg.covariance[34] = 0.0;
-    twist_cov_msg.covariance[35] = 0.0;
+    twist_cov_msg.covariance[35] = rz_cov;
 
     geometry_msgs::Twist twist_msg;
 
