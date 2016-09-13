@@ -9,8 +9,11 @@
   <xacro:property name="wheel_width" value="0.0508"/>
   <xacro:property name="wheel_radius" value="0.0492125"/>
 
-  <xacro:property name="laser_xyz" value="0.4 0 0.08"/>
-  <xacro:property name="laser_rpy" value="0 0 ${PI/4}"/>
+  <xacro:property name="gps_xyz" value="0.375 0 0.03"/>
+  <xacro:property name="gps_rpy" value="0 0 0"/>
+
+  <xacro:property name="imu_xyz" value="0.28 0.038 0.072"/>
+  <xacro:property name="imu_rpy" value="0 0.0349066 1.55334"/>
 
   <material name="axle">
     <color rgba="1.0 1.0 1.0 1.0"/>
@@ -86,12 +89,20 @@
   <xacro:steerable_wheel name="fl" axle="f_axle" track="${f_track}" reflect="1"/>
   <xacro:steerable_wheel name="fr" axle="f_axle" track="${f_track}" reflect="-1"/>
 
-  <link name="laser"/>
+  <link name="gps"/>
 
-  <joint name="base_link_to_laser" type="fixed">
+  <joint name="base_link_to_gps" type="fixed">
     <parent link="base_link"/>
-    <child link="laser"/>
-    <origin xyz="${laser_xyz}" rpy="${laser_rpy}"/>
+    <child link="gps"/>
+    <origin xyz="${gps_xyz}" rpy="${gps_rpy}"/>
+  </joint>
+
+  <link name="imu"/>
+
+  <joint name="base_link_to_imu" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu"/>
+    <origin xyz="${imu_xyz}" rpy="${imu_rpy}"/>
   </joint>
 
   <link name="body">
