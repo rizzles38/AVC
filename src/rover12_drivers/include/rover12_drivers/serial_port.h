@@ -17,7 +17,7 @@ public:
   ~SerialPort();
 
   ssize_t read(void* buf, size_t count);
-  ssize_t write(void* buf, size_t count);
+  ssize_t write(const void* buf, size_t count);
 
 private:
   int fd_;

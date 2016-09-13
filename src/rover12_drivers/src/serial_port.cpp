@@ -54,7 +54,7 @@ ssize_t SerialPort::read(void* buf, size_t count) {
   return ::read(fd_, buf, count);
 }
 
-ssize_t SerialPort::write(void* buf, size_t count) {
+ssize_t SerialPort::write(const void* buf, size_t count) {
   return ::write(fd_, buf, count);
 }
 

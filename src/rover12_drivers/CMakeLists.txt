@@ -5,12 +5,14 @@ project(rover12_drivers)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  ackermann_msgs
   geometry_msgs
   message_generation
   message_runtime
   roscpp
   rover12_comm
   sensor_msgs
+  std_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -49,6 +51,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
+  AutonomousMode.msg
   GpsStatus.msg
   ImuStatus.msg
   EncoderStatus.msg
@@ -71,8 +74,10 @@ add_message_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
+  ackermann_msgs
   geometry_msgs
   sensor_msgs
+  std_msgs
 )
 
 ################################################
@@ -107,7 +112,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES rover12_drivers
-  CATKIN_DEPENDS geometry_msgs sensor_msgs
+  CATKIN_DEPENDS ackermann_msgs geometry_msgs sensor_msgs std_msgs
 #  DEPENDS system_lib
 )
 

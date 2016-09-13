@@ -4,13 +4,43 @@
 
 #include <ros/ros.h>
 
+#include <ackermann_msgs/AckermannDriveStamped.h>
 #include <geometry_msgs/Vector3.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/TwistWithCovariance.h>
 #include <geometry_msgs/TwistWithCovarianceStamped.h>
 #include <rover12_comm/rover12_comm.h>
+#include <rover12_drivers/AutonomousMode.h>
 #include <rover12_drivers/EncoderStatus.h>
 #include <rover12_drivers/messenger.h>
+
+class ControlSubscriber {
+public:
+  ControlSubscriber(ros::NodeHandle& nh, rover12_drivers::Messenger& messenger)
+    : nh_(nh), messenger_(messenger) {
+    ctrl_sub_ = nh_.subscribe("/control/command", 0, &ControlSubscriber::controlCallback, this);
+    auto_sub_ = nh_.subscribe("/control/autonomous", 0, &ControlSubscriber::autonomousCallback, this);
+  }
+
+  void controlCallback(const ackermann_msgs::AckermannDriveStamped::ConstPtr& msg) {
+    rover12_comm::ControlMsg control_msg;
+    control_msg.data.steering_angle = msg->drive.steering_angle;
+    control_msg.data.velocity = msg->drive.speed;
+    messenger_.send(control_msg);
+  }
+
+  void autonomousCallback(const rover12_drivers::AutonomousMode::ConstPtr& msg) {
+    rover12_comm::EstopMsg estop_msg;
+    estop_msg.data.autonomous = msg->autonomous;
+    messenger_.send(estop_msg);
+  }
+
+private:
+  ros::NodeHandle& nh_;
+  rover12_drivers::Messenger& messenger_;
+  ros::Subscriber ctrl_sub_;
+  ros::Subscriber auto_sub_;
+};
 
 class EncoderPublisher {
 public:
@@ -160,22 +190,20 @@ int main(int argc, char* argv[]) {
   ros::init(argc, argv, "control_board_node");
   ros::NodeHandle nh;
 
-  // Create encoder publisher.
-  EncoderPublisher encoder_publisher(nh);
-
   // Add each serial device to the messenger.
   rover12_drivers::Messenger messenger;
   for (int i = 1; i < argc; ++i) {
     messenger.addDevice(argv[i]);
   }
 
+  // Create publishers and subscribers.
+  EncoderPublisher encoder_publisher(nh);
+  ControlSubscriber control_subscriber(nh, messenger);
+
   // Set callbacks on message type.
   messenger.setWheelEncCallback([&encoder_publisher](const rover12_comm::WheelEncMsg& msg) {
     encoder_publisher.wheelEncCallback(msg);
   });
-
-  // TODO: Sleep here for a quick moment to avoid trying to connect to the same
-  // serial port at the same time as the sensor board?
 
   // Connect to the control board.
   messenger.connect(rover12_drivers::Messenger::Board::CONTROL);

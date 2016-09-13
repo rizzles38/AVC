@@ -141,7 +141,7 @@ using ControlMsg = SerialMsg<Control>;
 struct Estop {
   SET_MSG_TYPE(ESTOP);
 
-  Estop(bool autonomous)
+  Estop()
     : autonomous(false) {}
 
   bool autonomous;

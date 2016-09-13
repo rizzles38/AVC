@@ -34,6 +34,18 @@ public:
 
   void connect(Board board);
 
+  template <typename MsgType>
+  void send(MsgType& msg) {
+    msg.encode();
+    size_t bytes_to_write = sizeof(MsgType);
+    do {
+      auto offset = sizeof(MsgType) - bytes_to_write;
+      auto buf = reinterpret_cast<const uint8_t*>(&msg) + offset;
+      auto nwritten = sp_->write(buf, bytes_to_write);
+      bytes_to_write -= nwritten;
+    } while (bytes_to_write > 0);
+  }
+
   void spin();
 
 private:
