@@ -1,0 +1,4 @@
+<launch>
+  <node name="rviz" pkg="rviz" type="rviz"
+        args="-d $(find rover12_launch)/launch/remote_rviz.rviz"/>
+</launch>
