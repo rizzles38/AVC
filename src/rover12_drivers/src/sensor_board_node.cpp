@@ -42,8 +42,8 @@ public:
     imu_cal_pub_ = nh_.advertise<rover12_drivers::ImuStatus>("/sensors/imu_status", 0);
 
     // Absolute orientation covaraince.
-    const double roll_cov = -1.0;
-    const double pitch_cov = -1.0;
+    const double roll_cov = 0.001;
+    const double pitch_cov = 0.001;
     const double yaw_cov = 0.001;
     imu_msg_.orientation_covariance[0] = roll_cov;
     imu_msg_.orientation_covariance[1] = 0.0;
