@@ -51,6 +51,14 @@ public:
     Serial1.begin(GPS_INIT_BAUD_RATE);
     delay(500);
 
+    /*
+    // Reset to factory defaults.
+    const uint8_t reset_cmd[] = {0x04, 1};
+    bool reset_result = command(reset_cmd, sizeof(reset_cmd), true);
+    if (!reset_result) return false;
+    delay(500);
+    */
+
     // Set baud rate to 115200.
     const uint8_t baud_rate_cmd[] = {0x05, 0, 5, 0};
     bool baud_rate_result = command(baud_rate_cmd, sizeof(baud_rate_cmd), true);
