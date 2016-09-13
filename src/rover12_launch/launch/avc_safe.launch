@@ -2,5 +2,5 @@
   <include file="$(find rover12_description)/launch/rover12.launch"/>
   <include file="$(find rover12_launch)/launch/drivers.launch"/>
   <include file="$(find rover12_launch)/launch/localizer.launch"/>
-  <include file="$(find rover12_launch)/launch/estop.launch"/>
+  <!-- No soft_estop node, run it yourself to control autonomous mode. -->
 </launch>

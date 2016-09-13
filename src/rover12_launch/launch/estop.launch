@@ -1,0 +1,3 @@
+<launch>
+  <node name="soft_estop" pkg="soft_estop" type="soft_estop"/>
+</launch>
