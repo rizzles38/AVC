@@ -40,6 +40,63 @@ public:
     gps_status_pub_ = nh_.advertise<rover12_drivers::GpsStatus>("/sensors/gps_status", 0);
     imu_pub_ = nh_.advertise<sensor_msgs::Imu>("/sensors/imu", 0);
     imu_cal_pub_ = nh_.advertise<rover12_drivers::ImuStatus>("/sensors/imu_status", 0);
+
+    // Absolute orientation covaraince.
+    const double roll_cov = -1.0;
+    const double pitch_cov = -1.0;
+    const double yaw_cov = 0.001;
+    imu_msg_.orientation_covariance[0] = roll_cov;
+    imu_msg_.orientation_covariance[1] = 0.0;
+    imu_msg_.orientation_covariance[2] = 0.0;
+    imu_msg_.orientation_covariance[3] = 0.0;
+    imu_msg_.orientation_covariance[4] = pitch_cov;
+    imu_msg_.orientation_covariance[5] = 0.0;
+    imu_msg_.orientation_covariance[6] = 0.0;
+    imu_msg_.orientation_covariance[7] = 0.0;
+    imu_msg_.orientation_covariance[8] = yaw_cov;
+
+    // Angular velocity covariance.
+    const double xv_cov = -1.0;
+    const double yv_cov = -1.0;
+    const double zv_cov = -1.0;
+    imu_msg_.angular_velocity_covariance[0] = xv_cov;
+    imu_msg_.angular_velocity_covariance[1] = 0.0;
+    imu_msg_.angular_velocity_covariance[2] = 0.0;
+    imu_msg_.angular_velocity_covariance[3] = 0.0;
+    imu_msg_.angular_velocity_covariance[4] = yv_cov;
+    imu_msg_.angular_velocity_covariance[5] = 0.0;
+    imu_msg_.angular_velocity_covariance[6] = 0.0;
+    imu_msg_.angular_velocity_covariance[7] = 0.0;
+    imu_msg_.angular_velocity_covariance[8] = zv_cov;
+
+    // Linear acceleration covariance.
+    const double xa_cov = -1.0;
+    const double ya_cov = -1.0;
+    const double za_cov = -1.0;
+    imu_msg_.linear_acceleration_covariance[0] = xa_cov;
+    imu_msg_.linear_acceleration_covariance[1] = 0.0;
+    imu_msg_.linear_acceleration_covariance[2] = 0.0;
+    imu_msg_.linear_acceleration_covariance[3] = 0.0;
+    imu_msg_.linear_acceleration_covariance[4] = ya_cov;
+    imu_msg_.linear_acceleration_covariance[5] = 0.0;
+    imu_msg_.linear_acceleration_covariance[6] = 0.0;
+    imu_msg_.linear_acceleration_covariance[7] = 0.0;
+    imu_msg_.linear_acceleration_covariance[8] = za_cov;
+
+    // TODO: Come up with reasonable position covariance. Maybe try to compute
+    // based on DOP data in the GPS message?
+    gps_msg_.position_covariance[0] = 0.0;
+    gps_msg_.position_covariance[1] = 0.0;
+    gps_msg_.position_covariance[2] = 0.0;
+    gps_msg_.position_covariance[3] = 0.0;
+    gps_msg_.position_covariance[4] = 0.0;
+    gps_msg_.position_covariance[5] = 0.0;
+    gps_msg_.position_covariance[6] = 0.0;
+    gps_msg_.position_covariance[7] = 0.0;
+    gps_msg_.position_covariance[8] = 0.0;
+
+    // TODO: Change this to an appropriate type.
+    gps_msg_.position_covariance_type = sensor_msgs::NavSatFix::COVARIANCE_TYPE_UNKNOWN;
   }
 
   void gpsCallback(const rover12_comm::GpsMsg& msg) {
@@ -65,37 +122,20 @@ public:
     double lng = extractInt32ToDouble(&msg.data.bytes[13], 1.0e-7);
     double alt = extractUInt32ToDouble(&msg.data.bytes[17], 0.01);
 
-    sensor_msgs::NavSatFix fix_msg;
-
     // Timestamp and identify reference frame.
-    fix_msg.header.stamp = ros::Time::now();
-    fix_msg.header.frame_id = "gps";
+    gps_msg_.header.stamp = ros::Time::now();
+    gps_msg_.header.frame_id = "gps";
 
     // Fix status.
-    fix_msg.status = status_msg;
+    gps_msg_.status = status_msg;
 
     // Position.
-    fix_msg.latitude = lat;
-    fix_msg.longitude = lng;
-    fix_msg.altitude = alt;
-
-    // TODO: Come up with reasonable position covariance. Maybe try to compute
-    // based on DOP data in the GPS message?
-    fix_msg.position_covariance[0] = 0.0;
-    fix_msg.position_covariance[1] = 0.0;
-    fix_msg.position_covariance[2] = 0.0;
-    fix_msg.position_covariance[3] = 0.0;
-    fix_msg.position_covariance[4] = 0.0;
-    fix_msg.position_covariance[5] = 0.0;
-    fix_msg.position_covariance[6] = 0.0;
-    fix_msg.position_covariance[7] = 0.0;
-    fix_msg.position_covariance[8] = 0.0;
-
-    // TODO: Change this to an appropriate type.
-    fix_msg.position_covariance_type = sensor_msgs::NavSatFix::COVARIANCE_TYPE_UNKNOWN;
+    gps_msg_.latitude = lat;
+    gps_msg_.longitude = lng;
+    gps_msg_.altitude = alt;
 
     // Publish!
-    gps_pub_.publish(fix_msg);
+    gps_pub_.publish(gps_msg_);
 
     // Publish extra status information.
     rover12_drivers::GpsStatus extra_status;
@@ -107,11 +147,9 @@ public:
   }
 
   void imuCallback(const rover12_comm::ImuMsg& msg) {
-    sensor_msgs::Imu ros_msg;
-
     // Timestamp and identify reference frame.
-    ros_msg.header.stamp = ros::Time::now();
-    ros_msg.header.frame_id = "imu";
+    imu_msg_.header.stamp = ros::Time::now();
+    imu_msg_.header.frame_id = "imu";
 
     // Set absolute rotation.
     geometry_msgs::Quaternion quat;
@@ -119,66 +157,24 @@ public:
     quat.y = msg.data.orient_y;
     quat.z = msg.data.orient_z;
     quat.w = msg.data.orient_w;
-    ros_msg.orientation = quat;
-
-    // Absolute orientation covaraince.
-    const double roll_cov = -1.0;
-    const double pitch_cov = -1.0;
-    const double yaw_cov = 0.001;
-    ros_msg.orientation_covariance[0] = roll_cov;
-    ros_msg.orientation_covariance[1] = 0.0;
-    ros_msg.orientation_covariance[2] = 0.0;
-    ros_msg.orientation_covariance[3] = 0.0;
-    ros_msg.orientation_covariance[4] = pitch_cov;
-    ros_msg.orientation_covariance[5] = 0.0;
-    ros_msg.orientation_covariance[6] = 0.0;
-    ros_msg.orientation_covariance[7] = 0.0;
-    ros_msg.orientation_covariance[8] = yaw_cov;
+    imu_msg_.orientation = quat;
 
     // Set angular velocity.
     geometry_msgs::Vector3 ang_vel;
     ang_vel.x = msg.data.ang_vel_x;
     ang_vel.y = msg.data.ang_vel_y;
     ang_vel.z = msg.data.ang_vel_z;
-    ros_msg.angular_velocity = ang_vel;
-
-    // Angular velocity covariance.
-    const double xv_cov = -1.0;
-    const double yv_cov = -1.0;
-    const double zv_cov = -1.0;
-    ros_msg.angular_velocity_covariance[0] = xv_cov;
-    ros_msg.angular_velocity_covariance[1] = 0.0;
-    ros_msg.angular_velocity_covariance[2] = 0.0;
-    ros_msg.angular_velocity_covariance[3] = 0.0;
-    ros_msg.angular_velocity_covariance[4] = yv_cov;
-    ros_msg.angular_velocity_covariance[5] = 0.0;
-    ros_msg.angular_velocity_covariance[6] = 0.0;
-    ros_msg.angular_velocity_covariance[7] = 0.0;
-    ros_msg.angular_velocity_covariance[8] = zv_cov;
+    imu_msg_.angular_velocity = ang_vel;
 
     // Set linear acceleration.
     geometry_msgs::Vector3 lin_accel;
     lin_accel.x = msg.data.lin_accel_x;
     lin_accel.y = msg.data.lin_accel_y;
     lin_accel.z = msg.data.lin_accel_z;
-    ros_msg.linear_acceleration = lin_accel;
-
-    // Linear accelration covariance.
-    const double xa_cov = -1.0;
-    const double ya_cov = -1.0;
-    const double za_cov = -1.0;
-    ros_msg.linear_acceleration_covariance[0] = xa_cov;
-    ros_msg.linear_acceleration_covariance[1] = 0.0;
-    ros_msg.linear_acceleration_covariance[2] = 0.0;
-    ros_msg.linear_acceleration_covariance[3] = 0.0;
-    ros_msg.linear_acceleration_covariance[4] = ya_cov;
-    ros_msg.linear_acceleration_covariance[5] = 0.0;
-    ros_msg.linear_acceleration_covariance[6] = 0.0;
-    ros_msg.linear_acceleration_covariance[7] = 0.0;
-    ros_msg.linear_acceleration_covariance[8] = za_cov;
+    imu_msg_.linear_acceleration = lin_accel;
 
     // Publish!
-    imu_pub_.publish(ros_msg);
+    imu_pub_.publish(imu_msg_);
   }
 
   void imuCalCallback(const rover12_comm::ImuCalMsg& msg) {
@@ -204,6 +200,8 @@ private:
   ros::Publisher gps_status_pub_;
   ros::Publisher imu_pub_;
   ros::Publisher imu_cal_pub_;
+  sensor_msgs::Imu imu_msg_;
+  sensor_msgs::NavSatFix gps_msg_;
 };
 
 int main(int argc, char* argv[]) {
