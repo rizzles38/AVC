@@ -24,19 +24,21 @@ SerialPort::SerialPort(const std::string& device) {
   cfsetospeed(&tty, (speed_t)B115200);
   cfsetispeed(&tty, (speed_t)B115200);
 
-  tty.c_cflag &= ~PARENB;            // Make 8n1
-  tty.c_cflag &= ~CSTOPB;
+  tty.c_cflag |= (CLOCAL | CREAD); // ignore modem controls
   tty.c_cflag &= ~CSIZE;
   tty.c_cflag |= CS8;
-
+  tty.c_cflag &= ~PARENB;            // Make 8n1
+  tty.c_cflag &= ~CSTOPB;
   tty.c_cflag &= ~CRTSCTS;        // no flow control
-  tty.c_cc[VMIN] =  1;            // read doesn't block
-  tty.c_cc[VTIME] = 5;            // 0.5 seconds read timeout
-  tty.c_cflag |= CREAD | CLOCAL;  // turn on READ & ignore ctrl lines
 
-  cfmakeraw(&tty);
+  // non-canonical mode
+  tty.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
+  tty.c_iflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
+  tty.c_oflag &= ~OPOST;
 
-  tcflush(fd_, TCIFLUSH);
+  tty.c_cc[VMIN] =  0;            // read doesn't block
+  tty.c_cc[VTIME] = 0;            // no timeout
+
   if (tcsetattr(fd_, TCSANOW, &tty) != 0) {
     ROS_ERROR_STREAM("Error " << errno << " from tcsetattr: " << std::strerror(errno));
   }

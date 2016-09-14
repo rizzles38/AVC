@@ -1,5 +1,7 @@
 #include <rover12_drivers/messenger.h>
 
+#include <unistd.h>
+
 #include <utility>
 
 #include <ros/ros.h>
@@ -55,6 +57,8 @@ void Messenger::spin() {
     ++buffer_idx_;
     ++i;
   }
+
+  usleep(5000);
 }
 
 void Messenger::dispatchMessage() {
