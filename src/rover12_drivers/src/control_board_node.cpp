@@ -47,8 +47,8 @@ public:
   explicit EncoderPublisher(ros::NodeHandle& nh)
     : nh_(nh),
       ticks_initialized_(false) {
-    odom_pub_ = nh_.advertise<geometry_msgs::TwistWithCovarianceStamped>("/sensors/wheels", 0);
-    encoder_pub_ = nh_.advertise<rover12_drivers::EncoderStatus>("/sensors/wheels_status", 0);
+    odom_pub_ = nh_.advertise<geometry_msgs::TwistWithCovarianceStamped>("/wheels/data", 0);
+    encoder_pub_ = nh_.advertise<rover12_drivers::EncoderStatus>("/wheels/status", 0);
 
     geometry_msgs::TwistWithCovariance twist_cov_msg;
 

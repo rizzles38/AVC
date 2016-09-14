@@ -7,21 +7,7 @@ base_link_frame: "base_link"
 world_frame: "map"
 print_diagnostics: true
 
-twist0: "/sensors/wheels"
-twist0_config: [false, false, false,
-                false, false, false,
-                true, true, false,
-                false, false, false,
-                false, false, false]
-
-imu0: "/sensors/imu"
-imu0_config: [false, false, false,
-              true, true, true,
-              false, false, false,
-              false, false, false,
-              false, false, false]
-
-odom0: "/gps/filtered"
+odom0: "/odometry/gps"
 odom0_config: [true, true, false,
                false, false, false,
                false, false, false,

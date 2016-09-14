@@ -1,6 +1,6 @@
 <launch>
   <include file="$(find rover12_description)/launch/rover12.launch"/>
-  <include file="$(find rover12_launch)/launch/drivers.launch"/>
+  <include file="$(find rover12_drivers)/launch/drivers.launch"/>
+  <include file="$(find soft_estop)/launch/estop.launch"/>
   <include file="$(find rover12_launch)/launch/localizer.launch"/>
-  <include file="$(find rover12_launch)/launch/estop.launch"/>
 </launch>

@@ -36,10 +36,10 @@ class SensorPublisher {
 public:
   explicit SensorPublisher(ros::NodeHandle& nh)
     : nh_(nh) {
-    gps_pub_ = nh_.advertise<sensor_msgs::NavSatFix>("/sensors/gps", 0);
-    gps_status_pub_ = nh_.advertise<rover12_drivers::GpsStatus>("/sensors/gps_status", 0);
-    imu_pub_ = nh_.advertise<sensor_msgs::Imu>("/sensors/imu", 0);
-    imu_cal_pub_ = nh_.advertise<rover12_drivers::ImuStatus>("/sensors/imu_status", 0);
+    gps_pub_ = nh_.advertise<sensor_msgs::NavSatFix>("/gps/fix", 0);
+    gps_status_pub_ = nh_.advertise<rover12_drivers::GpsStatus>("/gps/status", 0);
+    imu_pub_ = nh_.advertise<sensor_msgs::Imu>("/imu/data", 0);
+    imu_cal_pub_ = nh_.advertise<rover12_drivers::ImuStatus>("/imu/status", 0);
 
     // Absolute orientation covaraince.
     const double roll_cov = 0.001;
@@ -56,9 +56,9 @@ public:
     imu_msg_.orientation_covariance[8] = yaw_cov;
 
     // Angular velocity covariance.
-    const double xv_cov = -1.0;
-    const double yv_cov = -1.0;
-    const double zv_cov = -1.0;
+    const double xv_cov = 0.001;
+    const double yv_cov = 0.001;
+    const double zv_cov = 0.001;
     imu_msg_.angular_velocity_covariance[0] = xv_cov;
     imu_msg_.angular_velocity_covariance[1] = 0.0;
     imu_msg_.angular_velocity_covariance[2] = 0.0;
@@ -85,15 +85,18 @@ public:
 
     // TODO: Come up with reasonable position covariance. Maybe try to compute
     // based on DOP data in the GPS message?
-    gps_msg_.position_covariance[0] = 0.0;
+    const double east_cov = 2.5;
+    const double north_cov = 2.5;
+    const double up_cov = 5.0;
+    gps_msg_.position_covariance[0] = east_cov;
     gps_msg_.position_covariance[1] = 0.0;
     gps_msg_.position_covariance[2] = 0.0;
     gps_msg_.position_covariance[3] = 0.0;
-    gps_msg_.position_covariance[4] = 0.0;
+    gps_msg_.position_covariance[4] = north_cov;
     gps_msg_.position_covariance[5] = 0.0;
     gps_msg_.position_covariance[6] = 0.0;
     gps_msg_.position_covariance[7] = 0.0;
-    gps_msg_.position_covariance[8] = 0.0;
+    gps_msg_.position_covariance[8] = up_cov;
 
     // TODO: Change this to an appropriate type.
     gps_msg_.position_covariance_type = sensor_msgs::NavSatFix::COVARIANCE_TYPE_UNKNOWN;

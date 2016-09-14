@@ -1,17 +1,23 @@
 <launch>
   <node name="odom_localizer" pkg="robot_localization" type="ukf_localization_node"
-        clear_params="true">
+        clear_params="true" respawn="true" output="screen">
     <rosparam command="load" file="$(find rover12_launch)/params/odom_localizer.yaml"/>
+    <rosparam command="load" file="$(find rover12_launch)/params/sensor_config.yaml"/>
+    <remap from="/odometry/filtered" to="/odom/filtered"/>
   </node>
 
-  <node name="navsat_transform" pkg="robot_localization" type="navsat_transform_node">
+  <!-- GPS IS GARBAGE
+  <node name="navsat_transform" pkg="robot_localization" type="navsat_transform_node"
+        clear_params="true" respawn="true" output="screen">
     <rosparam command="load" file="$(find rover12_launch)/params/navsat_transform.yaml"/>
-    <remap from="/imu/data" to="/sensors/imu"/>
-    <remap from="/gps/fix" to="/sensors/gps"/>
+    <remap from="/odometry/filtered" to="/map/filtered"/>
   </node>
 
   <node name="map_localizer" pkg="robot_localization" type="ukf_localization_node"
-        clear_params="true">
+        clear_params="true" respawn="true" output="screen">
     <rosparam command="load" file="$(find rover12_launch)/params/map_localizer.yaml"/>
+    <rosparam command="load" file="$(find rover12_launch)/params/sensor_config.yaml"/>
+    <remap from="/odometry/filtered" to="/map/filtered"/>
   </node>
+  -->
 </launch>
