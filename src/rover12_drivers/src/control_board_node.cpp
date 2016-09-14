@@ -245,12 +245,16 @@ int main(int argc, char* argv[]) {
   // Connect to the control board.
   messenger.connect(rover12_drivers::Messenger::Board::CONTROL);
 
-  // Send down our PID control gains.
-  rover12_comm::PidGainsMsg pid_gains_msg;
-  pid_gains_msg.data.kp = kp;
-  pid_gains_msg.data.ki = ki;
-  pid_gains_msg.data.kd = kd;
-  messenger.send(pid_gains_msg);
+  // Send down our PID control gains. It seems silly to do this several times,
+  // but the control board won't be synced with our data stream on the first
+  // packet.
+  for (int i = 0; i < 3; ++i) {
+    rover12_comm::PidGainsMsg pid_gains_msg;
+    pid_gains_msg.data.kp = kp;
+    pid_gains_msg.data.ki = ki;
+    pid_gains_msg.data.kd = kd;
+    messenger.send(pid_gains_msg);
+  }
 
   // Spin on the messenger and ROS.
   while (ros::ok()) {
