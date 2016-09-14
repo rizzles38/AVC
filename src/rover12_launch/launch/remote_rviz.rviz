@@ -8,7 +8,6 @@ Panels:
         - /Status1
         - /Grid1
         - /RobotModel1
-        - /TF1
       Splitter Ratio: 0.5
     Tree Height: 1647
   - Class: rviz/Selection
@@ -33,14 +32,14 @@ Panels:
 Visualization Manager:
   Class: ""
   Displays:
-    - Alpha: 1
+    - Alpha: 0.800000012
       Cell Size: 1
       Class: rviz/Grid
-      Color: 0; 0; 0
+      Color: 255; 255; 255
       Enabled: true
       Line Style:
         Line Width: 0.0299999993
-        Value: Lines
+        Value: Billboards
       Name: Grid
       Normal Cell Count: 0
       Offset:
@@ -48,75 +47,24 @@ Visualization Manager:
         Y: 0
         Z: 0
       Plane: XY
-      Plane Cell Count: 100
+      Plane Cell Count: 1000
       Reference Frame: <Fixed Frame>
       Value: true
     - Alpha: 0.800000012
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: true
+      Enabled: false
       Links:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        body:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        f_axle:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        fl_kingpin:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        fl_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        fr_kingpin:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        fr_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        gps:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        imu:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        rl_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        rr_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
       Update Interval: 0
-      Value: true
+      Value: false
       Visual Enabled: true
     - Class: rviz/TF
       Enabled: true
@@ -174,9 +122,46 @@ Visualization Manager:
               {}
       Update Interval: 0
       Value: true
+    - Angle Tolerance: 0.100000001
+      Class: rviz/Odometry
+      Color: 255; 0; 255
+      Enabled: false
+      Keep: 10000
+      Length: 1
+      Name: /map/filtered
+      Position Tolerance: 0.100000001
+      Topic: /map/filtered
+      Value: false
+    - Angle Tolerance: 0.100000001
+      Class: rviz/Odometry
+      Color: 255; 255; 0
+      Enabled: true
+      Keep: 10000
+      Length: 1
+      Name: /odom/filtered
+      Position Tolerance: 0.100000001
+      Topic: /odom/filtered
+      Value: true
+    - Angle Tolerance: 0.100000001
+      Class: rviz/Odometry
+      Color: 255; 170; 0
+      Enabled: false
+      Keep: 10000
+      Length: 1
+      Name: /odometry/gps
+      Position Tolerance: 0.100000001
+      Topic: /odometry/gps
+      Value: false
+    - Class: rviz/Axes
+      Enabled: true
+      Length: 0.5
+      Name: base_link
+      Radius: 0.100000001
+      Reference Frame: base_link
+      Value: true
   Enabled: true
   Global Options:
-    Background Color: 255; 255; 255
+    Background Color: 0; 0; 0
     Fixed Frame: odom
     Frame Rate: 30
   Name: root
@@ -197,23 +182,20 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/ThirdPersonFollower
-      Distance: 2.85698724
+      Angle: 0
+      Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
-      Focal Point:
-        X: 0.0083591938
-        Y: -0.0338463634
-        Z: 5.96046448e-08
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.459796607
+      Scale: 35.5878601
       Target Frame: base_link
-      Value: ThirdPersonFollower (rviz)
-      Yaw: 3.1353941
+      Value: TopDownOrtho (rviz)
+      X: 0
+      Y: 0
     Saved: ~
 Window Geometry:
   Displays:
@@ -231,5 +213,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1623
-  X: 1737
+  X: 114
   Y: 42
