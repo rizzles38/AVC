@@ -49,6 +49,7 @@ public:
       ticks_initialized_(false) {
     odom_pub_ = nh_.advertise<geometry_msgs::TwistWithCovarianceStamped>("/wheels/data", 0);
     encoder_pub_ = nh_.advertise<rover12_drivers::EncoderStatus>("/wheels/status", 0);
+    estop_pub_ = nh_.advertise<rover12_drivers::AutonomousMode>("/estop", 0);
 
     geometry_msgs::TwistWithCovariance twist_cov_msg;
 
@@ -171,10 +172,19 @@ public:
     prev_ticks_ = msg.data;
   }
 
+  void estopCallback(const rover12_comm::EstopMsg& msg) {
+    rover12_drivers::AutonomousMode auto_msg;
+    auto_msg.header.stamp = ros::Time::now();
+    auto_msg.header.frame_id = "base_link";
+    auto_msg.autonomous = msg.data.autonomous;
+    estop_pub_.publish(auto_msg);
+  }
+
 private:
   ros::NodeHandle& nh_;
   ros::Publisher odom_pub_;
   ros::Publisher encoder_pub_;
+  ros::Publisher estop_pub_;
   rover12_comm::WheelEnc prev_ticks_;
   geometry_msgs::TwistWithCovarianceStamped speed_msg_;
   bool ticks_initialized_;
@@ -190,6 +200,30 @@ int main(int argc, char* argv[]) {
   ros::init(argc, argv, "control_board_node");
   ros::NodeHandle nh;
 
+  // Get our PID gains. Complain loudly if we can't find them.
+  ros::NodeHandle pnh("~");
+  float kp = 0.0f;
+  if (pnh.getParam("kp", kp)) {
+    ROS_INFO_STREAM("Found kp = " << kp);
+  } else {
+    ROS_ERROR_STREAM("No kp parameter found!");
+    return EXIT_FAILURE;
+  }
+  float ki = 0.0f;
+  if (pnh.getParam("ki", ki)) {
+    ROS_INFO_STREAM("Found ki = " << ki);
+  } else {
+    ROS_ERROR_STREAM("No ki parameter found!");
+    return EXIT_FAILURE;
+  }
+  float kd = 0.0f;
+  if (pnh.getParam("kd", kd)) {
+    ROS_INFO_STREAM("Found kd = " << kd);
+  } else {
+    ROS_ERROR_STREAM("No kd parameter found!");
+    return EXIT_FAILURE;
+  }
+
   // Add each serial device to the messenger.
   rover12_drivers::Messenger messenger;
   for (int i = 1; i < argc; ++i) {
@@ -204,9 +238,19 @@ int main(int argc, char* argv[]) {
   messenger.setWheelEncCallback([&encoder_publisher](const rover12_comm::WheelEncMsg& msg) {
     encoder_publisher.wheelEncCallback(msg);
   });
+  messenger.setEstopCallback([&encoder_publisher](const rover12_comm::EstopMsg& msg) {
+      encoder_publisher.estopCallback(msg);
+  });
 
   // Connect to the control board.
   messenger.connect(rover12_drivers::Messenger::Board::CONTROL);
+
+  // Send down our PID control gains.
+  rover12_comm::PidGainsMsg pid_gains_msg;
+  pid_gains_msg.data.kp = kp;
+  pid_gains_msg.data.ki = ki;
+  pid_gains_msg.data.kd = kd;
+  messenger.send(pid_gains_msg);
 
   // Spin on the messenger and ROS.
   while (ros::ok()) {

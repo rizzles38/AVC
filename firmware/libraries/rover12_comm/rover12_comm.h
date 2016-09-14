@@ -26,14 +26,13 @@ void uncobs(uint8_t* data, size_t len);
 
 enum class MsgType : MSG_TYPE_UNDERLYING_TYPE {
   UNKNOWN = 0,
-  ID_REQUEST = 1,
-  ID_RESPONSE = 2,
-  CONTROL = 3,
-  ESTOP = 4,
-  GPS = 5,
-  IMU = 6,
-  IMU_CAL = 7,
-  WHEEL_ENC = 8,
+  CONTROL = 1,
+  ESTOP = 2,
+  GPS = 3,
+  IMU = 4,
+  IMU_CAL = 5,
+  WHEEL_ENC = 6,
+  PID_GAINS = 7,
 };
 
 #define SET_MSG_TYPE(msg_type) \
@@ -86,40 +85,6 @@ public:
 private:
   const uint8_t trailer_;
 } __attribute__((packed));
-
-// Sent from the computer to the control board or sensor board. Requests an
-// identification response to know what kind of board is located at this serial
-// endpoint.
-struct IdRequest {
-  SET_MSG_TYPE(ID_REQUEST);
-
-  IdRequest()
-    : ignored(42) {}
-
-  int8_t ignored;
-} __attribute__((packed));
-
-using IdRequestMsg = SerialMsg<IdRequest>;
-
-// Sent from the control board or sensor board to the computer. Responds with
-// the type of board that is located at this serial endpoint for identification
-// purposes.
-struct IdResponse {
-  SET_MSG_TYPE(ID_RESPONSE);
-
-  enum class Board : int8_t {
-    UNKNOWN = 0,
-    CONTROL = 1,
-    SENSOR = 2,
-  };
-
-  IdResponse()
-    : board(Board::UNKNOWN) {}
-
-  Board board;
-} __attribute__((packed));
-
-using IdResponseMsg = SerialMsg<IdResponse>;
 
 // Sent from the computer to the control board. Contains the desired steering
 // angle (in degrees) and speed (in meters per second).
@@ -219,6 +184,21 @@ struct WheelEnc {
 } __attribute__((packed));
 
 using WheelEncMsg = SerialMsg<WheelEnc>;
+
+struct PidGains {
+  SET_MSG_TYPE(PID_GAINS);
+
+  PidGains()
+    : kp(0.0f),
+      ki(0.0f),
+      kd(0.0f) {}
+
+  float kp;
+  float ki;
+  float kd;
+} __attribute__((packed));
+
+using PidGainsMsg = SerialMsg<PidGains>;
 
 #undef SET_MSG_TYPE
 

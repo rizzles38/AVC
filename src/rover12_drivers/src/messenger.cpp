@@ -96,6 +96,15 @@ void Messenger::dispatchMessage() {
       }
     } break;
 
+    case rover12_comm::MsgType::ESTOP: {
+      auto ptr = reinterpret_cast<rover12_comm::EstopMsg*>(buffer_);
+      if (estop_callback_ && ptr->decode()) {
+        estop_callback_(*ptr);
+      } else {
+        ROS_WARN_STREAM("Bad estop message, skipping...");
+      }
+    } break;
+
     default:
       ROS_WARN_STREAM("Unknown message from serial port! [type = 0x" << std::hex << (int)type << "]");
   }

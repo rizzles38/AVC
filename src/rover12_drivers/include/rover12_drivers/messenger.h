@@ -17,6 +17,7 @@ public:
   using ImuCallback = std::function<void(const rover12_comm::ImuMsg&)>;
   using ImuCalCallback = std::function<void(const rover12_comm::ImuCalMsg&)>;
   using WheelEncCallback = std::function<void(const rover12_comm::WheelEncMsg&)>;
+  using EstopCallback = std::function<void(const rover12_comm::EstopMsg&)>;
 
   enum class Board {
     CONTROL,
@@ -31,6 +32,7 @@ public:
   void setImuCallback(ImuCallback callback) { imu_callback_ = callback; }
   void setImuCalCallback(ImuCalCallback callback) { imu_cal_callback_ = callback; }
   void setWheelEncCallback(WheelEncCallback callback) { wheel_enc_callback_ = callback; }
+  void setEstopCallback(EstopCallback callback) { estop_callback_ = callback; }
 
   void connect(Board board);
 
@@ -58,6 +60,7 @@ private:
   ImuCallback imu_callback_;
   ImuCalCallback imu_cal_callback_;
   WheelEncCallback wheel_enc_callback_;
+  EstopCallback estop_callback_;
   std::vector<std::string> device_list_;
 };
 
