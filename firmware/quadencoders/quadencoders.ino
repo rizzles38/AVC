@@ -33,18 +33,49 @@ void redLED(int value) {
 class WheelEncoders {
 public:
   explicit WheelEncoders(int interval) :
-    count_rear_left(0),
-    count_rear_right(0),
+    count_rear_left_(0),
+    count_rear_right_(0),
+    prev_count_rear_left_(0),
+    prev_count_rear_right_(0),
     next_time_(0),
     interval_(interval) {}
 
-  void incrementRearLeft() { ++count_rear_left; }
-  void decrementRearLeft() { --count_rear_left; }
-  void incrementRearRight() { ++count_rear_right; }
-  void decrementRearRight() { --count_rear_right; }
+  void incrementRearLeft() { ++count_rear_left_; }
+  void decrementRearLeft() { --count_rear_left_; }
+  void incrementRearRight() { ++count_rear_right_; }
+  void decrementRearRight() { --count_rear_right_; }
 
+  float getVelocity() {
+    return cur_velocity_;
+  }
+
+  // 50Hz
   void process() {
     unsigned long now = millis();
+
+    // Compute instananeous velocity on each wheel based on previous tick
+    // count.
+    const int32_t rl_tick_delta = count_rear_left_ - prev_count_rear_left_;
+    const int32_t rr_tick_delta = count_rear_right_ - prev_count_rear_right_;
+
+    // TODO: Make these params (everything in meters).
+    const float wheel_diameter = 0.102;
+    const int num_stripes = 20.0;
+    const float wheel_circumference = wheel_diameter * M_PI;
+    const float meters_per_tick = wheel_circumference / (4.0 * num_stripes);
+
+    // Translate tick counts to distances traveled.
+    const float rl_distance = rl_tick_delta * meters_per_tick;
+    const float rr_distance = rr_tick_delta * meters_per_tick;
+
+    // Assume 50 Hz, this is bad. Maybe time it on the Arduino and include the
+    // measurement in the packet? TODO
+    const float time_delta = 0.020; // 50 Hz
+    const float rl_speed = rl_distance / time_delta;
+    const float rr_speed = rr_distance / time_delta;
+
+    // Averaging wheel speeds gives a pretty good estimate of true speed.
+    cur_velocity_ = (rl_speed + rr_speed) / 2.0;
 
     if (next_time_ == 0) {
       next_time_ = now + interval_;
@@ -57,8 +88,8 @@ public:
       rover12_comm::WheelEncMsg wheel_enc_msg;
 
       // Populate each wheel encoder count
-      wheel_enc_msg.data.count_rear_left = count_rear_left;
-      wheel_enc_msg.data.count_rear_right = count_rear_right;
+      wheel_enc_msg.data.count_rear_left = count_rear_left_;
+      wheel_enc_msg.data.count_rear_right = count_rear_right_;
 
       // Encode and write to Serial
       wheel_enc_msg.encode();
@@ -67,14 +98,44 @@ public:
   }
 
 private:
-  volatile int32_t count_rear_left;
-  volatile int32_t count_rear_right;
+  float cur_velocity_;
+  int32_t prev_count_rear_left_;
+  int32_t prev_count_rear_right_;
+  volatile int32_t count_rear_left_;
+  volatile int32_t count_rear_right_;
   unsigned long next_time_;
   int interval_;
 };
 
+// Takes in the desired velocity and uses the current velocity estimate from wheel encoders to output a throttle commmand
+class PIControl {
+public:
+  PIControl(float p_gain, float i_gain) :
+    p_gain_(p_gain),
+    i_gain_(i_gain),
+    cum_error_(0) {}
+
+  float process(float target, float measured) {
+    // FINISH THIS METHOD
+    // equation for PI control loop
+    float error = target - measured;
+    cum_error_ += error;
+    float output = p_gain_ * error + i_gain_ * cum_error_;  // this will be normalized using gains
+    return output;
+  }
+  
+
+private:
+  float cum_error_;
+  float p_gain_;
+  float i_gain_;
+};
+
 // Global variables.
 WheelEncoders wheel_encoders(20); // 50 Hz report rate
+PIControl throttle_control(0, 0);  // gains pulled out of ass
+
+//Instantiate a PIDControl
 
 void setup() {
   // Initialize LEDs.
@@ -98,6 +159,17 @@ void setup() {
 
 void loop() {
   wheel_encoders.process();
+  float output_velocity = throttle_control.process(target_velocity, wheel_encoders.getVelocity());
+
+  if (output_velocity > 1.0) {
+      output_velocity = 1.0;
+  }
+  if (output_velocity < -1.0) {
+      output_velocity = -1.0;
+  }
+  output_throttle = output_velocity * 500 + 1500;
+
+  // send throttle command
 }
 
 void handleRLA() {
