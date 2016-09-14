@@ -123,6 +123,7 @@ public:
   void setGains(float p_gain, float i_gain) {
     p_gain_ = p_gain;
     i_gain_ = i_gain;
+    orangeLED(HIGH);
   }
 
   void setTarget(float target) {
@@ -168,12 +169,13 @@ private:
 
 class Messenger {
 public:
-  explicit Messenger(PIControl& pi_control, float& steering_us, bool& estop)
+  explicit Messenger(PIControl& pi_control, int& steering_us, bool& estop, unsigned long& last_estop_time)
     : buffer_idx_(-1),
       pi_control_(pi_control),
       steering_us_(steering_us),
       estop_(estop),
-      last_autonomous_(false) {
+      last_estop_time_(last_estop_time),
+      next_time_(0) {
     memset(buf_, 0, sizeof(buf_));  
   }
 
@@ -196,7 +198,7 @@ public:
         buf_[buffer_idx_] = b;
         if (b == 0x0) {
           dispatchMessage();
-          
+          buffer_idx_ = 0;
         } else {
           ++buffer_idx_;
           if (buffer_idx_ >= sizeof(buf_)) {
@@ -207,13 +209,17 @@ public:
       }
     }
 
-    if (autonomous_mode != last_autonomous_) {
+    unsigned long now = millis();
+    if (next_time_ == 0) {
+      next_time_ = now + 100;
+    } else if (now >= next_time_) {
+      next_time_ = now + 100;
+
       // Send update to the AI telling it the autonomous status changed.
       rover12_comm::EstopMsg msg;
       msg.data.autonomous = autonomous_mode;
       msg.encode();
       Serial.write(reinterpret_cast<uint8_t*>(&msg), sizeof(msg));
-      last_autonomous_ = autonomous_mode;
     }
   }
 
@@ -247,11 +253,12 @@ private:
 
   void estopMessage(const rover12_comm::EstopMsg& msg) {
     estop_ = msg.data.autonomous;
+    last_estop_time_ = millis();
   }
 
   void controlMessage(const rover12_comm::ControlMsg& msg) {
     // Mapping determined by steering calibration regression.
-    steering_us_ = -1118.39f * msg.data.steering_angle + 1556.265f;
+    steering_us_ = (int)(-1118.39f * msg.data.steering_angle + 1556.265f);
     pi_control_.setTarget(msg.data.velocity);
   }
 
@@ -262,18 +269,20 @@ private:
   uint8_t buf_[100];
   int buffer_idx_;
   PIControl& pi_control_;
-  float& steering_us_;
+  int& steering_us_;
   bool& estop_;
-  bool last_autonomous_;
+  unsigned long& last_estop_time_;
+  unsigned long next_time_;
 };
 
 // Global variables.
-bool estop; // True = Software requests autonomous mode.
-float steering_us;
-float throttle_us;
+bool estop = false; // True = Software requests autonomous mode.
+unsigned long last_estop_time = 0; // Last time we saw an estop message (of any kind)
+int steering_us = 1500;
+int throttle_us = 1500;
 WheelEncoders wheel_encoders(20); // 50 Hz report rate
 PIControl throttle_control(0.02); // PIControl expects we're operating at 50 Hz
-Messenger messenger(throttle_control, steering_us, estop);
+Messenger messenger(throttle_control, steering_us, estop, last_estop_time);
 Servo steering_servo;
 Servo throttle_servo;
 
@@ -304,15 +313,13 @@ void setup() {
   // Attach to steering/throttle servos.
   steering_servo.attach(STEER_OUT);
   throttle_servo.attach(THROT_OUT);
-
-  // We're in autonomous mode if both the software and the physical switch
-  // think we should be.
 }
 
 void loop() {
   // Are we actually in autonomous mode? We only are if both the software and the
   // physical switch agree that we are.
-  bool autonomous_mode = FastGPIO::Pin<ESTOP_IN>::isInputHigh() && estop;
+  bool autonomous_mode = !FastGPIO::Pin<ESTOP_IN>::isInputHigh() && // active low
+                         ((last_estop_time < millis() - 500) ? false : true);
   FastGPIO::Pin<AUTONOMOUS_OUT>::setOutput(autonomous_mode);
   
   wheel_encoders.process();
