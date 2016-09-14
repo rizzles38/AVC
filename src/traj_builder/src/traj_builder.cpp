@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
     const double time = odom_msg_ptr->header.stamp.toSec();
     const double x = odom_msg_ptr->pose.pose.position.x;
     const double y = odom_msg_ptr->pose.pose.position.y;
-    const double speed = odom_msg_ptr->twist.twist.linear.x;
+    const double speed = odom_msg_ptr->twist.twist.linear.x * velocity_scale;
 
     // Skip data points with low speed to remove the leading and trailing parts
     // of the recording.
