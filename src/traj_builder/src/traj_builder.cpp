@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 
   // Topic we're writing a path to.
   const std::string path_topic("/trajectory");
-  
+
   // Velocity scale factor, if specified.
   double velocity_scale = 1.0;
   if (argc > 3) {
@@ -93,6 +93,6 @@ int main(int argc, char* argv[]) {
 
   odom_bag.close();
   path_bag.close();
-  
+
   return EXIT_SUCCESS;
 }
