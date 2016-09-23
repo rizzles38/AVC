@@ -209,7 +209,7 @@ private:
 
 int main(int argc, char* argv[]) {
   if (argc < 2) {
-    ROS_ERROR_STREAM("Usage: " << argv[0] << " [serial devices]");
+    ROS_ERROR_STREAM("Usage: " << argv[0] << " <serial device>");
     return EXIT_FAILURE;
   }
 
@@ -221,10 +221,7 @@ int main(int argc, char* argv[]) {
   SensorPublisher sensor_publisher(nh);
 
   // Add each serial device to the messenger.
-  rover12_drivers::Messenger messenger;
-  for (int i = 1; i < argc; ++i) {
-    messenger.addDevice(argv[i]);
-  }
+  rover12_drivers::Messenger messenger(argv[1]);
 
   // Set callbacks on message type.
   messenger.setGpsCallback([&sensor_publisher](const rover12_comm::GpsMsg& msg) {
@@ -236,9 +233,6 @@ int main(int argc, char* argv[]) {
   messenger.setImuCalCallback([&sensor_publisher](const rover12_comm::ImuCalMsg& msg) {
     sensor_publisher.imuCalCallback(msg);
   });
-
-  // Connect to the sensor board.
-  messenger.connect(rover12_drivers::Messenger::Board::SENSOR);
 
   // Spin on the messenger and ROS.
   while (ros::ok()) {

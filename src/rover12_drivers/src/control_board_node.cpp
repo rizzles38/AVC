@@ -192,7 +192,7 @@ private:
 
 int main(int argc, char* argv[]) {
   if (argc < 2) {
-    ROS_ERROR_STREAM("Usage: " << argv[0] << " [serial devices]");
+    ROS_ERROR_STREAM("Usage: " << argv[0] << " <serial device>");
     return EXIT_FAILURE;
   }
 
@@ -224,11 +224,8 @@ int main(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  // Add each serial device to the messenger.
-  rover12_drivers::Messenger messenger;
-  for (int i = 1; i < argc; ++i) {
-    messenger.addDevice(argv[i]);
-  }
+  // Connect to the serial device.
+  rover12_drivers::Messenger messenger(argv[1]);
 
   // Create publishers and subscribers.
   EncoderPublisher encoder_publisher(nh);
@@ -242,9 +239,6 @@ int main(int argc, char* argv[]) {
       encoder_publisher.estopCallback(msg);
   });
 
-  // Connect to the control board.
-  messenger.connect(rover12_drivers::Messenger::Board::CONTROL);
-
   // Send down our PID control gains. It seems silly to do this several times,
   // but the control board won't be synced with our data stream on the first
   // packet.
@@ -255,6 +249,7 @@ int main(int argc, char* argv[]) {
     pid_gains_msg.data.kd = kd;
     messenger.send(pid_gains_msg);
   }
+  ROS_INFO_STREAM("Sent PID gains to control board.");
 
   // Spin on the messenger and ROS.
   while (ros::ok()) {

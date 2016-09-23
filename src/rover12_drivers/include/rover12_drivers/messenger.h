@@ -4,10 +4,10 @@
 #include <functional>
 #include <memory>
 #include <string>
-#include <vector>
+
+#include <serial/serial.h>
 
 #include <rover12_comm/rover12_comm.h>
-#include <rover12_drivers/serial_port.h>
 
 namespace rover12_drivers {
 
@@ -19,22 +19,13 @@ public:
   using WheelEncCallback = std::function<void(const rover12_comm::WheelEncMsg&)>;
   using EstopCallback = std::function<void(const rover12_comm::EstopMsg&)>;
 
-  enum class Board {
-    CONTROL,
-    SENSOR
-  };
-
-  explicit Messenger();
-
-  void addDevice(std::string device);
+  explicit Messenger(const std::string& device);
 
   void setGpsCallback(GpsCallback callback) { gps_callback_ = callback; }
   void setImuCallback(ImuCallback callback) { imu_callback_ = callback; }
   void setImuCalCallback(ImuCalCallback callback) { imu_cal_callback_ = callback; }
   void setWheelEncCallback(WheelEncCallback callback) { wheel_enc_callback_ = callback; }
   void setEstopCallback(EstopCallback callback) { estop_callback_ = callback; }
-
-  void connect(Board board);
 
   template <typename MsgType>
   void send(MsgType& msg) {
@@ -43,7 +34,7 @@ public:
     do {
       auto offset = sizeof(MsgType) - bytes_to_write;
       auto buf = reinterpret_cast<const uint8_t*>(&msg) + offset;
-      auto nwritten = sp_->write(buf, bytes_to_write);
+      auto nwritten = sp_.write(buf, bytes_to_write);
       bytes_to_write -= nwritten;
     } while (bytes_to_write > 0);
   }
@@ -53,7 +44,7 @@ public:
 private:
   void dispatchMessage();
 
-  std::unique_ptr<SerialPort> sp_;
+  serial::Serial sp_;
   uint8_t buffer_[256];
   int buffer_idx_;
   GpsCallback gps_callback_;
@@ -61,7 +52,6 @@ private:
   ImuCalCallback imu_cal_callback_;
   WheelEncCallback wheel_enc_callback_;
   EstopCallback estop_callback_;
-  std::vector<std::string> device_list_;
 };
 
 } // namespace rover12_drivers

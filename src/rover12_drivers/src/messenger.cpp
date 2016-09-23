@@ -8,29 +8,22 @@
 
 namespace rover12_drivers {
 
-Messenger::Messenger()
-  : sp_(nullptr),
+Messenger::Messenger(const std::string& device)
+  : sp_(device, 115200, serial::Timeout::simpleTimeout(5)),
     buffer_{0},
-    buffer_idx_(-1) {}
-
-void Messenger::addDevice(std::string device) {
-  device_list_.push_back(std::move(device));
-}
-
-void Messenger::connect(Board board) {
-  if (device_list_.size() == 0) return;
-
-  // TODO: identify board and keep connection to first one of correct type
-  sp_.reset(new SerialPort(device_list_[0]));
-
-  ROS_INFO_STREAM("Connected to " << device_list_[0]);
+    buffer_idx_(-1) {
+  if (sp_.isOpen()) {
+    ROS_INFO_STREAM("Connected to " << device);
+  } else {
+    ROS_ERROR_STREAM("Serial port not open!");
+  }
 }
 
 void Messenger::spin() {
-  if (!sp_) return;
+  if (!sp_.isOpen()) return;
 
   uint8_t buf[1024];
-  auto nread = sp_->read(buf, sizeof(buf));
+  auto nread = sp_.read(buf, sizeof(buf));
   int i = 0;
   while (i < nread) {
     // Is this byte a message terminator?

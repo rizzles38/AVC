@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rover12_comm
   sensor_msgs
+  serial
   std_msgs
 )
 
@@ -130,7 +131,6 @@ include_directories(
 add_definitions(-std=c++11)
 
 add_library(rover12_drivers
-  src/serial_port.cpp
   src/messenger.cpp
 )
 target_link_libraries(rover12_drivers
