@@ -30,6 +30,27 @@ void redLED(int value) {
   FastGPIO::Pin<RED_LED>::setOutput(value);
 }
 
+void debugString(const char* s) {
+  rover12_comm::DebugMsg debug_msg;
+  debug_msg.data.setString(s);
+  debug_msg.encode();
+  Serial.write(reinterpret_cast<uint8_t*>(&debug_msg), sizeof(debug_msg));
+}
+
+void debugInt(int32_t i) {
+  rover12_comm::DebugMsg debug_msg;
+  debug_msg.data.setInt(i);
+  debug_msg.encode();
+  Serial.write(reinterpret_cast<uint8_t*>(&debug_msg), sizeof(debug_msg));
+}
+
+void debugFloat(float f) {
+  rover12_comm::DebugMsg debug_msg;
+  debug_msg.data.setFloat(f);
+  debug_msg.encode();
+  Serial.write(reinterpret_cast<uint8_t*>(&debug_msg), sizeof(debug_msg));
+}
+
 class WheelEncoders {
 public:
   explicit WheelEncoders(int interval) :
@@ -118,7 +139,7 @@ public:
       i_gain_(0.0f),
       next_time_(0),
       interval_(interval),
-      dt_(1.0 / interval) {}
+      dt_(interval / 1000.0) {}
 
   void setGains(float p_gain, float i_gain) {
     p_gain_ = p_gain;
@@ -140,7 +161,7 @@ public:
       next_time_ = now + interval_;
     } else if (now >= next_time_) {
       next_time_ = now + interval_;
- 
+
       // equation for PI control loop
       float error = target_ - measured;
       cum_error_ += error * dt_;
@@ -152,7 +173,7 @@ public:
       } else if (result < -1.0) {
         result = -1.0;
       }
-      output_ = (int)500.0f * result + 1500.0f;
+      output_ = (int)(500.0f * result + 1500.0f);
     }
   }
 
@@ -281,7 +302,7 @@ unsigned long last_estop_time = 0; // Last time we saw an estop message (of any 
 int steering_us = 1500;
 int throttle_us = 1500;
 WheelEncoders wheel_encoders(20); // 50 Hz report rate
-PIControl throttle_control(0.02); // PIControl expects we're operating at 50 Hz
+PIControl throttle_control(20); // PIControl expects we're operating at 50 Hz
 Messenger messenger(throttle_control, steering_us, estop, last_estop_time);
 Servo steering_servo;
 Servo throttle_servo;
@@ -328,8 +349,17 @@ void loop() {
   throttle_us = throttle_control.getOutput();
 
   // Set steering and throttle commands.
+  if (!autonomous_mode) {
+    steering_us = 1556;
+    throttle_us = 1500;
+  }
   steering_servo.writeMicroseconds(steering_us);
   throttle_servo.writeMicroseconds(throttle_us);
+  debugString("Steering = ");
+  debugInt(steering_us);
+  debugString("  Throttle = ");
+  debugInt(throttle_us);
+  debugString("\n");
 }
 
 void handleRLA() {

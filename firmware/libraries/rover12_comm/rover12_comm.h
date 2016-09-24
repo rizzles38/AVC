@@ -2,6 +2,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <string.h>
 
 namespace rover12_comm {
 
@@ -33,6 +34,7 @@ enum class MsgType : MSG_TYPE_UNDERLYING_TYPE {
   IMU_CAL = 5,
   WHEEL_ENC = 6,
   PID_GAINS = 7,
+  DEBUG = 8,
 };
 
 #define SET_MSG_TYPE(msg_type) \
@@ -199,6 +201,46 @@ struct PidGains {
 } __attribute__((packed));
 
 using PidGainsMsg = SerialMsg<PidGains>;
+
+struct Debug {
+  SET_MSG_TYPE(DEBUG);
+
+  enum class DataType : int8_t {
+    INT,
+    FLOAT,
+    STRING,
+  };
+
+  Debug()
+    : data_type(DataType::STRING) {
+    for (int i = 0; i < 33; ++i) {
+      data.s[i] = '\0';
+    }
+  }
+
+  void setInt(int32_t i) {
+    data.i = i;
+    data_type = DataType::INT;
+  }
+
+  void setFloat(float f) {
+    data.f = f;
+    data_type = DataType::FLOAT;
+  }
+
+  void setString(const char* s) {
+    strncpy(data.s, s, 32);
+  }
+
+  DataType data_type;
+  union {
+    int32_t i;
+    float f;
+    char s[33];
+  } data;
+} __attribute__((packed));
+
+using DebugMsg = SerialMsg<Debug>;
 
 #undef SET_MSG_TYPE
 
