@@ -206,38 +206,41 @@ struct Debug {
   SET_MSG_TYPE(DEBUG);
 
   enum class DataType : int8_t {
+    NONE,
     INT,
     FLOAT,
-    STRING,
   };
 
   Debug()
-    : data_type(DataType::STRING) {
+    : data_type(DataType::NONE) {
     for (int i = 0; i < 33; ++i) {
-      data.s[i] = '\0';
+      name[i] = '\0';
     }
+    value.i = 0;
   }
 
-  void setInt(int32_t i) {
-    data.i = i;
+  void setInt(const char* s, int32_t i) {
+    value.i = i;
     data_type = DataType::INT;
+    strncpy(name, s, 30);
   }
 
-  void setFloat(float f) {
-    data.f = f;
+  void setFloat(const char* s, float f) {
+    value.f = f;
     data_type = DataType::FLOAT;
+    strncpy(name, s, 30);
   }
 
-  void setString(const char* s) {
-    strncpy(data.s, s, 32);
+  void setName(const char* s) {
+    strncpy(name, s, 30);
   }
 
   DataType data_type;
+  char name[31];
   union {
     int32_t i;
     float f;
-    char s[33];
-  } data;
+  } value;
 } __attribute__((packed));
 
 using DebugMsg = SerialMsg<Debug>;

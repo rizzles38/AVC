@@ -30,23 +30,23 @@ void redLED(int value) {
   FastGPIO::Pin<RED_LED>::setOutput(value);
 }
 
-void debugString(const char* s) {
+void debugMsg(const char* s) {
   rover12_comm::DebugMsg debug_msg;
-  debug_msg.data.setString(s);
+  debug_msg.data.setName(s);
   debug_msg.encode();
   Serial.write(reinterpret_cast<uint8_t*>(&debug_msg), sizeof(debug_msg));
 }
 
-void debugInt(int32_t i) {
+void debugInt(const char* name, int32_t i) {
   rover12_comm::DebugMsg debug_msg;
-  debug_msg.data.setInt(i);
+  debug_msg.data.setInt(name, i);
   debug_msg.encode();
   Serial.write(reinterpret_cast<uint8_t*>(&debug_msg), sizeof(debug_msg));
 }
 
-void debugFloat(float f) {
+void debugFloat(const char* name, float f) {
   rover12_comm::DebugMsg debug_msg;
-  debug_msg.data.setFloat(f);
+  debug_msg.data.setFloat(name, f);
   debug_msg.encode();
   Serial.write(reinterpret_cast<uint8_t*>(&debug_msg), sizeof(debug_msg));
 }
@@ -355,11 +355,8 @@ void loop() {
   }
   steering_servo.writeMicroseconds(steering_us);
   throttle_servo.writeMicroseconds(throttle_us);
-  debugString("Steering = ");
-  debugInt(steering_us);
-  debugString("  Throttle = ");
-  debugInt(throttle_us);
-  debugString("\n");
+  debugInt("Steering = ", steering_us);
+  debugInt("Throttle = ", throttle_us);
 }
 
 void handleRLA() {
