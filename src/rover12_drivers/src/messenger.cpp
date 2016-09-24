@@ -1,7 +1,5 @@
 #include <rover12_drivers/messenger.h>
 
-#include <unistd.h>
-
 #include <utility>
 
 #include <ros/ros.h>
@@ -50,8 +48,6 @@ void Messenger::spin() {
     ++buffer_idx_;
     ++i;
   }
-
-  usleep(5000);
 }
 
 void Messenger::dispatchMessage() {
@@ -99,6 +95,30 @@ void Messenger::dispatchMessage() {
         estop_callback_(*ptr);
       } else {
         ROS_WARN_STREAM("Bad estop message, skipping...");
+      }
+    } break;
+
+    case rover12_comm::MsgType::DEBUG: {
+      auto ptr = reinterpret_cast<rover12_comm::DebugMsg*>(buffer_);
+      if (ptr->decode()) {
+        switch (ptr->data.data_type) {
+          case rover12_comm::Debug::DataType::NONE:
+            ROS_INFO_STREAM(ptr->data.name);
+            break;
+
+          case rover12_comm::Debug::DataType::INT:
+            ROS_INFO_STREAM(ptr->data.name << ptr->data.value.i);
+            break;
+
+          case rover12_comm::Debug::DataType::FLOAT:
+            ROS_INFO_STREAM(ptr->data.name << ptr->data.value.f);
+            break;
+
+          default:
+            ROS_WARN_STREAM("Unknown debug message data type: " <<
+                static_cast<int>(ptr->data.data_type));
+            break;
+        }
       }
     } break;
 
