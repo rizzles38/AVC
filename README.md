@@ -22,6 +22,16 @@ An autonomous 1/10th scale R/C car built by Maria Pikusova and Bob Somers.
 * `sensor_board` (rover12\_drivers/sensor\_board\_node): Publishes data from the
   IMU sensor and GPS sensor, including status information from both sensors
   about their operating modes, current performance, and calibration status.
+* `soft_estop` (soft\_estop/soft\_estop): Continuously publishes on the
+  `/control/autonomous` topic that requests that the hardware allow the robot to
+  be in autonomous mode. Can be run on a computer different than the robot to
+  have remote control of autonomous mode. Stands for "software emergency stop".
+* `odom_localizer` (robot\_localization/ukf\_localization\_node): Runs an
+  unscented Kalman filter over the wheel odometry and IMU data to produce a
+  state estimate of `base_link` in the `odom` frame. Subscribes to `/imu/data`
+  and `/wheels/data` for sensor inputs and publishes its pose estimate on
+  `/odom/filtered`. Also publishes the transform from the `odom` frame to the
+  `base_link` frame in the TF2 tree.
 
 ### Topics
 
@@ -52,6 +62,9 @@ An autonomous 1/10th scale R/C car built by Maria Pikusova and Bob Somers.
   * `/fr_wheel` (sensor\_msgs/JointState): Rotation of the front right wheel.
   * `/rl_wheel` (sensor\_msgs/JointState): Rotation of the rear left wheel.
   * `/rr_wheel` (sensor\_msgs/JointState): Rotation of the rear right wheel.
+* `/odom`: Namespace for pose information in the odom frame.
+  * `/filtered` (nav\_msgs/Odometry): Output pose estimate from the UKF in the
+    `odom` frame.
 * `/wheels`: Namespace for the quadrature wheel encoders.
   * `/data` (geometry\_msgs/TwistWithCovarianceStamped): Instantaneous forward
     speed based on averaging wheel speeds from the quadrature wheel encoders.
