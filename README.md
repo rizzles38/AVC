@@ -4,9 +4,25 @@ An autonomous 1/10th scale R/C car built by Maria Pikusova and Bob Somers.
 
 ## Documentation
 
+### Nodes
+
+* `/joint_state_publisher` (joint\_state\_publisher/joint\_state\_publisher):
+  Listens on individual joint topics under `/joints` and  publishes a single
+  sensor\_msgs/JointState which contains the state of all joints in the robot
+  (based on the URDF).
+
 ### Topics
 
-TODO
+* `/joint_states` (sensor\_msgs/JointState): A combined, consistent JointState
+  for all joints in the robot, based on the URDF. Published by the
+  `joint_state_publisher`.
+* `/joints`: Namespace for sensor\_msgs/JointState messages.
+  * `/fl_steer` (sensor\_msgs/JointState): Steering rotation of the front left kingpin.
+  * `/fr_steer` (sensor\_msgs/JointState): Steering rotation of the front right kingpin.
+  * `/fl_wheel` (sensor\_msgs/JointState): Rotation of the front left wheel.
+  * `/fr_wheel` (sensor\_msgs/JointState): Rotation of the front right wheel.
+  * `/rl_wheel` (sensor\_msgs/JointState): Rotation of the rear left wheel.
+  * `/rr_wheel` (sensor\_msgs/JointState): Rotation of the rear right wheel.
 
 ### TF2 Frames
 * `odom`: World-fixed frame in which `base_link` moves smoothly over the short
