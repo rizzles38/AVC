@@ -10,13 +10,16 @@ An autonomous 1/10th scale R/C car built by Maria Pikusova and Bob Somers.
   Listens on individual joint topics under `/joints` and  publishes a single
   sensor\_msgs/JointState which contains the state of all joints in the robot
   (based on the URDF).
+* `/robot_state_publisher` (robot\_state\_publisher/state\_publisher): Listens
+  to the combined joint states of the robot on `/joint_states`, runs forward
+  kinematics based on the URDF, and publishes the results to the TF2 tree.
 
 ### Topics
 
 * `/joint_states` (sensor\_msgs/JointState): A combined, consistent JointState
   for all joints in the robot, based on the URDF. Published by the
   `joint_state_publisher`.
-* `/joints`: Namespace for sensor\_msgs/JointState messages.
+* `/joints`: Namespace for controlling individual joint states.
   * `/fl_steer` (sensor\_msgs/JointState): Steering rotation of the front left kingpin.
   * `/fr_steer` (sensor\_msgs/JointState): Steering rotation of the front right kingpin.
   * `/fl_wheel` (sensor\_msgs/JointState): Rotation of the front left wheel.
