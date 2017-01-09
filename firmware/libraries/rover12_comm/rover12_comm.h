@@ -33,8 +33,7 @@ enum class MsgType : MSG_TYPE_UNDERLYING_TYPE {
   IMU = 4,
   IMU_CAL = 5,
   WHEEL_ENC = 6,
-  PID_GAINS = 7,
-  DEBUG = 8,
+  DEBUG = 7,
 };
 
 #define SET_MSG_TYPE(msg_type) \
@@ -89,22 +88,24 @@ private:
 } __attribute__((packed));
 
 // Sent from the computer to the control board. Contains the desired steering
-// angle (in degrees) and speed (in meters per second).
+// and throttle servo durations in microseconds. These should range from 1000
+// to 2000 (with an approximate center point at 1500).
 struct Control {
   SET_MSG_TYPE(CONTROL);
 
   Control()
-    : steering_angle(0.0),
-      velocity(0.0) {}
+    : steering_us(1556),
+      throttle_us(1500) {}
 
-  float steering_angle;
-  float velocity;
+  int16_t steering_us;
+  int16_t throttle_us;
 } __attribute__((packed));
 
 using ControlMsg = SerialMsg<Control>;
 
 // Sent from the computer to the control board. If true, we authorize the
-// hardware to be in autonomous mode.
+// hardware to be in autonomous mode. Also sent from control board to computer
+// reporting the actual status of autonomous mode.
 struct Estop {
   SET_MSG_TYPE(ESTOP);
 
@@ -116,6 +117,7 @@ struct Estop {
 
 using EstopMsg = SerialMsg<Estop>;
 
+// Sent from the sensor board to the computer. Contains the raw GPS data packet.
 struct Gps {
   SET_MSG_TYPE(GPS);
 
@@ -127,6 +129,8 @@ struct Gps {
 
 using GpsMsg = SerialMsg<Gps>;
 
+// Sent from the sensor board to the computer. Contains the orientation estimate
+// quaternion, linear accelerations, and angular velocities.
 struct Imu {
   SET_MSG_TYPE(IMU);
 
@@ -156,6 +160,8 @@ struct Imu {
 
 using ImuMsg = SerialMsg<Imu>;
 
+// Sent from the sensor board to the computer. Contains the IMU calibration
+// status for the sensor fusion system, gyro, accelerometer, and magnetometer.
 struct ImuCal {
   SET_MSG_TYPE(IMU_CAL);
 
@@ -174,6 +180,8 @@ struct ImuCal {
 
 using ImuCalMsg = SerialMsg<ImuCal>;
 
+// Sent from the control board to the computer. Contains the raw tick counts
+// from the wheel encoders.
 struct WheelEnc {
   SET_MSG_TYPE(WHEEL_ENC);
 
@@ -187,21 +195,9 @@ struct WheelEnc {
 
 using WheelEncMsg = SerialMsg<WheelEnc>;
 
-struct PidGains {
-  SET_MSG_TYPE(PID_GAINS);
-
-  PidGains()
-    : kp(0.0f),
-      ki(0.0f),
-      kd(0.0f) {}
-
-  float kp;
-  float ki;
-  float kd;
-} __attribute__((packed));
-
-using PidGainsMsg = SerialMsg<PidGains>;
-
+// Sent from either the sensor or control board to the computer. Contains debug
+// information for the purpose of debugging firmware. Contains a short string
+// message and optionally an int or a float value.
 struct Debug {
   SET_MSG_TYPE(DEBUG);
 
@@ -213,7 +209,7 @@ struct Debug {
 
   Debug()
     : data_type(DataType::NONE) {
-    for (int i = 0; i < 33; ++i) {
+    for (int i = 0; i < sizeof(name); ++i) {
       name[i] = '\0';
     }
     value.i = 0;

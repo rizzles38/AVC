@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package>
+  <name>controller</name>
+  <version>0.0.1</version>
+  <description>Low level velocity and steering control for Rover 12. Velocity
+    control is a simple PID loop, steering control is a simple linear regression
+    on a steering calibration LUT to account for offset.</description>
+
+  <maintainer email="mpikusov@gmail.com">Maria Pikusova</maintainer>
+  <maintainer email="bob@bobsomers.com">Bob Somers</maintainer>
+
+  <license>MIT</license>
+
+  <url type="website">http://www.pikusomers.com/tag/avc-2016/</url>
+
+  <author email="mpikusov@gmail.com">Maria Pikusova</author>
+  <author email="bob@bobsomers.com">Bob Somers</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>ackermann_msgs</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rover12_drivers</build_depend>
+
+  <run_depend>ackermann_msgs</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>rover12_drivers</run_depend>
+</package>
