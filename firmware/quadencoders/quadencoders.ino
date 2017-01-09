@@ -208,7 +208,7 @@ private:
 
 // Global variables.
 WheelEncoders wheel_encoders(20); // 50 Hz report rate
-Messenger messenger(); // Communication with driving computer.
+Messenger messenger; // Communication with driving computer.
 Servo steering_servo;
 Servo throttle_servo;
 
