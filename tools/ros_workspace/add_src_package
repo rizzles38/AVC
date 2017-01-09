@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+roslocate info --distro=kinetic $1 > $1.rosinstall
+wstool merge $1.rosinstall -t src/
