@@ -200,30 +200,6 @@ int main(int argc, char* argv[]) {
   ros::init(argc, argv, "control_board_node");
   ros::NodeHandle nh;
 
-  // Get our PID gains. Complain loudly if we can't find them.
-  ros::NodeHandle pnh("~");
-  float kp = 0.0f;
-  if (pnh.getParam("kp", kp)) {
-    ROS_INFO_STREAM("Found kp = " << kp);
-  } else {
-    ROS_ERROR_STREAM("No kp parameter found!");
-    return EXIT_FAILURE;
-  }
-  float ki = 0.0f;
-  if (pnh.getParam("ki", ki)) {
-    ROS_INFO_STREAM("Found ki = " << ki);
-  } else {
-    ROS_ERROR_STREAM("No ki parameter found!");
-    return EXIT_FAILURE;
-  }
-  float kd = 0.0f;
-  if (pnh.getParam("kd", kd)) {
-    ROS_INFO_STREAM("Found kd = " << kd);
-  } else {
-    ROS_ERROR_STREAM("No kd parameter found!");
-    return EXIT_FAILURE;
-  }
-
   // Connect to the serial device.
   rover12_drivers::Messenger messenger(argv[1]);
 
@@ -238,18 +214,6 @@ int main(int argc, char* argv[]) {
   messenger.setEstopCallback([&encoder_publisher](const rover12_comm::EstopMsg& msg) {
       encoder_publisher.estopCallback(msg);
   });
-
-  // Send down our PID control gains. It seems silly to do this several times,
-  // but the control board won't be synced with our data stream on the first
-  // packet.
-  for (int i = 0; i < 3; ++i) {
-    rover12_comm::PidGainsMsg pid_gains_msg;
-    pid_gains_msg.data.kp = kp;
-    pid_gains_msg.data.ki = ki;
-    pid_gains_msg.data.kd = kd;
-    messenger.send(pid_gains_msg);
-  }
-  ROS_INFO_STREAM("Sent PID gains to control board.");
 
   // Spin on the messenger and ROS.
   while (ros::ok()) {
