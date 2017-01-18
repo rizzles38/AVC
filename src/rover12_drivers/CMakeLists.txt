@@ -56,6 +56,7 @@ add_message_files(
   GpsStatus.msg
   ImuStatus.msg
   EncoderStatus.msg
+  ServoControl.msg
 )
 
 ## Generate services in the 'srv' folder
