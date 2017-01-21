@@ -1,6 +1,4 @@
 <launch>
   <node name="control_board" pkg="rover12_drivers" type="control_board_node"
-        args="/dev/ttyACM0" respawn="true" output="screen">
-    <rosparam command="load" file="$(find rover12_drivers)/params/throttle_pid_gains.yaml"/>
-  </node>
+    args="/dev/ttyACM0" respawn="true" output="screen"/>
 </launch>
