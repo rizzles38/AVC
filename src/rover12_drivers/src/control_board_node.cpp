@@ -4,7 +4,6 @@
 
 #include <ros/ros.h>
 
-#include <ackermann_msgs/AckermannDriveStamped.h>
 #include <geometry_msgs/Vector3.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/TwistWithCovariance.h>
@@ -12,6 +11,7 @@
 #include <rover12_comm/rover12_comm.h>
 #include <rover12_drivers/AutonomousMode.h>
 #include <rover12_drivers/EncoderStatus.h>
+#include <rover12_drivers/ServoControl.h>
 #include <rover12_drivers/messenger.h>
 
 class ControlSubscriber {
@@ -22,10 +22,10 @@ public:
     auto_sub_ = nh_.subscribe("/control/autonomous", 0, &ControlSubscriber::autonomousCallback, this);
   }
 
-  void controlCallback(const ackermann_msgs::AckermannDriveStamped::ConstPtr& msg) {
+  void controlCallback(const rover12_drivers::ServoControl::ConstPtr& msg) {
     rover12_comm::ControlMsg control_msg;
-    control_msg.data.steering_angle = msg->drive.steering_angle;
-    control_msg.data.velocity = msg->drive.speed;
+    control_msg.data.steering_us = msg->steering_us;
+    control_msg.data.throttle_us = msg->throttle_us;
     messenger_.send(control_msg);
   }
 
