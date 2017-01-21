@@ -10,7 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   nav_msgs
   rosbag
   roscpp
-  sensor_msgs
+  rover12_drivers
   std_msgs
 )
 

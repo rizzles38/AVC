@@ -1,6 +1,4 @@
 <launch>
-  <node name="planner" pkg="planner" type="planner" clear_params="true"
-        args="/home/bsomers/logs/traj.bag" output="screen">
-    <rosparam command="load" file="$(find planner)/params/config.yaml"/>
-  </node>
+  <node name="planner" pkg="planner" type="planner" output="screen"
+        args="/home/bsomers/logs/traj.bag"/>
 </launch>
