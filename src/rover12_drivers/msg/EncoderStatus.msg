@@ -1,3 +1,4 @@
 Header header
+uint32 hw_timestamp_ms
 int32 count_rear_left
 int32 count_rear_right

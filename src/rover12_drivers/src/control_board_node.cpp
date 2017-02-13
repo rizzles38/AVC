@@ -123,6 +123,7 @@ public:
     if (!ticks_initialized_) {
       prev_ticks_ = msg.data;
       ticks_initialized_ = true;
+      // TODO: save first hardware timestamp?
       return;
     }
 
@@ -164,6 +165,7 @@ public:
     rover12_drivers::EncoderStatus encoder_msg;
     encoder_msg.header.stamp = ros::Time::now();
     encoder_msg.header.frame_id = "base_link";
+    encoder_msg.hw_timestamp_ms = msg.data.hw_timestamp_ms;
     encoder_msg.count_rear_left = msg.data.count_rear_left;
     encoder_msg.count_rear_right = msg.data.count_rear_right;
     encoder_pub_.publish(encoder_msg);
