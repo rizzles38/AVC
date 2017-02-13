@@ -111,7 +111,7 @@ def ramp(bag, now, duration, min_value, max_value):
 def throttle_impulse(duration, value):
     filename = 'throttle_impulse_{0}s_{1}.bag'.format(duration / 50, value)
     with rosbag.Bag(filename, 'w') as bag:
-        now = 0
+        now = 1
         now = lead_in(bag, now)
         now = impulse(bag, now, duration, value)
         now = lead_out(bag, now)
@@ -119,7 +119,7 @@ def throttle_impulse(duration, value):
 def throttle_ramp(duration, min_value, max_value):
     filename = 'throttle_ramp_{0}s_{1}_{2}.bag'.format(duration / 50, min_value, max_value)
     with rosbag.Bag(filename, 'w') as bag:
-        now = 0
+        now = 1
         now = lead_in(bag, now)
         now = ramp(bag, now, duration, min_value, max_value)
         now = lead_out(bag, now)
@@ -127,7 +127,7 @@ def throttle_ramp(duration, min_value, max_value):
 def brake_impulse(throttle_duration, throttle_value, brake_duration, brake_value):
     filename = 'brake_impulse_{0}s_{1}_{2}s_{3}.bag'.format(throttle_duration / 50, throttle_value, brake_duration / 50, brake_value)
     with rosbag.Bag(filename, 'w') as bag:
-        now = 0
+        now = 1
         now = lead_in(bag, now)
         now = impulse(bag, now, throttle_duration, throttle_value)
         now = impulse(bag, now, brake_duration, brake_value)
@@ -136,7 +136,7 @@ def brake_impulse(throttle_duration, throttle_value, brake_duration, brake_value
 def brake_ramp(throttle_duration, throttle_value, brake_duration, brake_min, brake_max):
     filename = 'brake_ramp_{0}s_{1}_{2}s_{3}_{4}.bag'.format(throttle_duration / 50, throttle_value, brake_duration / 50, brake_min, brake_max)
     with rosbag.Bag(filename, 'w') as bag:
-        now = 0
+        now = 1
         now = lead_in(bag, now)
         now = impulse(bag, now, throttle_duration, throttle_value)
         now = ramp(bag, now, brake_duration, brake_min, brake_max)
@@ -145,7 +145,7 @@ def brake_ramp(throttle_duration, throttle_value, brake_duration, brake_min, bra
 def ramp_ramp(throttle_duration, throttle_min, throttle_max, brake_duration, brake_min, brake_max):
     filename = 'ramp_ramp_{0}s_{1}_{2}_{3}s_{4}_{5}.bag'.format(throttle_duration / 50, throttle_min, throttle_max, brake_duration / 50, brake_min, brake_max)
     with rosbag.Bag(filename, 'w') as bag:
-        now = 0
+        now = 1
         now = lead_in(bag, now)
         now = ramp(bag, now, throttle_duration, throttle_min, throttle_max)
         now = ramp(bag, now, brake_duration, brake_min, brake_max)
