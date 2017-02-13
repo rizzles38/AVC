@@ -9,8 +9,8 @@ class AutonomousPublisher {
 public:
   explicit AutonomousPublisher(ros::NodeHandle& nh) :
     nh_(nh) {
-    auto_pub_ = nh_.advertise<rover12_drivers::AutonomousMode>("/control/autonomous", 0);
-    timer_ = nh_.createTimer(ros::Duration(0.1), &AutonomousPublisher::callback, this);
+    auto_pub_ = nh_.advertise<rover12_drivers::AutonomousMode>("/control/autonomous", 1);
+    timer_ = nh_.createTimer(ros::Rate(10), &AutonomousPublisher::callback, this);
   }
 
   void callback(const ros::TimerEvent&) {

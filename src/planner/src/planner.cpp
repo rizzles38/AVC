@@ -59,8 +59,8 @@ class Planner {
 public:
   Planner(ros::NodeHandle& nh, const std::string& bag_file) : nh_(nh) {
     // Set up publishers.
-    traj_pub_ = nh_.advertise<rover12_drivers::Trajectory>("/planner/trajectory", 0, true);
-    path_pub_ = nh_.advertise<nav_msgs::Path>("/planner/path", 0, true);
+    traj_pub_ = nh_.advertise<rover12_drivers::Trajectory>("/planner/trajectory", 1, true);
+    path_pub_ = nh_.advertise<nav_msgs::Path>("/planner/path", 1, true);
 
     // Load the /trajectory topic out of the bag file.
     const std::string traj_topic("/trajectory");

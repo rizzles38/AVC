@@ -18,8 +18,8 @@ class ControlSubscriber {
 public:
   ControlSubscriber(ros::NodeHandle& nh, rover12_drivers::Messenger& messenger)
     : nh_(nh), messenger_(messenger) {
-    ctrl_sub_ = nh_.subscribe("/control/command", 0, &ControlSubscriber::controlCallback, this);
-    auto_sub_ = nh_.subscribe("/control/autonomous", 0, &ControlSubscriber::autonomousCallback, this);
+    ctrl_sub_ = nh_.subscribe("/control/command", 1, &ControlSubscriber::controlCallback, this);
+    auto_sub_ = nh_.subscribe("/control/autonomous", 1, &ControlSubscriber::autonomousCallback, this);
   }
 
   void controlCallback(const rover12_drivers::ServoControl::ConstPtr& msg) {
@@ -47,9 +47,9 @@ public:
   explicit EncoderPublisher(ros::NodeHandle& nh)
     : nh_(nh),
       ticks_initialized_(false) {
-    odom_pub_ = nh_.advertise<geometry_msgs::TwistWithCovarianceStamped>("/wheels/data", 0);
-    encoder_pub_ = nh_.advertise<rover12_drivers::EncoderStatus>("/wheels/status", 0);
-    estop_pub_ = nh_.advertise<rover12_drivers::AutonomousMode>("/estop", 0);
+    odom_pub_ = nh_.advertise<geometry_msgs::TwistWithCovarianceStamped>("/wheels/data", 1);
+    encoder_pub_ = nh_.advertise<rover12_drivers::EncoderStatus>("/wheels/status", 1);
+    estop_pub_ = nh_.advertise<rover12_drivers::AutonomousMode>("/estop", 1);
 
     geometry_msgs::TwistWithCovariance twist_cov_msg;
 

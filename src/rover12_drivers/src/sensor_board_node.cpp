@@ -36,10 +36,10 @@ class SensorPublisher {
 public:
   explicit SensorPublisher(ros::NodeHandle& nh)
     : nh_(nh) {
-    gps_pub_ = nh_.advertise<sensor_msgs::NavSatFix>("/gps/fix", 0);
-    gps_status_pub_ = nh_.advertise<rover12_drivers::GpsStatus>("/gps/status", 0);
-    imu_pub_ = nh_.advertise<sensor_msgs::Imu>("/imu/data", 0);
-    imu_cal_pub_ = nh_.advertise<rover12_drivers::ImuStatus>("/imu/status", 0);
+    gps_pub_ = nh_.advertise<sensor_msgs::NavSatFix>("/gps/fix", 1);
+    gps_status_pub_ = nh_.advertise<rover12_drivers::GpsStatus>("/gps/status", 1);
+    imu_pub_ = nh_.advertise<sensor_msgs::Imu>("/imu/data", 1);
+    imu_cal_pub_ = nh_.advertise<rover12_drivers::ImuStatus>("/imu/status", 1);
 
     // Absolute orientation covaraince.
     const double roll_cov = 0.001;
