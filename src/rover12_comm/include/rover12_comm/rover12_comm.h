@@ -189,6 +189,7 @@ struct WheelEnc {
     : count_rear_left(0),
       count_rear_right(0) {}
 
+  uint32_t hw_timestamp_ms;
   int32_t count_rear_left;
   int32_t count_rear_right;
 } __attribute__((packed));

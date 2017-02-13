@@ -81,6 +81,9 @@ public:
       wheel_enc_msg.data.count_rear_left = count_rear_left_;
       wheel_enc_msg.data.count_rear_right = count_rear_right_;
 
+      // Timestamp the message in hardware.
+      wheel_enc_msg.data.hw_timestamp_ms = millis();
+
       // Encode and write to Serial
       wheel_enc_msg.encode();
       Serial.write(reinterpret_cast<uint8_t*>(&wheel_enc_msg), sizeof(wheel_enc_msg));
