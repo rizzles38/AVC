@@ -256,8 +256,6 @@ void loop() {
   if (autonomous_mode) {
     steering_servo.writeMicroseconds(messenger.steering_us());
     throttle_servo.writeMicroseconds(messenger.throttle_us());
-    debugInt("Steering = ", messenger.steering_us());
-    debugInt("Throttle = ", messenger.throttle_us());
   } else {
     steering_servo.writeMicroseconds(1556);
     throttle_servo.writeMicroseconds(1500);
