@@ -123,7 +123,6 @@ public:
     if (!ticks_initialized_) {
       prev_ticks_ = msg.data;
       ticks_initialized_ = true;
-      // TODO: save first hardware timestamp?
       return;
     }
 
@@ -142,9 +141,9 @@ public:
     const double rl_distance = rl_tick_delta * meters_per_tick;
     const double rr_distance = rr_tick_delta * meters_per_tick;
 
-    // Assume 50 Hz, this is bad. Maybe time it on the Arduino and include the
-    // measurement in the packet? TODO
-    const double time_delta = 0.020; // 50 Hz
+    // Compute time delta based on difference in hardware timestamp.
+    const uint32_t hw_timestamp_delta_ms = msg.data.hw_timestamp_ms - prev_ticks_.hw_timestamp_ms;
+    const double time_delta = static_cast<double>(hw_timestamp_delta_ms) / 1000.0;
     const double rl_speed = rl_distance / time_delta;
     const double rr_speed = rr_distance / time_delta;
 
