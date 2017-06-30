@@ -64,7 +64,7 @@ public:
   void incrementRearRight() { ++count_rear_right_; }
   void decrementRearRight() { --count_rear_right_; }
 
-  // 50Hz
+  // 10Hz
   void process() {
     unsigned long now = millis();
     if (next_time_ == 0) {
@@ -210,7 +210,7 @@ private:
 };
 
 // Global variables.
-WheelEncoders wheel_encoders(20); // 50 Hz report rate
+WheelEncoders wheel_encoders(100); // 10 Hz report rate
 Messenger messenger; // Communication with driving computer.
 Servo steering_servo;
 Servo throttle_servo;
